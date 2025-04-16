@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:moviehub;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      platform: h2
+
+mybatis-plus:
+  configuration:
+    logImpl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  mapper-locations: classpath*:mapper/*.xml
+
+jwt:
+  # noinspection SpellCheckingInspection
+  secret_key: VeRbcqTLxzA2Bb3qV6qGAYg+ulP1gt+Q+W9WmnraZfs=
+  expiration: 86400000 # 24小时(毫秒)
+
+logging:
+  level:
+    org.springframework.security: DEBUG

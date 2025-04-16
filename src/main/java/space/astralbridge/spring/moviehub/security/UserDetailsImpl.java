@@ -1,0 +1,70 @@
+package space.astralbridge.spring.moviehub.security;
+
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.RequiredArgsConstructor;
+import space.astralbridge.spring.moviehub.entity.User;
+
+@RequiredArgsConstructor
+public class UserDetailsImpl implements UserDetails {
+
+    private final User user;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (user.getId() == 1L) {
+            return Collections.singletonList(() -> "ROLE_ADMIN");
+        }
+        if (user.getUserType() == 1) {
+            return Collections.singletonList(() -> "ROLE_VIP");
+        }
+        return Collections.singleton(() -> "ROLE_USER");
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getUsername();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // 如果 `status` 为 1，则启用用户
+        return user.getStatus() == 1;
+    }
+
+    public Long getId() {
+        return user.getId();
+    }
+
+    public String getEmail() {
+        return user.getEmail();
+    }
+
+    public Integer getUserType() {
+        return user.getUserType();
+    }
+}
