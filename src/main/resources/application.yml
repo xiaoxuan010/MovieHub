@@ -26,6 +26,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
   mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: space.astralbridge.spring.moviehub.entity
 
 jwt:
   # noinspection SpellCheckingInspection
