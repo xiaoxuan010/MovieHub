@@ -16,16 +16,26 @@
         <result property="createTime" column="MOVIE_CREATE_TIME"/>
         <result property="updateTime" column="MOVIE_UPDATE_TIME"/>
         
-        <collection property="movieTypes" column="MOVIE_MOVIE_TYPE_TYPE_ID" ofType="MovieType"
-                    foreignColumn="MOVIE_TYPE_ID">
+        <collection property="movieTypes" ofType="MovieType">
             <id property="id" column="MOVIE_TYPE_ID"/>
             <result property="name" column="MOVIE_TYPE_NAME"/>
         </collection>
         
-        <!-- <collection property="directors" column="id"
-            select="space.astralbridge.spring.moviehub.mapper.DirectorMapper.selectById" />
-        <collection property="actors" column="id"
-            select="space.astralbridge.spring.moviehub.mapper.ActorMapper.selectById" /> -->
+        <collection property="directors" ofType="Director">
+            <id property="id" column="DIRECTOR_ID"/>
+            <result property="name" column="DIRECTOR_NAME"/>
+            <result property="photo" column="DIRECTOR_PHOTO"/>
+            <result property="description" column="DIRECTOR_DESCRIPTION"/>
+        
+        </collection>
+        
+        <collection property="actors" ofType="MovieActor">
+            <result property="id" column="ACTOR_ID"/>
+            <result property="name" column="ACTOR_NAME"/>
+            <result property="photo" column="ACTOR_PHOTO"/>
+            <result property="description" column="ACTOR_DESCRIPTION"/>
+            <result property="role" column="ACTOR_ROLE"/>
+        </collection>
     </resultMap>
     
     <sql id="joinAllColumns">
@@ -43,10 +53,23 @@
                M.UPDATE_TIME  AS MOVIE_UPDATE_TIME,
                MMT.TYPE_ID    AS MOVIE_MOVIE_TYPE_TYPE_ID,
                MT.ID          AS MOVIE_TYPE_ID,
-               MT.NAME        AS MOVIE_TYPE_NAME
+               MT.NAME        AS MOVIE_TYPE_NAME,
+               D.ID           AS DIRECTOR_ID,
+               D.NAME         AS DIRECTOR_NAME,
+               D.PHOTO        AS DIRECTOR_PHOTO,
+               D.DESCRIPTION  AS DIRECTOR_DESCRIPTION,
+               A.ID           AS ACTOR_ID,
+               A.NAME         AS ACTOR_NAME,
+               A.PHOTO        AS ACTOR_PHOTO,
+               A.DESCRIPTION  AS ACTOR_DESCRIPTION,
+               MA.ROLE        AS ACTOR_ROLE
         FROM MOVIE AS M
                  LEFT JOIN MOVIE_MOVIE_TYPE AS MMT ON MMT.MOVIE_ID = M.ID
                  LEFT JOIN MOVIE_TYPE AS MT ON MT.ID = MMT.TYPE_ID
+                 LEFT JOIN MOVIE_DIRECTOR AS MD ON MD.MOVIE_ID = M.ID
+                 LEFT JOIN DIRECTOR AS D ON D.ID = MD.DIRECTOR_ID
+                 LEFT JOIN MOVIE_ACTOR AS MA ON MA.MOVIE_ID = M.ID
+                 LEFT JOIN ACTOR AS A ON A.ID = MA.ACTOR_ID
     </sql>
     
     
@@ -59,5 +82,6 @@
     <select id="selectList" resultMap="movieResultMap">
         <include refid="joinAllColumns"/>
     </select>
+
 
 </mapper>
