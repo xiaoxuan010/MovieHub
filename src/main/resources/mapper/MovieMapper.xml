@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="space.astralbridge.spring.moviehub.mapper.MovieMapper">
     <resultMap id="movieResultMap"
-        type="space.astralbridge.spring.moviehub.entity.Movie">
-        <id property="id" column="id" />
+               type="space.astralbridge.spring.moviehub.entity.Movie">
+        <id property="id" column="id"/>
         <collection property="movieTypes" column="id" ofType="MovieType"
-            select="space.astralbridge.spring.moviehub.mapper.MovieTypeMapper.selectTypesByMovieId" />
+                    select="space.astralbridge.spring.moviehub.mapper.MovieTypeMapper.selectTypesByMovieId"/>
         <!-- <collection property="directors" column="id"
             select="space.astralbridge.spring.moviehub.mapper.DirectorMapper.selectById" />
         <collection property="actors" column="id"
@@ -14,9 +14,11 @@
 
 
     <select id="selectById" resultMap="movieResultMap"
-        parameterType="java.io.Serializable"> SELECT * FROM movie WHERE id = #{id} </select>
+            parameterType="java.io.Serializable"> SELECT *
+                                                  FROM movie
+                                                  WHERE id = #{id} </select>
 
-    <!--
-    <select id="selectList" resultMap="movieResultMap"> SELECT * FROM movie </select> -->
+    <select id="selectList" resultMap="movieResultMap"> SELECT *
+                                                        FROM movie </select>
 
 </mapper>
