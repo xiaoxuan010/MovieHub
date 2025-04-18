@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.common.ResultCode;
 import space.astralbridge.spring.moviehub.dto.CreateMovieRequest;
+import space.astralbridge.spring.moviehub.dto.UpdateMovieRequest;
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.service.MovieService;
 
@@ -42,7 +43,8 @@ public class AdminMovieController {
     }
 
     @PostMapping("/update")
-    public Result<Movie> updateMovie(@RequestBody Movie movie) {
+    public Result<Movie> updateMovie(@RequestBody UpdateMovieRequest updateMovieRequest) {
+        Movie movie = modelMapper.map(updateMovieRequest, Movie.class);
         movieService.updateById(movie);
         return Result.success(movieService.getById(movie.getId()));
     }
