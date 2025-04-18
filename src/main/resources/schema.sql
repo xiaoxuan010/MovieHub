@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS movie_movie_type
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
     movie_id BIGINT NOT NULL,
     type_id  BIGINT NOT NULL,
-    FOREIGN KEY (movie_id) REFERENCES movie (id),
-    FOREIGN KEY (type_id) REFERENCES movie_type (id)
+    FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE,
+    FOREIGN KEY (type_id) REFERENCES movie_type (id) ON DELETE CASCADE
 );
 
 -- 演员表
@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS movie_actor
     movie_id BIGINT NOT NULL,
     actor_id BIGINT NOT NULL,
     role     VARCHAR(100) COMMENT '扮演角色',
-    FOREIGN KEY (movie_id) REFERENCES movie (id),
-    FOREIGN KEY (actor_id) REFERENCES actor (id)
+    FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE,
+    FOREIGN KEY (actor_id) REFERENCES actor (id) ON DELETE CASCADE
 );
 
 -- 电影-导演关联表
@@ -80,8 +80,8 @@ CREATE TABLE IF NOT EXISTS movie_director
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     movie_id    BIGINT NOT NULL,
     director_id BIGINT NOT NULL,
-    FOREIGN KEY (movie_id) REFERENCES movie (id),
-    FOREIGN KEY (director_id) REFERENCES director (id)
+    FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE,
+    FOREIGN KEY (director_id) REFERENCES director (id) ON DELETE CASCADE
 );
 
 -- 用户观影记录表
@@ -91,8 +91,8 @@ CREATE TABLE IF NOT EXISTS view_history
     user_id   BIGINT NOT NULL,
     movie_id  BIGINT NOT NULL,
     view_time TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES app_user (id),
-    FOREIGN KEY (movie_id) REFERENCES movie (id)
+    FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE,
+    FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE
 );
 
 -- 评分表
@@ -104,6 +104,6 @@ CREATE TABLE IF NOT EXISTS rating
     score       INT    NOT NULL COMMENT '评分(1-10)',
     comment     TEXT,
     create_time TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES app_user (id),
-    FOREIGN KEY (movie_id) REFERENCES movie (id)
+    FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE,
+    FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE
 );

@@ -2,6 +2,7 @@ package space.astralbridge.spring.moviehub.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -126,5 +127,14 @@ public class MovieMapperTest {
 
         assertEquals(LocalDateTime.of(2025, 4, 18, 0, 0, 0), updatedMovie.getUpdateTime());
 
+    }
+
+    @Test
+    public void testDeleteById() {
+        int rows = movieMapper.deleteById(1L);
+        assertEquals(1, rows);
+
+        Movie deletedMovie = movieMapper.selectById(1L);
+        assertNull(deletedMovie);
     }
 }
