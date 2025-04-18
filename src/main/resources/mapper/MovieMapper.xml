@@ -82,8 +82,4 @@
         <include refid="joinAllColumns"/>
     </select>
 
-    <delete id="deleteById" parameterType="java.io.Serializable">
-        DELETE FROM MOVIE WHERE ID = #{movieId}
-    </delete>
-
 </mapper>
