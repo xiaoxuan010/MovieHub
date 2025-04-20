@@ -2,84 +2,107 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="space.astralbridge.spring.moviehub.mapper.MovieMapper">
     <resultMap id="movieResultMap"
-               type="Movie">
-        <id property="id" column="MOVIE_ID"/>
-        <result property="title" column="MOVIE_TITLE"/>
-        <result property="description" column="MOVIE_DESCRIPTION"/>
-        <result property="releaseDate" column="MOVIE_RELEASE_DATE"/>
-        <result property="duration" column="MOVIE_DURATION"/>
-        <result property="coverImage" column="MOVIE_COVER_IMAGE"/>
-        <result property="region" column="MOVIE_REGION"/>
-        <result property="isVip" column="MOVIE_IS_VIP"/>
-        <result property="playCount" column="MOVIE_PLAY_COUNT"/>
-        <result property="score" column="MOVIE_SCORE"/>
-        <result property="createTime" column="MOVIE_CREATE_TIME"/>
-        <result property="updateTime" column="MOVIE_UPDATE_TIME"/>
-        
+        type="Movie">
+        <id property="id" column="MOVIE_ID" />
+        <result property="title" column="MOVIE_TITLE" />
+        <result property="description" column="MOVIE_DESCRIPTION" />
+        <result property="releaseDate" column="MOVIE_RELEASE_DATE" />
+        <result property="duration" column="MOVIE_DURATION" />
+        <result property="coverImage" column="MOVIE_COVER_IMAGE" />
+        <result property="region" column="MOVIE_REGION" />
+        <result property="isVip" column="MOVIE_IS_VIP" />
+        <result property="playCount" column="MOVIE_PLAY_COUNT" />
+        <result property="score" column="MOVIE_SCORE" />
+        <result property="createTime" column="MOVIE_CREATE_TIME" />
+        <result property="updateTime" column="MOVIE_UPDATE_TIME" />
+
         <collection property="movieTypes" ofType="MovieType">
-            <id property="id" column="MOVIE_TYPE_ID"/>
-            <result property="name" column="MOVIE_TYPE_NAME"/>
+            <id property="id" column="MOVIE_TYPE_ID" />
+            <result property="name" column="MOVIE_TYPE_NAME" />
         </collection>
-        
+
         <collection property="directors" ofType="Director">
-            <id property="id" column="DIRECTOR_ID"/>
-            <result property="name" column="DIRECTOR_NAME"/>
-            <result property="photo" column="DIRECTOR_PHOTO"/>
-            <result property="description" column="DIRECTOR_DESCRIPTION"/>
-        
+            <id property="id" column="DIRECTOR_ID" />
+            <result property="name" column="DIRECTOR_NAME" />
+            <result property="photo" column="DIRECTOR_PHOTO" />
+            <result property="description" column="DIRECTOR_DESCRIPTION" />
+
         </collection>
-        
+
         <collection property="actors" ofType="MovieActor">
-            <result property="id" column="ACTOR_ID"/>
-            <result property="name" column="ACTOR_NAME"/>
-            <result property="photo" column="ACTOR_PHOTO"/>
-            <result property="description" column="ACTOR_DESCRIPTION"/>
-            <result property="role" column="ACTOR_ROLE"/>
+            <result property="id" column="ACTOR_ID" />
+            <result property="name" column="ACTOR_NAME" />
+            <result property="photo" column="ACTOR_PHOTO" />
+            <result property="description" column="ACTOR_DESCRIPTION" />
+            <result property="role" column="ACTOR_ROLE" />
         </collection>
     </resultMap>
-    
+
     <sql id="joinAllColumns">
-        SELECT M.ID           AS MOVIE_ID,
-               M.TITLE        AS MOVIE_TITLE,
-               M.DESCRIPTION  AS MOVIE_DESCRIPTION,
-               M.RELEASE_DATE AS MOVIE_RELEASE_DATE,
-               M.DURATION     AS MOVIE_DURATION,
-               M.COVER_IMAGE  AS MOVIE_COVER_IMAGE,
-               M.REGION       AS MOVIE_REGION,
-               M.IS_VIP       AS MOVIE_IS_VIP,
-               M.PLAY_COUNT   AS MOVIE_PLAY_COUNT,
-               M.SCORE        AS MOVIE_SCORE,
-               M.CREATE_TIME  AS MOVIE_CREATE_TIME,
-               M.UPDATE_TIME  AS MOVIE_UPDATE_TIME,
-               MMT.TYPE_ID    AS MOVIE_MOVIE_TYPE_TYPE_ID,
-               MT.ID          AS MOVIE_TYPE_ID,
-               MT.NAME        AS MOVIE_TYPE_NAME,
-               D.ID           AS DIRECTOR_ID,
-               D.NAME         AS DIRECTOR_NAME,
-               D.PHOTO        AS DIRECTOR_PHOTO,
-               D.DESCRIPTION  AS DIRECTOR_DESCRIPTION,
-               A.ID           AS ACTOR_ID,
-               A.NAME         AS ACTOR_NAME,
-               A.PHOTO        AS ACTOR_PHOTO,
-               A.DESCRIPTION  AS ACTOR_DESCRIPTION,
-               MA.ROLE        AS ACTOR_ROLE
+        SELECT M.ID AS MOVIE_ID,
+        M.TITLE AS MOVIE_TITLE,
+        M.DESCRIPTION AS MOVIE_DESCRIPTION,
+        M.RELEASE_DATE AS MOVIE_RELEASE_DATE,
+        M.DURATION AS MOVIE_DURATION,
+        M.COVER_IMAGE AS MOVIE_COVER_IMAGE,
+        M.REGION AS MOVIE_REGION,
+        M.IS_VIP AS MOVIE_IS_VIP,
+        M.PLAY_COUNT AS MOVIE_PLAY_COUNT,
+        M.SCORE AS MOVIE_SCORE,
+        M.CREATE_TIME AS MOVIE_CREATE_TIME,
+        M.UPDATE_TIME AS MOVIE_UPDATE_TIME,
+        MMT.TYPE_ID AS MOVIE_MOVIE_TYPE_TYPE_ID,
+        MT.ID AS MOVIE_TYPE_ID,
+        MT.NAME AS MOVIE_TYPE_NAME,
+        D.ID AS DIRECTOR_ID,
+        D.NAME AS DIRECTOR_NAME,
+        D.PHOTO AS DIRECTOR_PHOTO,
+        D.DESCRIPTION AS DIRECTOR_DESCRIPTION,
+        A.ID AS ACTOR_ID,
+        A.NAME AS ACTOR_NAME,
+        A.PHOTO AS ACTOR_PHOTO,
+        A.DESCRIPTION AS ACTOR_DESCRIPTION,
+        MA.ROLE AS ACTOR_ROLE
         FROM MOVIE AS M
-                 LEFT JOIN MOVIE_MOVIE_TYPE AS MMT ON MMT.MOVIE_ID = M.ID
-                 LEFT JOIN MOVIE_TYPE AS MT ON MT.ID = MMT.TYPE_ID
-                 LEFT JOIN MOVIE_DIRECTOR AS MD ON MD.MOVIE_ID = M.ID
-                 LEFT JOIN DIRECTOR AS D ON D.ID = MD.DIRECTOR_ID
-                 LEFT JOIN MOVIE_ACTOR AS MA ON MA.MOVIE_ID = M.ID
-                 LEFT JOIN ACTOR AS A ON A.ID = MA.ACTOR_ID
+        LEFT JOIN MOVIE_MOVIE_TYPE AS MMT ON MMT.MOVIE_ID = M.ID
+        LEFT JOIN MOVIE_TYPE AS MT ON MT.ID = MMT.TYPE_ID
+        LEFT JOIN MOVIE_DIRECTOR AS MD ON MD.MOVIE_ID = M.ID
+        LEFT JOIN DIRECTOR AS D ON D.ID = MD.DIRECTOR_ID
+        LEFT JOIN MOVIE_ACTOR AS MA ON MA.MOVIE_ID = M.ID
+        LEFT JOIN ACTOR AS A ON A.ID = MA.ACTOR_ID
     </sql>
-    
+
     <select id="selectById" resultMap="movieResultMap"
-            parameterType="java.io.Serializable">
-        <include refid="joinAllColumns"/>
-        WHERE M.ID = #{id}
-    </select>
-    
+        parameterType="java.io.Serializable">
+        <include refid="joinAllColumns" /> WHERE M.ID = #{id} </select>
+
     <select id="selectList" resultMap="movieResultMap">
-        <include refid="joinAllColumns"/>
+        <include refid="joinAllColumns" />
+    </select>
+
+    <select id="countMoviesByType" resultType="java.util.Map">
+        SELECT
+        mt.name as type_name,
+        COUNT(mmt.movie_id) as movie_count
+        FROM
+        movie_type mt
+        LEFT JOIN
+        movie_movie_type mmt ON mt.id = mmt.type_id
+        GROUP BY
+        mt.id, mt.name
+        ORDER BY
+        movie_count DESC
+    </select>
+
+    <select id="selectTopMoviesByPlayCount" resultType="java.util.Map" parameterType="java.lang.Integer">
+        SELECT
+            title,
+            play_count
+        FROM
+            movie
+        ORDER BY
+            play_count DESC
+        LIMIT #{limit}
     </select>
 
 </mapper>

@@ -7,16 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.test.autoconfigure.MybatisPlusTest;
 
 import space.astralbridge.spring.moviehub.entity.Movie;
 
-@MybatisPlusTest
+@SpringBootTest
 @Transactional
 public class MovieMapperTest {
     @Autowired
@@ -136,5 +138,26 @@ public class MovieMapperTest {
 
         Movie deletedMovie = movieMapper.selectById(1L);
         assertNull(deletedMovie);
+    }
+
+    @Test
+    public void testCountMoviesByType() {
+        // 执行查询
+        List<Map<String, Object>> results = movieMapper.countMoviesByType();
+        
+        // 验证结果不为空
+        assertNotNull(results, "查询结果不应为空");
+        
+        // 输出结果，便于查看
+        System.out.println("===== 电影类型统计SQL查询结果 =====");
+        for (Map<String, Object> result : results) {
+            String typeName = (String) result.get("type_name");
+            Number movieCount = (Number) result.get("movie_count");
+            
+            assertNotNull(typeName, "类型名称不应为空");
+            assertNotNull(movieCount, "电影数量不应为空");
+            
+            System.out.println(typeName + ": " + movieCount);
+        }
     }
 }
