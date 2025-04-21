@@ -1,6 +1,7 @@
 package space.astralbridge.spring.moviehub.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -19,4 +20,12 @@ public interface MovieMapper extends BaseMapper<Movie> {
      * @return 包含电影标题和播放量的Map列表
      */
     List<Map<String, Object>> selectTopMoviesByPlayCount(Integer limit);
+    
+    /**
+     * 根据条件查询电影列表
+     * @param region 地区
+     * @param typeId 类型ID
+     * @return 电影列表
+     */
+    List<Movie> findMoviesByCondition(@Param("region") String region, @Param("typeId") Long typeId);
 }

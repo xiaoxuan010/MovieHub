@@ -94,15 +94,38 @@
         movie_count DESC
     </select>
 
-    <select id="selectTopMoviesByPlayCount" resultType="java.util.Map" parameterType="java.lang.Integer">
+    <select id="selectTopMoviesByPlayCount" resultType="java.util.Map"
+        parameterType="java.lang.Integer">
         SELECT
-            title,
-            play_count
+        title,
+        play_count
         FROM
-            movie
+        movie
         ORDER BY
-            play_count DESC
+        play_count DESC
         LIMIT #{limit}
     </select>
+
+    <select id="findMoviesByCondition" resultMap="movieResultMap"> SELECT DISTINCT M.ID AS MOVIE_ID,
+        M.TITLE AS MOVIE_TITLE, M.DESCRIPTION AS MOVIE_DESCRIPTION, M.RELEASE_DATE AS
+        MOVIE_RELEASE_DATE, M.DURATION AS MOVIE_DURATION, M.COVER_IMAGE AS MOVIE_COVER_IMAGE,
+        M.REGION AS MOVIE_REGION, M.IS_VIP AS MOVIE_IS_VIP, M.PLAY_COUNT AS MOVIE_PLAY_COUNT,
+        M.SCORE AS MOVIE_SCORE, M.CREATE_TIME AS MOVIE_CREATE_TIME, M.UPDATE_TIME AS
+        MOVIE_UPDATE_TIME, MMT.TYPE_ID AS MOVIE_MOVIE_TYPE_TYPE_ID, MT.ID AS MOVIE_TYPE_ID, MT.NAME
+        AS MOVIE_TYPE_NAME, D.ID AS DIRECTOR_ID, D.NAME AS DIRECTOR_NAME, D.PHOTO AS DIRECTOR_PHOTO,
+        D.DESCRIPTION AS DIRECTOR_DESCRIPTION, A.ID AS ACTOR_ID, A.NAME AS ACTOR_NAME, A.PHOTO AS
+        ACTOR_PHOTO, A.DESCRIPTION AS ACTOR_DESCRIPTION, MA.ROLE AS ACTOR_ROLE FROM MOVIE AS M LEFT
+        JOIN MOVIE_MOVIE_TYPE AS MMT ON MMT.MOVIE_ID = M.ID LEFT JOIN MOVIE_TYPE AS MT ON MT.ID =
+        MMT.TYPE_ID LEFT JOIN MOVIE_DIRECTOR AS MD ON MD.MOVIE_ID = M.ID LEFT JOIN DIRECTOR AS D ON
+        D.ID = MD.DIRECTOR_ID LEFT JOIN MOVIE_ACTOR AS MA ON MA.MOVIE_ID = M.ID LEFT JOIN ACTOR AS A
+        ON A.ID = MA.ACTOR_ID <where>
+            <if test="region != null and region != ''">
+                AND M.REGION = #{region}
+            </if>
+            <if test="typeId != null">
+                AND MMT.TYPE_ID = #{typeId}
+            </if>
+        </where> ORDER
+        BY M.ID </select>
 
 </mapper>
