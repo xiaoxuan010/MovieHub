@@ -125,7 +125,7 @@
             <if test="typeId != null">
                 AND MMT.TYPE_ID = #{typeId}
             </if>
-        </where> ORDER
-        BY M.ID </select>
+        </where> ORDER BY
+        M.ID </select>
 
 </mapper>
