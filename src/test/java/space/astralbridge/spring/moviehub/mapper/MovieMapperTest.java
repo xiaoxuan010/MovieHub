@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class MovieMapperTest {
         assertEquals("电影一", movie.getTitle());
         assertEquals("这是电影一的描述", movie.getDescription());
         assertEquals("2023-01-15", movie.getReleaseDate().toString());
-        assertEquals(120, movie.getDuration());
+        assertEquals("120分钟", movie.getDuration());
         assertEquals("/images/movies/movie1.jpg", movie.getCoverImage());
         assertEquals("中国", movie.getRegion());
         assertEquals(0, movie.getIsVip());
@@ -79,8 +78,8 @@ public class MovieMapperTest {
         Movie movie = new Movie();
         movie.setTitle("电影5");
         movie.setDescription("这是电影五的描述");
-        movie.setReleaseDate(LocalDate.parse("2025-04-18"));
-        movie.setDuration(150);
+        movie.setReleaseDate("2025-04-18");
+        movie.setDuration("150分钟");
         movie.setCoverImage("/images/movies/movie5.jpg");
         movie.setRegion("美国");
         movie.setIsVip(1);
@@ -99,8 +98,8 @@ public class MovieMapperTest {
         assertNotNull(movie);
         movie.setTitle("电影一（更新）");
         movie.setDescription("这是电影一的描述（更新）");
-        movie.setReleaseDate(LocalDate.parse("2023-01-16"));
-        movie.setDuration(130);
+        movie.setReleaseDate("2023-01-16");
+        movie.setDuration("130分钟");
         movie.setCoverImage("/images/movies/movie1_updated.jpg");
         movie.setRegion("中国（更新）");
         movie.setIsVip(1);
@@ -115,7 +114,7 @@ public class MovieMapperTest {
         assertEquals("电影一（更新）", updatedMovie.getTitle());
         assertEquals("这是电影一的描述（更新）", updatedMovie.getDescription());
         assertEquals("2023-01-16", updatedMovie.getReleaseDate().toString());
-        assertEquals(130, updatedMovie.getDuration());
+        assertEquals("130分钟", updatedMovie.getDuration());
         assertEquals("/images/movies/movie1_updated.jpg", updatedMovie.getCoverImage());
         assertEquals("中国（更新）", updatedMovie.getRegion());
         assertEquals(1, updatedMovie.getIsVip());
