@@ -28,7 +28,7 @@ public class Movie {
 
     private LocalDate releaseDate;
 
-    private Integer duration; // 单位：分钟
+    private String duration; // 电影时长
 
     private String coverImage;
 
