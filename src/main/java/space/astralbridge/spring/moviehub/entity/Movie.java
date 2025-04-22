@@ -1,6 +1,5 @@
 package space.astralbridge.spring.moviehub.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,9 +25,9 @@ public class Movie {
     @NotNull
     private String description;
 
-    private LocalDate releaseDate;
+    private String releaseDate;
 
-    private Integer duration; // 单位：分钟
+    private String duration; // 单位：分钟
 
     private String coverImage;
 
@@ -46,7 +45,7 @@ public class Movie {
     @TableField(exist = false)
     private List<Director> directors;
     @TableField(exist = false)
-    private List<MovieActor> actors;
+    private List<Actor> actors;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @TableField(fill = FieldFill.INSERT)

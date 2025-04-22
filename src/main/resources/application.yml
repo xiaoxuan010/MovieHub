@@ -19,6 +19,10 @@ spring:
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
       platform: h2
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 mybatis-plus:
   configuration:
@@ -32,6 +36,9 @@ jwt:
   # noinspection SpellCheckingInspection
   secret_key: VeRbcqTLxzA2Bb3qV6qGAYg+ulP1gt+Q+W9WmnraZfs=
   expiration: 86400000 # 24小时(毫秒)
+
+file:
+  upload-dir: runtime/upload
 
 logging:
   level:
