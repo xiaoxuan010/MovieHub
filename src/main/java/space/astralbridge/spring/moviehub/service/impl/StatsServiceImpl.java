@@ -27,27 +27,11 @@ public class StatsServiceImpl implements StatsService {
 
         if (statsData != null) {
             for (Map<String, Object> data : statsData) {
-                // 尝试不同的键名
-                String typeName = null;
-                Number movieCount = null;
+                String typeName = (String) data.get("type_name");
+                Number movieCount = (Number) data.get("movie_count");
 
-                // 尝试小写键名
-                if (data.containsKey("type_name")) {
-                    typeName = (String) data.get("type_name");
-                    movieCount = (Number) data.get("movie_count");
-                }
-                // 尝试大写键名
-                else if (data.containsKey("TYPE_NAME")) {
-                    typeName = (String) data.get("TYPE_NAME");
-                    movieCount = (Number) data.get("MOVIE_COUNT");
-                }
-                // 尝试驼峰命名
-                else if (data.containsKey("typeName")) {
-                    typeName = (String) data.get("typeName");
-                    movieCount = (Number) data.get("movieCount");
-                }
-
-                if (typeName != null) {
+                // 确保类别名称不为空
+                if (typeName != null && !typeName.trim().isEmpty()) {
                     types.add(typeName);
                     // 如果电影数量为null，则默认为0
                     counts.add(movieCount != null ? movieCount.intValue() : 0);

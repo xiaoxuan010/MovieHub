@@ -5,11 +5,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import space.astralbridge.spring.moviehub.dto.MovieLeaderboardDTO;
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.entity.MovieType;
 import space.astralbridge.spring.moviehub.mapper.MovieMapper;
 import space.astralbridge.spring.moviehub.service.ReportService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +35,7 @@ public class ReportServiceImpl implements ReportService {
         
         // 4. 创建标题行
         Row headerRow = sheet.createRow(0);
-        String[] headers = {"ID", "电影名称", "导演", "演员", "类型", "地区", "语言", "上映日期", "时长(分钟)", 
+        String[] headers = {"ID", "电影名称", "导演", "演员", "类型", "地区", "上映日期", "时长(分钟)", 
                            "是否VIP", "评分", "播放量"};
         
         for (int i = 0; i < headers.length; i++) {
@@ -72,13 +74,11 @@ public class ReportServiceImpl implements ReportService {
             row.createCell(4).setCellValue(types);
             
             row.createCell(5).setCellValue(movie.getRegion() != null ? movie.getRegion() : "");
-            // 处理语言字段 - 目前暂不可用，设置为空字符串
-            row.createCell(6).setCellValue(movie.getLanguage() != null ? movie.getLanguage() : "");
-            row.createCell(7).setCellValue(movie.getReleaseDate() != null ? movie.getReleaseDate().toString() : "");
-            row.createCell(8).setCellValue(movie.getDuration() != null ? movie.getDuration() : 0);
-            row.createCell(9).setCellValue(movie.getIsVip() != null && movie.getIsVip() == 1 ? "是" : "否");
-            row.createCell(10).setCellValue(movie.getScore() != null ? movie.getScore() : 0.0);
-            row.createCell(11).setCellValue(movie.getPlayCount() != null ? movie.getPlayCount() : 0);
+            row.createCell(6).setCellValue(movie.getReleaseDate() != null ? movie.getReleaseDate().toString() : "");
+            row.createCell(7).setCellValue(movie.getDuration() != null ? movie.getDuration() : 0);
+            row.createCell(8).setCellValue(movie.getIsVip() != null && movie.getIsVip() == 1 ? "是" : "否");
+            row.createCell(9).setCellValue(movie.getScore() != null ? movie.getScore() : 0.0);
+            row.createCell(10).setCellValue(movie.getPlayCount() != null ? movie.getPlayCount() : 0);
         }
         
         // 6. 自动调整列宽
@@ -87,6 +87,35 @@ public class ReportServiceImpl implements ReportService {
         }
         
         return workbook;
+    }
+    
+    @Override
+    public MovieLeaderboardDTO getPlayCountLeaderboard(Integer top) {
+        // 默认返回前10部电影
+        int limit = (top == null || top < 1) ? 10 : top;
+        
+        // 查询播放量最高的电影列表
+        List<Movie> movies = movieMapper.selectTopNMoviesByPlayCount(limit);
+        
+        // 构建排行榜数据
+        List<MovieLeaderboardDTO.MovieRankItem> rankItems = new ArrayList<>();
+        
+        // 填充排行榜数据
+        for (int i = 0; i < movies.size(); i++) {
+            Movie movie = movies.get(i);
+            MovieLeaderboardDTO.MovieRankItem item = new MovieLeaderboardDTO.MovieRankItem(
+                i + 1,                          // 排名，从1开始
+                movie.getId(),                 // 电影ID
+                movie.getTitle(),              // 电影标题
+                movie.getPlayCount() != null ? movie.getPlayCount() : 0,  // 播放量
+                movie.getScore() != null ? movie.getScore() : 0.0,        // 评分
+                movie.getRegion() != null ? movie.getRegion() : "",       // 地区
+                movie.getCoverImage() != null ? movie.getCoverImage() : "" // 封面图片
+            );
+            rankItems.add(item);
+        }
+        
+        return new MovieLeaderboardDTO(rankItems);
     }
     
     /**

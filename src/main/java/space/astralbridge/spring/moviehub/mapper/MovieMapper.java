@@ -22,6 +22,13 @@ public interface MovieMapper extends BaseMapper<Movie> {
     List<Map<String, Object>> selectTopMoviesByPlayCount(Integer limit);
     
     /**
+     * 获取播放量最高的N部电影的完整信息
+     * @param limit 限制返回的电影数量
+     * @return 按播放量降序排列的电影对象列表
+     */
+    List<Movie> selectTopNMoviesByPlayCount(Integer limit);
+    
+    /**
      * 根据条件查询电影列表
      * @param region 地区
      * @param typeId 类型ID

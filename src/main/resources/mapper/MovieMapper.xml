@@ -82,16 +82,18 @@
 
     <select id="countMoviesByType" resultType="java.util.Map">
         SELECT
-        mt.name as type_name,
-        COUNT(mmt.movie_id) as movie_count
+        mt.name as "type_name",
+        COUNT(mmt.movie_id) as "movie_count"
         FROM
         movie_type mt
         LEFT JOIN
         movie_movie_type mmt ON mt.id = mmt.type_id
+        WHERE
+        mt.name IS NOT NULL AND mt.name != ''
         GROUP BY
         mt.id, mt.name
         ORDER BY
-        movie_count DESC
+        "movie_count" DESC
     </select>
 
     <select id="selectTopMoviesByPlayCount" resultType="java.util.Map"
@@ -105,6 +107,10 @@
         play_count DESC
         LIMIT #{limit}
     </select>
+
+    <select id="selectTopNMoviesByPlayCount" resultMap="movieResultMap"
+        parameterType="java.lang.Integer">
+        <include refid="joinAllColumns" /> ORDER BY M.PLAY_COUNT DESC LIMIT #{limit} </select>
 
     <select id="findMoviesByCondition" resultMap="movieResultMap"> SELECT DISTINCT M.ID AS MOVIE_ID,
         M.TITLE AS MOVIE_TITLE, M.DESCRIPTION AS MOVIE_DESCRIPTION, M.RELEASE_DATE AS
