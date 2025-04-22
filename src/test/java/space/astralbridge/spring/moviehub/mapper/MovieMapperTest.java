@@ -4,21 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.test.autoconfigure.MybatisPlusTest;
 
 import space.astralbridge.spring.moviehub.entity.Movie;
 
-@SpringBootTest
+@MybatisPlusTest
 @Transactional
 public class MovieMapperTest {
     @Autowired
