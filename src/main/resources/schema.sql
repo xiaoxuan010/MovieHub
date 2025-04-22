@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS movie
     id           BIGINT AUTO_INCREMENT PRIMARY KEY,
     title        VARCHAR(100) NOT NULL,
     description  TEXT,
-    release_date DATE,
-    duration     INT COMMENT '电影时长(分钟)',
+    release_date VARCHAR(50),
+    duration     VARCHAR(50) COMMENT '电影时长(分钟)',
     cover_image  VARCHAR(255),
     region       VARCHAR(50),
     is_vip       INT          NOT NULL DEFAULT 0 COMMENT '0-否，1-是',
@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS movie_actor
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
     movie_id BIGINT NOT NULL,
     actor_id BIGINT NOT NULL,
-    role     VARCHAR(100) COMMENT '扮演角色',
     FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE,
     FOREIGN KEY (actor_id) REFERENCES actor (id) ON DELETE CASCADE
 );

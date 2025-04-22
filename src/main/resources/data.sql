@@ -39,13 +39,13 @@ WHERE NOT EXISTS (SELECT 1 FROM director);
 INSERT INTO movie (title, description, release_date, duration, cover_image, region, is_vip, play_count, score,
                    create_time, update_time)
 SELECT *
-FROM (VALUES ('电影一', '这是电影一的描述', '2023-01-15', 120, '/images/movies/movie1.jpg', '中国', 0, 1000, 8.5,
+FROM (VALUES ('电影一', '这是电影一的描述', '2023-01-15', '120分钟', '/images/movies/movie1.jpg', '中国', 0, 1000, 8.5,
               CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-             ('电影二', '这是电影二的描述', '2023-02-20', 135, '/images/movies/movie2.jpg', '美国', 1, 800, 7.8,
+             ('电影二', '这是电影二的描述', '2023-02-20', '135分钟', '/images/movies/movie2.jpg', '美国', 1, 800, 7.8,
               CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-             ('电影三', '这是电影三的描述', '2023-03-10', 110, '/images/movies/movie3.jpg', '中国', 0, 1200, 9.0,
+             ('电影三', '这是电影三的描述', '2023-03-10', '110分钟', '/images/movies/movie3.jpg', '中国', 0, 1200, 9.0,
               CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-             ('电影四', '这是电影四的描述', '2023-04-05', 128, '/images/movies/movie4.jpg', '美国', 1, 600, 8.2,
+             ('电影四', '这是电影四的描述', '2023-04-05', '128分钟', '/images/movies/movie4.jpg', '美国', 1, 600, 8.2,
               CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
          ) AS temp (title, description, release_date, duration, cover_image, region, is_vip, play_count, score,
                     create_time, update_time)
@@ -58,16 +58,16 @@ FROM (VALUES (1, 1), (1, 4), (2, 5), (2, 7), (3, 3), (3, 8), (4, 6), (4, 7)) AS 
 WHERE NOT EXISTS (SELECT 1 FROM movie_movie_type);
 
 -- 电影演员关联
-INSERT INTO movie_actor (movie_id, actor_id, role)
+INSERT INTO movie_actor (movie_id, actor_id)
 SELECT *
-FROM (VALUES (1, 1, '主角A'),
-             (1, 2, '配角B'),
-             (2, 2, '主角C'),
-             (2, 3, '配角D'),
-             (3, 1, '主角E'),
-             (3, 3, '配角F'),
-             (4, 2, '主角G'),
-             (4, 3, '配角H')) AS temp(movie_id, actor_id, role)
+FROM (VALUES (1, 1),
+             (1, 2),
+             (2, 2),
+             (2, 3),
+             (3, 1),
+             (3, 3),
+             (4, 2),
+             (4, 3)) AS temp(movie_id, actor_id)
 WHERE NOT EXISTS (SELECT 1 FROM movie_actor);
 
 -- 电影导演关联
