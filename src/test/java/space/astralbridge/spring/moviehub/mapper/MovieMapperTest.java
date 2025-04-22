@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.baomidou.mybatisplus.test.autoconfigure.MybatisPlusTest;
 
 import space.astralbridge.spring.moviehub.entity.Movie;
 
@@ -96,7 +93,7 @@ public class MovieMapperTest {
     }
 
     @Test
-    public void testUpdateById() throws InterruptedException {
+    public void testUpdateById() {
         Movie movie = movieMapper.selectById(1L);
         assertNotNull(movie);
         movie.setTitle("电影一（更新）");
@@ -116,7 +113,7 @@ public class MovieMapperTest {
         assertNotNull(updatedMovie);
         assertEquals("电影一（更新）", updatedMovie.getTitle());
         assertEquals("这是电影一的描述（更新）", updatedMovie.getDescription());
-        assertEquals("2023-01-16", updatedMovie.getReleaseDate().toString());
+        assertEquals("2023-01-16", updatedMovie.getReleaseDate());
         assertEquals("130分钟", updatedMovie.getDuration());
         assertEquals("/images/movies/movie1_updated.jpg", updatedMovie.getCoverImage());
         assertEquals("中国（更新）", updatedMovie.getRegion());

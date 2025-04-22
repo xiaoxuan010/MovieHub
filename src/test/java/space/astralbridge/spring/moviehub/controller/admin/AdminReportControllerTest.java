@@ -6,19 +6,16 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.dto.MovieLeaderboardDTO;
 import space.astralbridge.spring.moviehub.entity.Movie;
-import space.astralbridge.spring.moviehub.entity.MovieType;
 import space.astralbridge.spring.moviehub.mapper.MovieMapper;
 import space.astralbridge.spring.moviehub.service.ReportService;
 
@@ -42,9 +39,6 @@ public class AdminReportControllerTest {
 
     @Autowired
     private AdminReportController adminReportController;
-
-    @Autowired
-    private ReportService reportService;
 
     @Autowired
     private MovieMapper movieMapper;
