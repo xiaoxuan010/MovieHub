@@ -10,11 +10,9 @@ public class MovieActorRelation {
     private Long id;
     private Long movieId;
     private Long actorId;
-    private String role;
 
-    public MovieActorRelation(Long movieId, Long actorId, String role) {
+    public MovieActorRelation(Long movieId, Long actorId) {
         this.movieId = movieId;
         this.actorId = actorId;
-        this.role = role;
     }
 }

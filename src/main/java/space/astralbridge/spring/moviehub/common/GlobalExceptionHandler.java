@@ -3,6 +3,7 @@ package space.astralbridge.spring.moviehub.common;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -12,14 +13,27 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * 全局异常处理器
+ */
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
+    /**
+     * 处理Excel导出过程中可能出现的IO异常
+     */
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<Result<?>> handleIOException(IOException e) {
+        Result<?> result = Result.fail("导出Excel报表失败: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+    }
+    
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<Map<String, String>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
@@ -69,11 +83,13 @@ public class GlobalExceptionHandler {
         return new Result<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
+    /**
+     * 处理其他未预期的异常
+     */
     @ExceptionHandler(Exception.class)
-    public Result<Void> handleException(Exception e) {
+    public ResponseEntity<Result<?>> handleException(Exception e) {
         log.error("Internal Server Error: [{}]{}", e.getClass(), e.getMessage());
-
-        return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        Result<?> result = Result.fail("服务器内部错误: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
     }
-
 }

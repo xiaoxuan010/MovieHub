@@ -77,7 +77,7 @@ public class AdminMovieController {
         // 如果演员不为空，则保存电影演员关系
         if (createMovieRequest.getActors() != null) {
             movieActorRelationService.saveBatch(createMovieRequest.getActors().stream()
-                    .map(actor -> new MovieActorRelation(movie.getId(), actor.getId(), actor.getRole())).toList());
+                    .map(actor -> new MovieActorRelation(movie.getId(), actor.getId())).toList());
         }
         return Result.success(movieService.getById(movie.getId()));
     }
@@ -112,7 +112,7 @@ public class AdminMovieController {
         if (updateMovieRequest.getActors() != null) {
             movieActorRelationService.remove(movieActorQueryWrapper);
             movieActorRelationService.saveBatch(updateMovieRequest.getActors().stream()
-                    .map(actor -> new MovieActorRelation(movie.getId(), actor.getId(), actor.getRole())).toList());
+                    .map(actor -> new MovieActorRelation(movie.getId(), actor.getId())).toList());
         }
 
         return Result.success(movieService.getById(movie.getId()));

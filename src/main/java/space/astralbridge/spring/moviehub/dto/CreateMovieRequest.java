@@ -18,9 +18,8 @@ public class CreateMovieRequest {
 
     /**
      * 电影时长
-     * 单位：分钟
      */
-    private Integer duration;
+    private String duration;
 
     private String coverImage;
 

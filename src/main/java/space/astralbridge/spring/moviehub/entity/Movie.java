@@ -27,7 +27,7 @@ public class Movie {
 
     private String releaseDate;
 
-    private String duration; // 单位：分钟
+    private String duration; // 电影时长
 
     private String coverImage;
 
