@@ -1,9 +1,10 @@
 package space.astralbridge.spring.moviehub.dto;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.time.LocalDate;
 
 @Data
 public class CreateMovieRequest {
@@ -33,4 +34,8 @@ public class CreateMovieRequest {
     private Integer isVip;
 
     private Double score;
+
+    private List<Long> movieTypeIds;
+    private List<Long> directorIds;
+    private List<ActorDto> actors;
 }

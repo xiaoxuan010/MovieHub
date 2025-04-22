@@ -99,7 +99,6 @@ public class MovieMapperTest {
 
     @Test
     public void testUpdateById() throws InterruptedException {
-        Thread.sleep(1);
         Movie movie = movieMapper.selectById(1L);
         assertNotNull(movie);
         movie.setTitle("电影一（更新）");
