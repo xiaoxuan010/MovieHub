@@ -30,7 +30,7 @@ public class MovieMapperTest {
         assertNotNull(movie);
         assertEquals("电影一", movie.getTitle());
         assertEquals("这是电影一的描述", movie.getDescription());
-        assertEquals("2023-01-15", movie.getReleaseDate().toString());
+        assertEquals("2023-01-15", movie.getReleaseDate());
         assertEquals("120分钟", movie.getDuration());
         assertEquals("/images/movies/movie1.jpg", movie.getCoverImage());
         assertEquals("中国", movie.getRegion());

@@ -30,8 +30,17 @@ import java.util.Date;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminReportController {
 
+    private final ReportService reportService;
+    
+    /**
+     * 默认构造函数，使用Spring自动注入
+     * 
+     * @param reportService 报表服务
+     */
     @Autowired
-    private ReportService reportService;
+    public AdminReportController(ReportService reportService) {
+        this.reportService = reportService;
+    }
     
     /**
      * 导出电影数据Excel报表
