@@ -58,16 +58,16 @@ FROM (VALUES (1, 1), (1, 4), (2, 5), (2, 7), (3, 3), (3, 8), (4, 6), (4, 7)) AS 
 WHERE NOT EXISTS (SELECT 1 FROM movie_movie_type);
 
 -- 电影演员关联
-INSERT INTO movie_actor (movie_id, actor_id, role)
+INSERT INTO movie_actor (movie_id, actor_id)
 SELECT *
-FROM (VALUES (1, 1, '主角A'),
-             (1, 2, '配角B'),
-             (2, 2, '主角C'),
-             (2, 3, '配角D'),
-             (3, 1, '主角E'),
-             (3, 3, '配角F'),
-             (4, 2, '主角G'),
-             (4, 3, '配角H')) AS temp(movie_id, actor_id, role)
+FROM (VALUES (1, 1),
+             (1, 2),
+             (2, 2),
+             (2, 3),
+             (3, 1),
+             (3, 3),
+             (4, 2),
+             (4, 3)) AS temp(movie_id, actor_id)
 WHERE NOT EXISTS (SELECT 1 FROM movie_actor);
 
 -- 电影导演关联

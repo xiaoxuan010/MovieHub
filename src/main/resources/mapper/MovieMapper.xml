@@ -29,12 +29,11 @@
         
         </collection>
         
-        <collection property="actors" ofType="MovieActor">
+        <collection property="actors" ofType="Actor">
             <result property="id" column="ACTOR_ID"/>
             <result property="name" column="ACTOR_NAME"/>
             <result property="photo" column="ACTOR_PHOTO"/>
             <result property="description" column="ACTOR_DESCRIPTION"/>
-            <result property="role" column="ACTOR_ROLE"/>
         </collection>
     </resultMap>
     
@@ -61,8 +60,7 @@
                A.ID           AS ACTOR_ID,
                A.NAME         AS ACTOR_NAME,
                A.PHOTO        AS ACTOR_PHOTO,
-               A.DESCRIPTION  AS ACTOR_DESCRIPTION,
-               MA.ROLE        AS ACTOR_ROLE
+               A.DESCRIPTION  AS ACTOR_DESCRIPTION
         FROM MOVIE AS M
                  LEFT JOIN MOVIE_MOVIE_TYPE AS MMT ON MMT.MOVIE_ID = M.ID
                  LEFT JOIN MOVIE_TYPE AS MT ON MT.ID = MMT.TYPE_ID

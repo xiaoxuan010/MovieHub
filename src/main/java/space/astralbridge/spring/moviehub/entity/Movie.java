@@ -46,7 +46,7 @@ public class Movie {
     @TableField(exist = false)
     private List<Director> directors;
     @TableField(exist = false)
-    private List<MovieActor> actors;
+    private List<Actor> actors;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @TableField(fill = FieldFill.INSERT)

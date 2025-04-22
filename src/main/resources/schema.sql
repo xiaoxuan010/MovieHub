@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS movie_actor
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
     movie_id BIGINT NOT NULL,
     actor_id BIGINT NOT NULL,
-    role     VARCHAR(100) COMMENT '扮演角色',
     FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE,
     FOREIGN KEY (actor_id) REFERENCES actor (id) ON DELETE CASCADE
 );

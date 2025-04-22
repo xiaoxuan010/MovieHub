@@ -50,11 +50,9 @@ public class MovieMapperTest {
         assertNotNull(movie.getActors());
         assertEquals(2, movie.getActors().size());
         assertEquals("张三", movie.getActors().getFirst().getName());
-        assertEquals("主角A", movie.getActors().getFirst().getRole());
         assertEquals("/images/actors/zhangsan.jpg", movie.getActors().get(0).getPhoto());
         assertEquals("著名演员张三", movie.getActors().get(0).getDescription());
         assertEquals("李四", movie.getActors().get(1).getName());
-        assertEquals("配角B", movie.getActors().get(1).getRole());
         assertEquals("/images/actors/lisi.jpg", movie.getActors().get(1).getPhoto());
         assertEquals("著名演员李四", movie.getActors().get(1).getDescription());
 
