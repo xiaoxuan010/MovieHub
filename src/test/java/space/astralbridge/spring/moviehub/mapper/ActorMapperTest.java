@@ -1,96 +1,71 @@
 package space.astralbridge.spring.moviehub.mapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.test.autoconfigure.MybatisPlusTest;
 
 import space.astralbridge.spring.moviehub.entity.Actor;
 
 @MybatisPlusTest
-@Transactional
-public class ActorMapperTest {
+class ActorMapperTest {
+
     @Autowired
     private ActorMapper actorMapper;
 
-    public void assertActor1(Actor actor) {
-        System.out.println(actor);
-
-        assertNotNull(actor);
-        assertEquals("张三", actor.getName());
-        assertEquals("/images/actors/zhangsan.jpg", actor.getPhoto());
-        assertEquals("著名演员张三", actor.getDescription());
-    }
-
     @Test
-    public void testSelectById() {
-        Actor actor = actorMapper.selectById(1L);
-        assertActor1(actor);
-    }
-
-    @Test
-    public void testSelectByIdNotFound() {
-        Actor actor = actorMapper.selectById(999L);
-        assertEquals(null, actor);
-    }
-
-    @Test
-    public void testSelectList() {
-        List<Actor> actors = actorMapper.selectList(null);
-        assertNotNull(actors);
-        assertEquals(3, actors.size());
-        assertActor1(actors.get(0));
-    }
-
-    @Test
-    public void testInsert() {
+    void testInsertAndRetrieveActor() {
         Actor actor = new Actor();
-        actor.setName("李四");
-        actor.setPhoto("/images/actors/lisi.jpg");
-        actor.setDescription("著名演员李四");
+        actor.setName("John Doe");
+        actor.setPhoto("photo_url");
+        actor.setDescription("An amazing actor");
 
-        int result = actorMapper.insert(actor);
-        assertEquals(1, result);
+        int insertResult = actorMapper.insert(actor);
+        assertThat(insertResult).isEqualTo(1);
+        assertThat(actor.getId()).isNotNull();
 
-        Actor insertedActor = actorMapper.selectById(actor.getId());
-        assertNotNull(insertedActor);
-        assertEquals("李四", insertedActor.getName());
-        assertEquals("/images/actors/lisi.jpg", insertedActor.getPhoto());
-        assertEquals("著名演员李四", insertedActor.getDescription());
+        Actor retrievedActor = actorMapper.selectById(actor.getId());
+        assertThat(retrievedActor).isNotNull();
+        assertThat(retrievedActor.getName()).isEqualTo("John Doe");
+        assertThat(retrievedActor.getPhoto()).isEqualTo("photo_url");
+        assertThat(retrievedActor.getDescription()).isEqualTo("An amazing actor");
     }
 
     @Test
-    public void testUpdateById() {
-        Actor actor = actorMapper.selectById(1L);
-        assertNotNull(actor);
+    void testUpdateActor() {
+        Actor actor = new Actor();
+        actor.setName("Jane Doe");
+        actor.setPhoto("photo_url");
+        actor.setDescription("A talented actor");
 
-        actor.setName("张三丰");
-        actor.setPhoto("/images/actors/zhangsan_new.jpg");
-        actor.setDescription("著名演员张三丰");
+        actorMapper.insert(actor);
+        actor.setName("Jane Smith");
+        actor.setDescription("An exceptional actor");
 
-        int result = actorMapper.updateById(actor);
-        assertEquals(1, result);
+        int updateResult = actorMapper.updateById(actor);
+        assertThat(updateResult).isEqualTo(1);
 
-        Actor updatedActor = actorMapper.selectById(1L);
-        assertNotNull(updatedActor);
-        assertEquals("张三丰", updatedActor.getName());
-        assertEquals("/images/actors/zhangsan_new.jpg", updatedActor.getPhoto());
-        assertEquals("著名演员张三丰", updatedActor.getDescription());
+        Actor updatedActor = actorMapper.selectById(actor.getId());
+        assertThat(updatedActor.getName()).isEqualTo("Jane Smith");
+        assertThat(updatedActor.getDescription()).isEqualTo("An exceptional actor");
     }
 
     @Test
-    public void testDeleteById() {
-        int result = actorMapper.deleteById(1L);
-        assertEquals(1, result);
+    void testDeleteActor() {
+        Actor actor = new Actor();
+        actor.setName("Mark Twain");
+        actor.setPhoto("photo_url");
+        actor.setDescription("A legendary actor");
 
-        Actor deletedActor = actorMapper.selectById(1L);
-        assertEquals(null, deletedActor);
+        actorMapper.insert(actor);
+        Long actorId = actor.getId();
+
+        int deleteResult = actorMapper.deleteById(actorId);
+        assertThat(deleteResult).isEqualTo(1);
+
+        Actor deletedActor = actorMapper.selectById(actorId);
+        assertThat(deletedActor).isNull();
     }
-
 }

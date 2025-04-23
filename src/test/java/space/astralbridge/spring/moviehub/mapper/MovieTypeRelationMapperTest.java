@@ -2,6 +2,9 @@ package space.astralbridge.spring.moviehub.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -61,5 +64,28 @@ class MovieTypeRelationMapperTest {
         assertThat(rowsUpdated).isEqualTo(1);
         assertThat(retrievedRelation).isNotNull();
         assertThat(retrievedRelation.getTypeId()).isEqualTo(3L);
+    }
+
+    @Test
+    void testInsertAndRetrieveMovieTypeRelationList() {
+        // Arrange
+        MovieTypeRelation relation1 = new MovieTypeRelation(1L, 3L);
+        MovieTypeRelation relation2 = new MovieTypeRelation(2L, 1L);
+        List<MovieTypeRelation> relations = Arrays.asList(relation1, relation2);
+
+        // Act
+        movieTypeRelationMapper.insert(relations);
+
+        MovieTypeRelation retrievedRelation1 = movieTypeRelationMapper.selectById(relation1.getId());
+        MovieTypeRelation retrievedRelation2 = movieTypeRelationMapper.selectById(relation2.getId());
+
+        // Assert
+        assertThat(retrievedRelation1).isNotNull();
+        assertThat(retrievedRelation1.getMovieId()).isEqualTo(1L);
+        assertThat(retrievedRelation1.getTypeId()).isEqualTo(3L);
+
+        assertThat(retrievedRelation2).isNotNull();
+        assertThat(retrievedRelation2.getMovieId()).isEqualTo(2L);
+        assertThat(retrievedRelation2.getTypeId()).isEqualTo(1L);
     }
 }

@@ -15,23 +15,38 @@ WHERE NOT EXISTS (SELECT 1 FROM app_user);
 -- 初始化电影类型
 INSERT INTO movie_type (name)
 SELECT v.name
-FROM (VALUES ('动作'), ('冒险'), ('喜剧'), ('剧情'), ('奇幻'), ('恐怖'), ('科幻'), ('爱情')) AS v(name)
+FROM (VALUES ('动作'), ('传记'), ('犯罪'), ('剧情'), ('爱情')) AS v(name)
 WHERE NOT EXISTS (SELECT 1 FROM movie_type);
 
 -- 初始化演员
 INSERT INTO actor (name, photo, description)
 SELECT v.name, v.photo, v.description
-FROM (VALUES ('张三', '/images/actors/zhangsan.jpg', '著名演员张三'),
-             ('李四', '/images/actors/lisi.jpg', '著名演员李四'),
-             ('王五', '/images/actors/wangwu.jpg', '著名演员王五')
+FROM (VALUES ('劳伦斯·哈维', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
+              '主演《罗密欧与朱丽叶》的劳伦斯·哈维'),
+             ('苏珊·申塔尔', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
+              '主演《罗密欧与朱丽叶》的苏珊·申塔尔'),
+             ('弗劳拉·罗博森', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
+              '主演《罗密欧与朱丽叶》的弗劳拉·罗博森'),
+             ('沃伦·比蒂',
+              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
+              '主演《邦妮和克莱德》的沃伦·比蒂'),
+             ('费·唐纳薇',
+              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
+              '主演《邦妮和克莱德》的费·唐纳薇'),
+             ('迈克尔·波拉德',
+              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
+              '主演《邦妮和克莱德》的迈克尔·波拉德')
          ) AS v(name, photo, description)
 WHERE NOT EXISTS (SELECT 1 FROM actor);
 
 -- 初始化导演
 INSERT INTO director (name, photo, description)
 SELECT v.name, v.photo, v.description
-FROM (VALUES ('赵导', '/images/directors/zhao.jpg', '著名导演赵导'),
-             ('钱导', '/images/directors/qian.jpg', '著名导演钱导')
+FROM (VALUES ('雷纳托·卡斯特拉尼', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
+              '雷纳托·卡斯特拉尼是意大利著名的电影导演和编剧，以其对经典文学作品的改编而闻名。他的作品风格细腻，注重人物情感的刻画和社会背景的描绘。卡斯特拉尼最为人熟知的作品是1954年执导的电影《罗密欧与朱丽叶》，这部影片改编自威廉·莎士比亚的同名戏剧，讲述了一段凄美的爱情故事。影片在威尼斯电影节上获得了最高荣誉金狮奖，成为意大利电影史上的经典之作。卡斯特拉尼的导演风格融合了意大利新现实主义的元素，同时注重视觉美感和叙事的戏剧性。他的作品不仅在意大利国内广受好评，也在国际影坛上赢得了广泛的认可。他的电影常常通过细腻的镜头语言和深刻的情感表达，展现人性与社会的复杂关系。'),
+             ('阿瑟·佩恩',
+              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
+              '阿瑟·佩恩是美国著名的电影导演和制片人，是新好莱坞浪潮的重要代表人物。他以其大胆的叙事风格和对社会问题的深刻探讨而闻名。佩恩最具代表性的作品是1967年执导的《邦妮和克莱德》，这部影片根据美国历史上著名的雌雄大盗邦妮·派克和克莱德·巴罗的真实经历改编。影片以其创新的叙事手法和对暴力美学的探索，成为新好莱坞电影的开山之作。《邦妮和克莱德》在当时的电影界引起了轰动，不仅获得了奥斯卡金像奖的多项提名，还为佩恩赢得了“后古典好莱坞导演”和“新好莱坞导演”的双重美誉。佩恩的作品常常挑战传统的叙事模式，关注社会边缘人物的命运，展现了美国社会的复杂性和多样性。他的导演风格深刻影响了后来的电影创作者，为新好莱坞浪潮奠定了基础。')
          ) AS v(name, photo, description)
 WHERE NOT EXISTS (SELECT 1 FROM director);
 
@@ -39,14 +54,16 @@ WHERE NOT EXISTS (SELECT 1 FROM director);
 INSERT INTO movie (title, description, release_date, duration, cover_image, region, is_vip, play_count, score,
                    create_time, update_time)
 SELECT *
-FROM (VALUES ('电影一', '这是电影一的描述', '2023-01-15', '120分钟', '/images/movies/movie1.jpg', '中国', 0, 1000, 8.5,
-              CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-             ('电影二', '这是电影二的描述', '2023-02-20', '135分钟', '/images/movies/movie2.jpg', '美国', 1, 800, 7.8,
-              CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-             ('电影三', '这是电影三的描述', '2023-03-10', '110分钟', '/images/movies/movie3.jpg', '中国', 0, 1200, 9.0,
-              CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
-             ('电影四', '这是电影四的描述', '2023-04-05', '128分钟', '/images/movies/movie4.jpg', '美国', 1, 600, 8.2,
-              CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
+FROM (VALUES ('罗密欧与朱丽叶',
+              '《罗密欧与朱丽叶》改编自威廉·莎士比亚创作的同名戏剧，影片讲述了一个悲剧的爱情故事。在十五世纪的意大利，两个贵族家族蒙达犹和卡普雷特彼此对立，不断发生血腥争斗。蒙达犹家族中有一个叫做罗密欧的少年，和卡普雷特家族中的小女儿朱丽叶偶遇并相爱。两方家人执意阻挠，在一次争执中罗密欧失手杀死了朱丽叶的表哥，被流放到城外。朱丽叶为了逃避逼婚，在神父的帮助下假死，但获得错误消息的罗密欧以为朱丽叶真的去世，便服毒自杀。醒来后的朱丽叶看到逝去的罗密欧，绝望地用短剑刺入自己的胸膛。本片曾获得1954年第19届威尼斯电影节最高荣誉金狮奖。',
+              '1954-11-25（意大利）', '138 分钟（美国） / 142 分钟（东德）',
+              'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg', '意大利 / 英国', 1, 0,
+              9.2, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+             ('邦妮和克莱德',
+              '《邦妮和克莱德》是由华纳兄弟出品，根据美国历史上著名的雌雄大盗邦妮·派克和克莱德·巴罗的真实经历而拍摄的剧情片。影片讲述了1930年大萧条中，邦妮·派克在得克萨斯州达拉斯市西小镇的母亲家中看到克莱德·巴罗正在偷自己母亲的汽车。克莱德对邦妮一见钟情，向她炫耀自己曾因持械抢劫入狱，并当着她的面抢劫了镇上的小超市。二人从此结伴浪迹天涯，以打劫为生。《邦妮和克莱德》这部由罗伯特·本顿和搭档大卫·纽曼共同编写的剧本，曾被20位导演拒绝，辗转至阿瑟·佩恩才被接下。最终，这部影片如石破天惊般宣告新好莱坞电影浪潮的到来，也为导演赢得了"后古典好莱坞导演"和"新好莱坞导演"的双重美誉。该片在1968年的奥斯卡金像奖中获得9项提名，并最终将最佳女配角和最佳摄影收入囊中。',
+              '1967-08-13', '111分钟',
+              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg', '美国', 0,
+              0, 8.8, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
          ) AS temp (title, description, release_date, duration, cover_image, region, is_vip, play_count, score,
                     create_time, update_time)
 WHERE NOT EXISTS (SELECT 1 FROM movie);
@@ -54,7 +71,7 @@ WHERE NOT EXISTS (SELECT 1 FROM movie);
 -- 电影类型关联
 INSERT INTO movie_movie_type (movie_id, type_id)
 SELECT *
-FROM (VALUES (1, 1), (1, 4), (2, 5), (2, 7), (3, 3), (3, 8), (4, 6), (4, 7)) AS temp(movie_id, type_id)
+FROM (VALUES (1, 4), (1, 5), (2, 1), (2, 2), (2, 3)) AS temp(movie_id, type_id)
 WHERE NOT EXISTS (SELECT 1 FROM movie_movie_type);
 
 -- 电影演员关联
@@ -62,36 +79,13 @@ INSERT INTO movie_actor (movie_id, actor_id)
 SELECT *
 FROM (VALUES (1, 1),
              (1, 2),
-             (2, 2),
-             (2, 3),
-             (3, 1),
-             (3, 3),
-             (4, 2),
-             (4, 3)) AS temp(movie_id, actor_id)
+             (1, 3),
+             (2, 4),
+             (2, 5)) AS temp(movie_id, actor_id)
 WHERE NOT EXISTS (SELECT 1 FROM movie_actor);
 
 -- 电影导演关联
 INSERT INTO movie_director (movie_id, director_id)
 SELECT *
-FROM (VALUES (1, 1), (2, 2), (3, 1), (4, 2)) AS temp(movie_id, director_id)
+FROM (VALUES (1, 1), (2, 2)) AS temp(movie_id, director_id)
 WHERE NOT EXISTS (SELECT 1 FROM movie_director);
-
--- 初始化观看记录
-INSERT INTO view_history (user_id, movie_id, view_time)
-SELECT *
-FROM (VALUES (1, 1, CURRENT_TIMESTAMP()),
-             (1, 2, CURRENT_TIMESTAMP()),
-             (2, 1, CURRENT_TIMESTAMP()),
-             (3, 2, CURRENT_TIMESTAMP()),
-             (3, 3, CURRENT_TIMESTAMP())) AS temp(user_id, movie_id, view_time)
-WHERE NOT EXISTS (SELECT 1 FROM view_history);
-
--- 初始化评分
-INSERT INTO rating (user_id, movie_id, score, comment, create_time)
-SELECT *
-FROM (VALUES (1, 1, 9, '很好看的电影', CURRENT_TIMESTAMP()),
-             (1, 2, 8, '还不错', CURRENT_TIMESTAMP()),
-             (2, 1, 7, '一般般', CURRENT_TIMESTAMP()),
-             (3, 2, 10, '非常精彩', CURRENT_TIMESTAMP()),
-             (3, 3, 8, '值得一看', CURRENT_TIMESTAMP())) AS temp(user_id, movie_id, score, comment, create_time)
-WHERE NOT EXISTS (SELECT 1 FROM rating);

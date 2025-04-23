@@ -17,67 +17,68 @@ import space.astralbridge.spring.moviehub.entity.Director;
 @MybatisPlusTest
 @Transactional
 public class DirectorMapperTest {
-
     @Autowired
     private DirectorMapper directorMapper;
 
-    public void assertDirector1(Director director) {
-        assertNotNull(director);
-        assertEquals("赵导", director.getName());
-        assertEquals("/images/directors/zhao.jpg", director.getPhoto());
-        assertEquals("著名导演赵导", director.getDescription());
-    }
-
     @Test
-    public void testSelectById() {
-        Director found = directorMapper.selectById(1L);
-        assertDirector1(found);
-    }
-
-    @Test
-    public void testSelectList() {
-        List<Director> directors = directorMapper.selectList(null);
-        assertNotNull(directors);
-        assertNotNull(directors.get(0));
-        assertDirector1(directors.get(0));
-    }
-
-    @Test
-    public void testInsert() {
+    public void testInsertDirector() {
         Director director = new Director();
-        director.setName("郭帆");
-        director.setPhoto("/images/directors/guofan.jpg");
-        director.setDescription("著名导演郭帆，作品包括《流浪地球》和《流浪地球2》");
-
-        int rows = directorMapper.insert(director);
-
-        assertEquals(1, rows);
+        director.setName("Christopher Nolan");
+        int result = directorMapper.insert(director);
+        assertEquals(1, result);
         assertNotNull(director.getId());
     }
 
     @Test
-    public void testUpdateById() {
-        Director director = directorMapper.selectById(1L);
-        assertNotNull(director);
-        director.setName("赵导 (Updated)");
-        director.setPhoto("/images/directors/zhao_updated.jpg");
-        director.setDescription("Updated description for 赵导");
+    public void testSelectDirectorById() {
+        Director director = new Director();
+        director.setName("Steven Spielberg");
+        directorMapper.insert(director);
 
-        directorMapper.updateById(director);
-
-        Director updatedDirector = directorMapper.selectById(1L);
-        assertNotNull(updatedDirector);
-        assertEquals("赵导 (Updated)", updatedDirector.getName());
-        assertEquals("/images/directors/zhao_updated.jpg", updatedDirector.getPhoto());
-        assertEquals("Updated description for 赵导", updatedDirector.getDescription());
+        Director fetchedDirector = directorMapper.selectById(director.getId());
+        assertNotNull(fetchedDirector);
+        assertEquals("Steven Spielberg", fetchedDirector.getName());
     }
 
     @Test
-    public void testDeleteById() {
-        int rows = directorMapper.deleteById(1L);
-        assertEquals(1, rows);
+    public void testUpdateDirector() {
+        Director director = new Director();
+        director.setName("James Cameron");
+        directorMapper.insert(director);
 
-        Director deletedDirector = directorMapper.selectById(1L);
+        director.setName("James Francis Cameron");
+        int result = directorMapper.updateById(director);
+        assertEquals(1, result);
+
+        Director updatedDirector = directorMapper.selectById(director.getId());
+        assertEquals("James Francis Cameron", updatedDirector.getName());
+    }
+
+    @Test
+    public void testDeleteDirector() {
+        Director director = new Director();
+        director.setName("Quentin Tarantino");
+        directorMapper.insert(director);
+
+        int result = directorMapper.deleteById(director.getId());
+        assertEquals(1, result);
+
+        Director deletedDirector = directorMapper.selectById(director.getId());
         assertNull(deletedDirector);
+    }
+
+    @Test
+    public void testSelectAllDirectors() {
+        Director director1 = new Director();
+        director1.setName("Martin Scorsese");
+        directorMapper.insert(director1);
+
+        Director director2 = new Director();
+        director2.setName("Stanley Kubrick");
+        directorMapper.insert(director2);
+
+        List<Director> directors = directorMapper.selectList(null);
+        assertNotNull(directors);
+        assertEquals(4, directors.size());
     }
 }

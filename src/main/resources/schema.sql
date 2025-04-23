@@ -18,11 +18,11 @@ CREATE TABLE IF NOT EXISTS movie
     title        VARCHAR(100) NOT NULL,
     description  TEXT,
     release_date VARCHAR(50),
-    duration     VARCHAR(50) COMMENT '电影时长(分钟)',
+    duration     VARCHAR(50),
     cover_image  VARCHAR(255),
     region       VARCHAR(50),
     is_vip       INT          NOT NULL DEFAULT 0 COMMENT '0-否，1-是',
-    play_count   INT                   DEFAULT 0,
+    play_count   INT          NOT NULL DEFAULT 0,
     score        DOUBLE                DEFAULT 0,
     create_time  TIMESTAMP,
     update_time  TIMESTAMP
