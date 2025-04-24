@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -22,21 +23,21 @@ public class Movie {
     @NotNull
     private String title;
 
-    @NotNull
     private String description;
 
     private String releaseDate;
 
     private String duration; // 电影时长
 
+    @Nullable
     private String coverImage;
 
     private String region;
 
     @NotNull
-    private Integer isVip; // 0-否，1-是
+    private Integer isVip = 0; // 0-否，1-是
 
-    private Integer playCount;
+    private Integer playCount = 0;
 
     private Double score;
 

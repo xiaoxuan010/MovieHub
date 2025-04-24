@@ -30,7 +30,7 @@
         </collection>
 
 
-        <collection property="actors" ofType="MovieActor">
+        <collection property="actors" ofType="Actor">
             <result property="id" column="ACTOR_ID" />
             <result property="name" column="ACTOR_NAME" />
             <result property="photo" column="ACTOR_PHOTO" />
