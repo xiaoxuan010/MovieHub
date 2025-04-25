@@ -21,31 +21,28 @@ WHERE NOT EXISTS (SELECT 1 FROM movie_type);
 -- 初始化演员
 INSERT INTO actor (name, photo, description)
 SELECT v.name, v.photo, v.description
-FROM (VALUES ('劳伦斯·哈维', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
-              '主演《罗密欧与朱丽叶》的劳伦斯·哈维'),
-             ('苏珊·申塔尔', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
-              '主演《罗密欧与朱丽叶》的苏珊·申塔尔'),
-             ('弗劳拉·罗博森', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
-              '主演《罗密欧与朱丽叶》的弗劳拉·罗博森'),
-             ('沃伦·比蒂',
-              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
-              '主演《邦妮和克莱德》的沃伦·比蒂'),
-             ('费·唐纳薇',
-              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
-              '主演《邦妮和克莱德》的费·唐纳薇'),
-             ('迈克尔·波拉德',
-              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
-              '主演《邦妮和克莱德》的迈克尔·波拉德')
-         ) AS v(name, photo, description)
+FROM (VALUES ('劳伦斯·哈维', '/api/guest/media/劳伦斯·哈维.jpg',
+                 '劳伦斯·哈维是英国著名演员，以其在《罗密欧与朱丽叶》中的出色表演而闻名。他的表演风格细腻且富有层次感，能够精准地捕捉角色的内心世界。哈维在电影和戏剧领域均有卓越成就，是20世纪中期英国影坛的重要人物。'),
+                ('苏珊·申塔尔', '/api/guest/media/苏珊·申塔尔.webp',
+                 '苏珊·申塔尔是一位才华横溢的女演员，以其在《罗密欧与朱丽叶》中的表演而广受赞誉。她以自然流畅的表演风格和对角色的深刻理解而著称，是那个时代最受欢迎的女演员之一。'),
+                ('弗劳拉·罗博森', '/api/guest/media/弗劳拉·罗博森.jpg',
+                 '弗劳拉·罗博森是一位英国资深演员，以其在《罗密欧与朱丽叶》中的精彩演出而闻名。她的职业生涯横跨多个年代，凭借其深厚的表演功底和对角色的独特诠释，成为英国戏剧和电影界的传奇人物。'),
+                ('沃伦·比蒂', '/api/guest/media/沃伦·比蒂.jpg',
+                 '沃伦·比蒂是美国著名演员和导演，以其在《邦妮和克莱德》中的表演而闻名。他不仅是一位出色的演员，还因其在电影制作和导演领域的贡献而备受尊敬。比蒂的作品常常探讨社会问题，具有深刻的思想性。'),
+                ('费·唐纳薇', '/api/guest/media/费·唐纳薇.jpg',
+                 '费·唐纳薇是美国影坛的传奇人物，以其在《邦妮和克莱德》中的表演而闻名。她以其优雅的气质和强大的表演张力而著称，是20世纪最具影响力的女演员之一。'),
+                ('迈克尔·波拉德', '/api/guest/media/迈克尔·波拉德.webp',
+                 '迈克尔·波拉德是一位美国演员，以其在《邦妮和克莱德》中的角色而广为人知。他以其独特的表演风格和对角色的深刻理解，成为那个时代最具辨识度的演员之一。')
+           ) AS v(name, photo, description)
 WHERE NOT EXISTS (SELECT 1 FROM actor);
 
 -- 初始化导演
 INSERT INTO director (name, photo, description)
 SELECT v.name, v.photo, v.description
-FROM (VALUES ('雷纳托·卡斯特拉尼', 'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
+FROM (VALUES ('雷纳托·卡斯特拉尼', '/api/guest/media/雷纳托·卡斯特拉尼.webp',
               '雷纳托·卡斯特拉尼是意大利著名的电影导演和编剧，以其对经典文学作品的改编而闻名。他的作品风格细腻，注重人物情感的刻画和社会背景的描绘。卡斯特拉尼最为人熟知的作品是1954年执导的电影《罗密欧与朱丽叶》，这部影片改编自威廉·莎士比亚的同名戏剧，讲述了一段凄美的爱情故事。影片在威尼斯电影节上获得了最高荣誉金狮奖，成为意大利电影史上的经典之作。卡斯特拉尼的导演风格融合了意大利新现实主义的元素，同时注重视觉美感和叙事的戏剧性。他的作品不仅在意大利国内广受好评，也在国际影坛上赢得了广泛的认可。他的电影常常通过细腻的镜头语言和深刻的情感表达，展现人性与社会的复杂关系。'),
              ('阿瑟·佩恩',
-              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
+              '/api/guest/media/阿瑟·佩恩.jpg',
               '阿瑟·佩恩是美国著名的电影导演和制片人，是新好莱坞浪潮的重要代表人物。他以其大胆的叙事风格和对社会问题的深刻探讨而闻名。佩恩最具代表性的作品是1967年执导的《邦妮和克莱德》，这部影片根据美国历史上著名的雌雄大盗邦妮·派克和克莱德·巴罗的真实经历改编。影片以其创新的叙事手法和对暴力美学的探索，成为新好莱坞电影的开山之作。《邦妮和克莱德》在当时的电影界引起了轰动，不仅获得了奥斯卡金像奖的多项提名，还为佩恩赢得了“后古典好莱坞导演”和“新好莱坞导演”的双重美誉。佩恩的作品常常挑战传统的叙事模式，关注社会边缘人物的命运，展现了美国社会的复杂性和多样性。他的导演风格深刻影响了后来的电影创作者，为新好莱坞浪潮奠定了基础。')
          ) AS v(name, photo, description)
 WHERE NOT EXISTS (SELECT 1 FROM director);
