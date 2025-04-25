@@ -106,3 +106,14 @@ CREATE TABLE IF NOT EXISTS rating
     FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE,
     FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE
 );
+
+-- 找回密码 Token 表
+CREATE TABLE IF NOT EXISTS password_reset_token
+(
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id     BIGINT NOT NULL,
+    token       VARCHAR(255) NOT NULL UNIQUE,
+    expiration  TIMESTAMP NOT NULL,
+    create_time TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE
+);

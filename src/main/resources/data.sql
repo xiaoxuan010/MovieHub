@@ -6,7 +6,7 @@ SELECT *
 FROM (VALUES ('admin', '{bcrypt}$2a$10$Tz.HPbR9lr8K3mFiUSAyD.K7v1/uO.yvzapJIvsboZDKrAnq8pMrO',
               'admin@astralbridge.space', 1, 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
              ('user1', '{bcrypt}$2a$10$z6pFN/YtkrY5RaOq5XJsteAofLZfq8CQX7gy9Gh5PFjPGvAJrhgt2',
-              'user1@astralbridge.space', 0, 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+              'xiaoxuan010n@qq.com', 0, 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
              ('vipuser', '{bcrypt}$2a$10$VMXH3gqj3gbwfr8pbQ8zx.q2HPGsP5fwjlUVl9y/hB.lEQ7i8ra42',
               'vip@astralbridge.space', 1, 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()))
          AS temp (username, password, email, user_type, status, create_time, update_time)
