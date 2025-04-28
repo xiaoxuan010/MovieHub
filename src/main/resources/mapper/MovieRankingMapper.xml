@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="space.astralbridge.spring.moviehub.mapper.MovieRankingMapper">
 
+    <resultMap id="movieTypeResultMap" type="space.astralbridge.spring.moviehub.entity.MovieType">
+        <id property="id" column="TYPE_ID"/>
+        <result property="name" column="TYPE_NAME"/>
+    </resultMap>
+
+    <resultMap id="directorResultMap" type="space.astralbridge.spring.moviehub.entity.Director">
+        <id property="id" column="DIRECTOR_ID"/>
+        <result property="name" column="DIRECTOR_NAME"/>
+        <result property="photo" column="DIRECTOR_PHOTO"/>
+        <result property="description" column="DIRECTOR_DESCRIPTION"/>
+    </resultMap>
+
+    <resultMap id="actorResultMap" type="space.astralbridge.spring.moviehub.entity.Actor">
+        <id property="id" column="ACTOR_ID"/>
+        <result property="name" column="ACTOR_NAME"/>
+        <result property="photo" column="ACTOR_PHOTO"/>
+        <result property="description" column="ACTOR_DESCRIPTION"/>
+    </resultMap>
+
     <resultMap id="rankingMovieResultMap" type="space.astralbridge.spring.moviehub.entity.Movie">
         <id property="id" column="MOVIE_ID"/>
         <result property="title" column="MOVIE_TITLE"/>
@@ -15,6 +34,18 @@
         <result property="score" column="MOVIE_SCORE"/>
         <result property="createTime" column="MOVIE_CREATE_TIME"/>
         <result property="updateTime" column="MOVIE_UPDATE_TIME"/>
+        <collection property="movieTypes"
+                    ofType="space.astralbridge.spring.moviehub.entity.MovieType"
+                    column="MOVIE_ID"
+                    select="selectMovieTypesForMovie"/>
+        <collection property="directors"
+                    ofType="space.astralbridge.spring.moviehub.entity.Director"
+                    column="MOVIE_ID"
+                    select="selectDirectorsForMovie"/>
+        <collection property="actors"
+                    ofType="space.astralbridge.spring.moviehub.entity.Actor"
+                    column="MOVIE_ID"
+                    select="selectActorsForMovie"/>
     </resultMap>
 
     <select id="selectMoviesRanked" resultMap="rankingMovieResultMap">
@@ -46,6 +77,37 @@
                 ORDER BY M.ID ${order}
             </otherwise>
         </choose>
+    </select>
+
+    <select id="selectMovieTypesForMovie" resultMap="movieTypeResultMap">
+        SELECT
+            MT.ID AS TYPE_ID,
+            MT.NAME AS TYPE_NAME
+        FROM MOVIE_TYPE AS MT
+                 JOIN MOVIE_MOVIE_TYPE AS MMT ON MT.ID = MMT.TYPE_ID
+        WHERE MMT.MOVIE_ID = #{movieId}
+    </select>
+
+    <select id="selectDirectorsForMovie" resultMap="directorResultMap">
+        SELECT
+            D.ID AS DIRECTOR_ID,
+            D.NAME AS DIRECTOR_NAME,
+            D.PHOTO AS DIRECTOR_PHOTO,
+            D.DESCRIPTION AS DIRECTOR_DESCRIPTION
+        FROM DIRECTOR AS D
+                 JOIN MOVIE_DIRECTOR AS MD ON D.ID = MD.DIRECTOR_ID
+        WHERE MD.MOVIE_ID = #{movieId}
+    </select>
+
+    <select id="selectActorsForMovie" resultMap="actorResultMap">
+        SELECT
+            A.ID AS ACTOR_ID,
+            A.NAME AS ACTOR_NAME,
+            A.PHOTO AS ACTOR_PHOTO,
+            A.DESCRIPTION AS ACTOR_DESCRIPTION
+        FROM ACTOR AS A
+                 JOIN MOVIE_ACTOR AS MA ON A.ID = MA.ACTOR_ID
+        WHERE MA.MOVIE_ID = #{movieId}
     </select>
 
 </mapper>
