@@ -86,4 +86,20 @@
         </where>
         ORDER BY ID
     </select>
+
+    <select id="searchMovies" resultMap="movieResultMap">
+        SELECT DISTINCT m.*
+        FROM movie m
+        LEFT JOIN movie_actor ma ON m.id = ma.movie_id
+        LEFT JOIN actor a ON ma.actor_id = a.id
+        LEFT JOIN movie_director md ON m.id = md.movie_id
+        LEFT JOIN director d ON md.director_id = d.id
+        <where>
+            <if test="query != null and query != ''">
+                (LOWER(m.title) LIKE LOWER(CONCAT('%', #{query}, '%'))
+                OR LOWER(a.name) LIKE LOWER(CONCAT('%', #{query}, '%'))
+                OR LOWER(d.name) LIKE LOWER(CONCAT('%', #{query}, '%')))
+            </if>
+        </where>
+        ORDER BY m.id DESC </select>
 </mapper>
