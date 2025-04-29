@@ -106,3 +106,19 @@ CREATE TABLE IF NOT EXISTS rating
     FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE,
     FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE
 );
+
+-- 支付订单表
+CREATE TABLE IF NOT EXISTS payment_order
+(
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_no     VARCHAR(64)    NOT NULL COMMENT '订单号',
+    user_id      BIGINT         NOT NULL COMMENT '用户ID',
+    amount       DECIMAL(10, 2) NOT NULL COMMENT '金额',
+    status       INT            NOT NULL DEFAULT 0 COMMENT '状态：0-待支付，1-支付成功，2-支付失败',
+    pay_type     VARCHAR(20)    NOT NULL COMMENT '支付类型',
+    trade_no     VARCHAR(64)    COMMENT '支付宝交易号',
+    vip_duration VARCHAR(20)    COMMENT 'VIP时长：monthly/yearly',
+    create_time  TIMESTAMP,
+    update_time  TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE
+);
