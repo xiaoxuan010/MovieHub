@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS movie
     release_date VARCHAR(50),
     duration     VARCHAR(50),
     cover_image  VARCHAR(255),
+    video_url    VARCHAR(255),
     region       VARCHAR(50),
     is_vip       INT          NOT NULL DEFAULT 0 COMMENT '0-否，1-是',
     play_count   INT          NOT NULL DEFAULT 0,

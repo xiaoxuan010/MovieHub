@@ -22,6 +22,8 @@ public class UpdateMovieRequest {
 
     private String coverImage;
 
+    private String videoUrl; // 添加视频URL字段
+
     private String region;
 
     private Integer isVip; // 0-否，1-是

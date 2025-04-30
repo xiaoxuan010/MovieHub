@@ -48,20 +48,22 @@ FROM (VALUES ('雷纳托·卡斯特拉尼', '/api/guest/media/雷纳托·卡斯�
 WHERE NOT EXISTS (SELECT 1 FROM director);
 
 -- 初始化电影
-INSERT INTO movie (title, description, release_date, duration, cover_image, region, is_vip, play_count, score,
+INSERT INTO movie (title, description, release_date, duration, cover_image, video_url, region, is_vip, play_count, score,
                    create_time, update_time)
 SELECT *
 FROM (VALUES ('罗密欧与朱丽叶',
               '《罗密欧与朱丽叶》改编自威廉·莎士比亚创作的同名戏剧，影片讲述了一个悲剧的爱情故事。在十五世纪的意大利，两个贵族家族蒙达犹和卡普雷特彼此对立，不断发生血腥争斗。蒙达犹家族中有一个叫做罗密欧的少年，和卡普雷特家族中的小女儿朱丽叶偶遇并相爱。两方家人执意阻挠，在一次争执中罗密欧失手杀死了朱丽叶的表哥，被流放到城外。朱丽叶为了逃避逼婚，在神父的帮助下假死，但获得错误消息的罗密欧以为朱丽叶真的去世，便服毒自杀。醒来后的朱丽叶看到逝去的罗密欧，绝望地用短剑刺入自己的胸膛。本片曾获得1954年第19届威尼斯电影节最高荣誉金狮奖。',
               '1954-11-25（意大利）', '138 分钟（美国） / 142 分钟（东德）',
-              'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg', '意大利 / 英国', 1, 0,
-              9.2, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+              'http://cms-bucket.nosdn.127.net/2018/11/21/ff8894800a8849a29f057cb7d511da42.jpeg',
+              '/api/guest/media/罗密欧与朱丽叶.mp4',
+              '意大利 / 英国', 1, 0, 9.2, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
              ('邦妮和克莱德',
               '《邦妮和克莱德》是由华纳兄弟出品，根据美国历史上著名的雌雄大盗邦妮·派克和克莱德·巴罗的真实经历而拍摄的剧情片。影片讲述了1930年大萧条中，邦妮·派克在得克萨斯州达拉斯市西小镇的母亲家中看到克莱德·巴罗正在偷自己母亲的汽车。克莱德对邦妮一见钟情，向她炫耀自己曾因持械抢劫入狱，并当着她的面抢劫了镇上的小超市。二人从此结伴浪迹天涯，以打劫为生。《邦妮和克莱德》这部由罗伯特·本顿和搭档大卫·纽曼共同编写的剧本，曾被20位导演拒绝，辗转至阿瑟·佩恩才被接下。最终，这部影片如石破天惊般宣告新好莱坞电影浪潮的到来，也为导演赢得了"后古典好莱坞导演"和"新好莱坞导演"的双重美誉。该片在1968年的奥斯卡金像奖中获得9项提名，并最终将最佳女配角和最佳摄影收入囊中。',
               '1967-08-13', '111分钟',
-              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg', '美国', 0,
-              0, 8.8, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
-         ) AS temp (title, description, release_date, duration, cover_image, region, is_vip, play_count, score,
+              'http://dingyue.nosdn.127.net/c5L6LFtDREIsPQ4gEhBr9cTdH3EWglNIeV75SoqYnDe7t1542016627595.jpeg',
+              '/api/guest/media/邦妮和克莱德.mp4',
+              '美国', 0, 0, 8.8, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
+         ) AS temp (title, description, release_date, duration, cover_image, video_url, region, is_vip, play_count, score,
                     create_time, update_time)
 WHERE NOT EXISTS (SELECT 1 FROM movie);
 
