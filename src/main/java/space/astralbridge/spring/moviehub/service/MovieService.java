@@ -1,8 +1,10 @@
 package space.astralbridge.spring.moviehub.service;
 
+import org.springframework.stereotype.Service;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.mapper.MovieMapper;
 
@@ -19,5 +21,13 @@ public class MovieService extends ServiceImpl<MovieMapper, Movie> {
         // 调用 Mapper 层进行数据库搜索
         // getBaseMapper() 返回与此 Service 关联的 Mapper 实例 (MovieMapper)
         return getBaseMapper().searchMovies(page, query);
+    }
+
+    public Page<Movie> getMoviesByDirector(Long directorId, Page<Movie> page) {
+        return this.baseMapper.selectMoviesByDirector(page, directorId);
+    }
+
+    public Page<Movie> getMoviesByActor(Long actorId, Page<Movie> page) {
+        return this.baseMapper.selectMoviesByActor(page, actorId);
     }
 }

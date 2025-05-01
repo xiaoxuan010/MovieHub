@@ -42,6 +42,26 @@ public class MovieController {
         return Result.success(movieService.getById(id));
     }
 
+    @GetMapping("/director/{directorId}")
+    @JsonView(JsonViewConfig.GuestView.class)
+    public Result<Page<Movie>> getMoviesByDirector(
+            @PathVariable Long directorId,
+            @RequestParam(defaultValue = "1") Integer current,
+            @RequestParam(defaultValue = "10") Integer size) {
+        Page<Movie> moviePage = new Page<>(current, size);
+        return Result.success(movieService.getMoviesByDirector(directorId, moviePage));
+    }
+
+    @GetMapping("/actor/{actorId}")
+    @JsonView(JsonViewConfig.GuestView.class)
+    public Result<Page<Movie>> getMoviesByActor(
+            @PathVariable Long actorId,
+            @RequestParam(defaultValue = "1") Integer current,
+            @RequestParam(defaultValue = "10") Integer size) {
+        Page<Movie> moviePage = new Page<>(current, size);
+        return Result.success(movieService.getMoviesByActor(actorId, moviePage));
+    }
+
     /**
      * 获取电影资源URL
      * 

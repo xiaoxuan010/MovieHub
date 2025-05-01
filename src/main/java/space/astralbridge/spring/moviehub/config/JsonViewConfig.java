@@ -7,18 +7,18 @@ public class JsonViewConfig {
     /**
      * 基本视图，包含大多数字段
      */
-    public interface BaseView {
+    public static interface BaseView {
     }
 
     /**
      * 访客视图，不包含敏感数据
      */
-    public interface GuestView extends BaseView {
+    public static interface GuestView extends BaseView {
     }
 
     /**
      * 管理员视图，包含所有字段
      */
-    public interface AdminView extends BaseView {
+    public static interface AdminView extends BaseView {
     }
 }

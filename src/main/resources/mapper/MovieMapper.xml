@@ -101,5 +101,22 @@
                 OR LOWER(d.name) LIKE LOWER(CONCAT('%', #{query}, '%')))
             </if>
         </where>
-        ORDER BY m.id DESC </select>
+        ORDER BY m.id DESC 
+    </select>
+
+    <select id="selectMoviesByDirector" resultMap="movieResultMap">
+        SELECT DISTINCT m.*
+        FROM movie m
+        INNER JOIN movie_director md ON m.id = md.movie_id
+        WHERE md.director_id = #{directorId}
+        ORDER BY m.id DESC
+    </select>
+
+    <select id="selectMoviesByActor" resultMap="movieResultMap">
+        SELECT DISTINCT m.*
+        FROM movie m
+        INNER JOIN movie_actor ma ON m.id = ma.movie_id
+        WHERE ma.actor_id = #{actorId}
+        ORDER BY m.id DESC
+    </select>
 </mapper>

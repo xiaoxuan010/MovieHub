@@ -1,15 +1,15 @@
 package space.astralbridge.spring.moviehub.mapper;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import space.astralbridge.spring.moviehub.entity.Movie;
-
-import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface MovieMapper extends BaseMapper<Movie> {
@@ -44,4 +44,22 @@ public interface MovieMapper extends BaseMapper<Movie> {
      * @return 分页后的电影列表
      */
     Page<Movie> searchMovies(Page<Movie> page, @Param("query") String query);
+
+    /**
+     * 根据导演ID筛选电影并进行分页。
+     * 
+     * @param page       分页对象，MybatisPlus会自动处理分页逻辑
+     * @param directorId 导演ID
+     * @return 分页后的电影列表
+     */
+    Page<Movie> selectMoviesByDirector(Page<Movie> page, @Param("directorId") Long directorId);
+
+    /**
+     * 根据演员ID筛选电影并进行分页。
+     * 
+     * @param page    分页对象，MybatisPlus会自动处理分页逻辑
+     * @param actorId 演员ID
+     * @return 分页后的电影列表
+     */
+    Page<Movie> selectMoviesByActor(Page<Movie> page, @Param("actorId") Long actorId);
 }
