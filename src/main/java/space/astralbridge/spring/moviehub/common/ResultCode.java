@@ -9,7 +9,7 @@ public enum ResultCode {
     VALIDATE_FAILED(400, "参数校验失败"),
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
     FORBIDDEN(403, "没有权限访问"),
-    NOT_FOUND(405,"找不到评论");
+    NOT_FOUND(404, "资源未找到");
 
     private Integer code;
     private String message;
