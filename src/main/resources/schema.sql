@@ -118,3 +118,21 @@ CREATE TABLE IF NOT EXISTS password_reset_token
     create_time TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS comments (
+                                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                        user_id BIGINT NOT NULL,
+                                        movie_id BIGINT NOT NULL,
+                                        content TEXT NOT NULL,
+                                        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                        FOREIGN KEY (user_id) REFERENCES app_user(id) ON DELETE CASCADE ON UPDATE CASCADE, -- Corrected table name to app_user
+    FOREIGN KEY (movie_id) REFERENCES movie(id) ON DELETE CASCADE ON UPDATE CASCADE   -- Corrected table name to movie
+    );
+
+
+
+
+
+
+
