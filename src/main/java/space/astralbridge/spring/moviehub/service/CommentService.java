@@ -11,8 +11,6 @@ import java.util.List;
 /**
  * 评论服务接口
  * Service interface for managing comments.
- *
- * @author Gemini
  */
 public interface CommentService extends IService<Comment> {
 
