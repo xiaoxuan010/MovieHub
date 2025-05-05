@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-// 确保导入正确 (Ensure correct imports)
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.common.ResultCode;
 import space.astralbridge.spring.moviehub.dto.CommentDto;
@@ -21,8 +20,6 @@ import java.util.stream.Collectors;
 /**
  * 评论 API 控制器
  * REST Controller for managing movie comments.
- *
- * @author Gemini
  */
 @RestController
 @RequestMapping("/api") // Base path for comment-related APIs
