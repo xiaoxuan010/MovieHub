@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-// 确保导入正确 (Ensure correct imports)
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.common.ResultCode;
 import space.astralbridge.spring.moviehub.dto.CommentDto;
@@ -24,8 +23,6 @@ import java.util.stream.Collectors;
 /**
  * 评论服务实现类
  * Implementation of the CommentService interface.
- *
- * @author Gemini
  */
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
