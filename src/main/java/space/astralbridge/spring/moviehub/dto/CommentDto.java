@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 /**
  * 评论数据传输对象
  * Data Transfer Object for Comment.
- *
- * @author Gemini
  */
 @Data
 public class CommentDto {
