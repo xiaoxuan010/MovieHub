@@ -70,7 +70,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
         if (saved) {
             // 3. 映射到 DTO 并返回 (Map to DTO and return)
-            Comment newComment = commentMapper.selectById(comment.getId());
+            Comment newComment = comment;
             CommentDto commentDto = convertToDto(newComment);
             return Result.success(commentDto);
         } else {
