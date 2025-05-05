@@ -8,7 +8,8 @@ public enum ResultCode {
     FAILED(500, "服务端报错"),
     VALIDATE_FAILED(400, "参数校验失败"),
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
-    FORBIDDEN(403, "没有权限访问");
+    FORBIDDEN(403, "没有权限访问"),
+    NOT_FOUND(405,"找不到评论");
 
     private Integer code;
     private String message;
