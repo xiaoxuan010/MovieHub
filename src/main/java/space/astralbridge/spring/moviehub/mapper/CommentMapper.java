@@ -7,8 +7,6 @@ import space.astralbridge.spring.moviehub.entity.Comment;
 /**
  * 评论 Mapper 接口
  * MyBatis Mapper interface for Comment entity.
- *
- * @author Gemini
  */
 @Mapper
 public interface CommentMapper extends BaseMapper<Comment> {
