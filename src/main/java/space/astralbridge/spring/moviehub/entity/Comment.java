@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 /**
  * 电影评论实体类
  * Represents a comment entity in the database.
- *
- * @author Gemini
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
