@@ -8,8 +8,6 @@ import lombok.Data;
 /**
  * 创建评论请求 DTO
  * DTO for creating a new comment.
- *
- * @author Gemini
  */
 @Data
 public class CreateCommentRequest {
