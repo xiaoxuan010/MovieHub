@@ -84,6 +84,10 @@ public class MovieController {
 
         Map<String, String> result = new HashMap<>();
         result.put("videoUrl", movie.getVideoUrl());
+        
+        movie.setPlayCount(movie.getPlayCount() + 1);
+        movieService.updateById(movie);
+
         return Result.success(result);
     }
 
