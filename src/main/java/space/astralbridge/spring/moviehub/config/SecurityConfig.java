@@ -31,6 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/guest/**").permitAll()
+                        .requestMatchers("/api/payment/notify").permitAll() // 支付宝异步通知接口需要公开访问
+                        .requestMatchers("/api/payment/return").permitAll() // 支付宝同步回调接口需要公开访问
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
