@@ -1,16 +1,16 @@
 package space.astralbridge.spring.moviehub;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+
 import space.astralbridge.spring.moviehub.entity.PaymentOrder;
 import space.astralbridge.spring.moviehub.mapper.PaymentOrderMapper;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * 用于创建测试订单的辅助类

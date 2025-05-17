@@ -1,19 +1,35 @@
 package space.astralbridge.spring.moviehub.service;
 
-import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
-import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.alipay.api.response.AlipayTradePagePayResponse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.response.AlipayTradePagePayResponse;
+
 import space.astralbridge.spring.moviehub.config.AlipayConfig;
 import space.astralbridge.spring.moviehub.dto.PaymentRequest;
 import space.astralbridge.spring.moviehub.entity.PaymentOrder;
@@ -21,15 +37,6 @@ import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.mapper.PaymentOrderMapper;
 import space.astralbridge.spring.moviehub.mapper.UserMapper;
 import space.astralbridge.spring.moviehub.service.impl.PaymentServiceImpl;
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

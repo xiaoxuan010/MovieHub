@@ -1,7 +1,11 @@
 package space.astralbridge.spring.moviehub.controller.admin;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,11 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.dto.MovieLeaderboardDTO;
 import space.astralbridge.spring.moviehub.service.ReportService;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 管理员报表控制器
@@ -37,7 +36,6 @@ public class AdminReportController {
      * 
      * @param reportService 报表服务
      */
-    @Autowired
     public AdminReportController(ReportService reportService) {
         this.reportService = reportService;
     }

@@ -1,14 +1,15 @@
 package space.astralbridge.spring.moviehub.config;
 
-import com.alipay.api.AlipayClient;
-import com.alipay.api.DefaultAlipayClient;
-import lombok.Getter;
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.math.BigDecimal;
-import java.util.Map;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+
+import lombok.Getter;
 
 @Configuration
 public class AlipayConfig {

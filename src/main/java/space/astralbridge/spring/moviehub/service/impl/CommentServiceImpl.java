@@ -1,26 +1,23 @@
 package space.astralbridge.spring.moviehub.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import lombok.RequiredArgsConstructor;
 import space.astralbridge.spring.moviehub.entity.Comment;
 import space.astralbridge.spring.moviehub.mapper.CommentMapper;
 import space.astralbridge.spring.moviehub.security.UserDetailsImpl;
 import space.astralbridge.spring.moviehub.service.CommentService;
-import space.astralbridge.spring.moviehub.service.MovieService;
-import space.astralbridge.spring.moviehub.service.UserService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
     private static final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
-    private final MovieService movieService;
-    private final UserService userService;
 
     @Override
     public Comment addComment(Comment comment) {

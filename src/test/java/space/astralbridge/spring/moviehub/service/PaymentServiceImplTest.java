@@ -1,26 +1,29 @@
 package space.astralbridge.spring.moviehub.service;
 
-import com.alipay.api.AlipayClient;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import com.alipay.api.AlipayClient;
+
 import space.astralbridge.spring.moviehub.config.AlipayConfig;
 import space.astralbridge.spring.moviehub.entity.PaymentOrder;
 import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.mapper.PaymentOrderMapper;
 import space.astralbridge.spring.moviehub.mapper.UserMapper;
 import space.astralbridge.spring.moviehub.service.impl.PaymentServiceImpl;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 
 public class PaymentServiceImplTest {
 

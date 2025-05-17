@@ -1,9 +1,18 @@
 package space.astralbridge.spring.moviehub;
 
-import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
-import com.alipay.api.internal.util.AlipaySignature;
-import com.alipay.api.response.AlipayTradePagePayResponse;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,22 +28,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.alipay.api.AlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.response.AlipayTradePagePayResponse;
+
 import space.astralbridge.spring.moviehub.entity.PaymentOrder;
 import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.mapper.PaymentOrderMapper;
 import space.astralbridge.spring.moviehub.mapper.UserMapper;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -80,7 +82,7 @@ public class PaymentIntegrationTest {
         // 模拟AlipaySignature.rsaCheckV1总是返回true
         try (MockedStatic<AlipaySignature> mockedStatic = mockStatic(AlipaySignature.class)) {
             mockedStatic.when(() -> AlipaySignature.rsaCheckV1(
-                    any(java.util.Map.class), anyString(), anyString(), anyString()
+                    anyMap(), anyString(), anyString(), anyString()
             )).thenReturn(true);
 
             // 1. 确保测试用户存在，ID为1

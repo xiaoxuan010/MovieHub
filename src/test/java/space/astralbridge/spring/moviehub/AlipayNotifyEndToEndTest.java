@@ -1,5 +1,16 @@
 package space.astralbridge.spring.moviehub;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,21 +20,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
 import space.astralbridge.spring.moviehub.entity.PaymentOrder;
 import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.mapper.PaymentOrderMapper;
 import space.astralbridge.spring.moviehub.mapper.UserMapper;
 import space.astralbridge.spring.moviehub.service.impl.PaymentServiceImpl;
-import space.astralbridge.spring.moviehub.util.TestOrderUtil;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * 支付宝异步通知的端到端测试

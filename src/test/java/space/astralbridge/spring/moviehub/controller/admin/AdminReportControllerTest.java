@@ -1,5 +1,17 @@
 package space.astralbridge.spring.moviehub.controller.admin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -9,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,16 +31,6 @@ import space.astralbridge.spring.moviehub.dto.MovieLeaderboardDTO;
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.mapper.MovieMapper;
 import space.astralbridge.spring.moviehub.service.ReportService;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * 电影数据报表功能测试类
@@ -57,8 +60,9 @@ public class AdminReportControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode(), "响应状态码应为200 OK");
 
         // 验证响应头
-        assertNotNull(response.getHeaders().getContentType(), "Content-Type 不应为空");
-        assertTrue(response.getHeaders().getContentType().toString()
+        MediaType contentType = response.getHeaders().getContentType();
+        assertNotNull(contentType, "Content-Type 不应为空");
+        assertTrue(contentType.toString()
                 .contains("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
                 "Content-Type 应为Excel格式");
 
@@ -69,8 +73,9 @@ public class AdminReportControllerTest {
                 .contains("movies_export_"), "文件名应包含'movies_export_'");
 
         // 验证响应体不为空
-        assertNotNull(response.getBody(), "响应体不应为空");
-        assertTrue(response.getBody().length > 0, "Excel文件内容不应为空");
+        byte[] body = response.getBody();
+        assertNotNull(body, "响应体不应为空");
+        assertTrue(body.length > 0, "Excel文件内容不应为空");
 
         // 验证Excel文件内容
         try (ByteArrayInputStream bis = new ByteArrayInputStream(response.getBody());
@@ -292,8 +297,9 @@ public class AdminReportControllerTest {
 
         // 验证基本响应
         assertEquals(HttpStatus.OK, response.getStatusCode(), "响应状态码应为200 OK");
-        assertNotNull(response.getBody(), "响应体不应为空");
-        assertTrue(response.getBody().length > 0, "Excel文件内容不应为空");
+        byte[] body = response.getBody();
+        assertNotNull(body, "响应体不应为空");
+        assertTrue(body.length > 0, "Excel文件内容不应为空");
 
         // 验证响应头
         assertTrue(response.getHeaders().getContentDisposition().toString().contains("movies_export_"), 

@@ -1,27 +1,26 @@
 package space.astralbridge.spring.moviehub.controller;
 
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import space.astralbridge.spring.moviehub.entity.PaymentOrder;
+
 import space.astralbridge.spring.moviehub.service.PaymentService;
-import space.astralbridge.spring.moviehub.util.TestOrderUtil;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.mockito.ArgumentMatchers.anyMap;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * 支付宝异步通知接口的详细集成测试
@@ -51,7 +50,6 @@ public class PaymentControllerNotifyTest {
     void testAlipayNotify_Success() throws Exception {
         // 1. 准备测试数据
         String orderNo = "TEST_ORDER_" + System.currentTimeMillis();
-        PaymentOrder testOrder = TestOrderUtil.createTestOrderWithOrderNo(orderNo);
         
         // 2. 配置Mock
         when(paymentService.handleAlipayNotify(anyMap())).thenReturn("success");
