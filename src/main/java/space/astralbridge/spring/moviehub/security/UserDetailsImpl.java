@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,12 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (user.getId() == 1L) {
-            return Collections.singletonList(() -> "ROLE_ADMIN");
+            return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         if (user.getUserType() == 1) {
-            return Collections.singletonList(() -> "ROLE_VIP");
+            return Collections.singletonList(new SimpleGrantedAuthority("ROLE_VIP"));
         }
-        return Collections.singleton(() -> "ROLE_USER");
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
