@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import space.astralbridge.spring.moviehub.dto.MovieLeaderboardDTO;
+import space.astralbridge.spring.moviehub.entity.Actor;
+import space.astralbridge.spring.moviehub.entity.Director;
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.entity.MovieType;
 import space.astralbridge.spring.moviehub.mapper.MovieMapper;
@@ -55,14 +57,14 @@ public class ReportServiceImpl implements ReportService {
             // 处理导演信息 - 将多个导演名称用逗号拼接
             String directors = movie.getDirectors() != null ? 
                 movie.getDirectors().stream()
-                    .map(director -> director.getName())
+                    .map(Director::getName)
                     .collect(Collectors.joining(", ")) : "";
             row.createCell(2).setCellValue(directors);
             
             // 处理演员信息 - 将多个演员名称用逗号拼接
             String actors = movie.getActors() != null ? 
                 movie.getActors().stream()
-                    .map(actor -> actor.getName())
+                    .map(Actor::getName)
                     .collect(Collectors.joining(", ")) : "";
             row.createCell(3).setCellValue(actors);
             
@@ -74,7 +76,7 @@ public class ReportServiceImpl implements ReportService {
             row.createCell(4).setCellValue(types);
             
             row.createCell(5).setCellValue(movie.getRegion() != null ? movie.getRegion() : "");
-            row.createCell(6).setCellValue(movie.getReleaseDate() != null ? movie.getReleaseDate().toString() : "");
+            row.createCell(6).setCellValue(movie.getReleaseDate() != null ? movie.getReleaseDate() : "");
             row.createCell(7).setCellValue(movie.getDuration() != null ? movie.getDuration() : "");
             row.createCell(8).setCellValue(movie.getIsVip() != null && movie.getIsVip() == 1 ? "是" : "否");
             row.createCell(9).setCellValue(movie.getScore() != null ? movie.getScore() : 0.0);
