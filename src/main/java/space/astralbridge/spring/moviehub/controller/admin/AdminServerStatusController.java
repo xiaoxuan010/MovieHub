@@ -10,11 +10,13 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import space.astralbridge.spring.moviehub.common.Result;
+
 @RestController
 public class AdminServerStatusController {
 
     @GetMapping("/admin/server/status")
-    public Map<String, Object> getServerStatus() {
+    public Result<Map<String, Object>> getServerStatus() {
         Map<String, Object> status = new HashMap<>();
 
         // 运行时间
@@ -50,6 +52,6 @@ public class AdminServerStatusController {
                 "used", usedSpaceGB,
                 "total", totalSpaceGB));
 
-        return status;
+        return Result.success(status);
     }
 }

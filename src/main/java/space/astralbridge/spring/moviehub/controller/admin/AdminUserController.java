@@ -1,20 +1,37 @@
 package space.astralbridge.spring.moviehub.controller.admin;
 
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import jakarta.annotation.Resource;
 import jakarta.websocket.server.PathParam;
-import org.springframework.web.bind.annotation.*;
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.common.ResultCode;
+import space.astralbridge.spring.moviehub.dto.CreateUserRequestDto;
 import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.service.UserService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/user")
 public class AdminUserController {
+
+    private final PasswordEncoder passwordEncoder;
     @Resource
     private UserService userService;
+
+    @Resource
+    private ModelMapper modelMapper;
+
+    AdminUserController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/all")
     public Result<List<User>> getAllUsers() {
@@ -32,7 +49,10 @@ public class AdminUserController {
     }
 
     @PostMapping("/create")
-    public Result<User> createUser(@RequestBody User user) {
+    public Result<User> createUser(@RequestBody CreateUserRequestDto dto) {
+        User user = modelMapper.map(dto, User.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         if (userService.save(user)) {
             return Result.success(userService.getById(user.getId()));
         } else {
