@@ -23,6 +23,8 @@ public class CreateMovieRequest {
 
     private String coverImage;
 
+    private String videoUrl; // 添加视频URL字段
+
     private String region;
 
     /**
