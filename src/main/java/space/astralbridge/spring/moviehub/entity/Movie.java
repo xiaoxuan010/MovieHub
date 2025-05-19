@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.annotation.Nullable;
@@ -69,12 +68,12 @@ public class Movie {
     @JsonView(JsonViewConfig.BaseView.class)
     private List<Actor> actors;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @TableField(fill = FieldFill.INSERT)
     @JsonView(JsonViewConfig.BaseView.class)
     private LocalDateTime createTime;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonView(JsonViewConfig.BaseView.class)
     private LocalDateTime updateTime;
