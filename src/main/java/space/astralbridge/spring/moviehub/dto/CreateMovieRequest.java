@@ -38,5 +38,5 @@ public class CreateMovieRequest {
 
     private List<Long> movieTypeIds;
     private List<Long> directorIds;
-    private List<ActorDto> actors;
+    private List<Long> actorIds;
 }
