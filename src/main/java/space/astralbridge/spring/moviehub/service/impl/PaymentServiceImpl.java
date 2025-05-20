@@ -45,13 +45,26 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
     @Value("${alipay.app_id}")
     private String appId;
 
-    // 用于测试时控制是否验证签名
+    // 禁用支付宝签名验证，适用于内网测试环境
     private boolean verifyAlipayNotify = false;
 
     @Override
+    @Transactional
     public String createAlipayForm(Long userId, PaymentRequest request) {
+        // 验证用户是否存在
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        
         // 1. 生成唯一订单号
         String orderNo = generateOrderNo();
+        
+        // 验证订单号是否已存在
+        if (getOrderByOrderNo(orderNo) != null) {
+            // 如果订单号已存在，重新生成
+            orderNo = generateOrderNo();
+        }
 
         // 2. 获取VIP价格
         BigDecimal amount = alipayConfig.getVipPrice(request.getDuration());
@@ -64,7 +77,13 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
         order.setStatus(0); // 待支付
         order.setPayType("alipay");
         order.setVipDuration(request.getDuration());
-        save(order);
+        
+        boolean saved = save(order);
+        if (!saved) {
+            throw new RuntimeException("订单保存失败");
+        }
+        
+        log.info("成功创建订单，订单号: {}, 用户ID: {}, 金额: {}", orderNo, userId, amount);
 
         // 4. 调用支付宝接口生成支付表单
         try {
@@ -90,86 +109,15 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
             // 设置bizContent
             alipayRequest.setBizContent(bizContent);
 
-            // 记录详细的请求信息用于调试
-            log.info("发起支付宝支付请求:");
-            log.info("- gateway_url: {}", alipayConfig.getGatewayUrl());
-            log.info("- app_id: {}", alipayConfig.getAppId());
-            log.info("- notify_url: {}", alipayConfig.getNotifyUrl());
-            log.info("- return_url: {}", alipayConfig.getReturnUrl());
-            log.info("- bizContent: {}", bizContent);
+            // 记录支付请求基本信息
+            log.info("发起支付宝支付请求，订单号: {}, 金额: {}", orderNo, amountStr);
 
             // 调用SDK生成表单
             String form = alipayClient.pageExecute(alipayRequest).getBody();
-            log.info("生成的支付表单: {}", form);
             return form;
         } catch (AlipayApiException e) {
             log.error("生成支付宝支付表单失败: {}", e.getMessage(), e);
-            // 记录详细的错误信息
-            if (e.getCause() != null) {
-                log.error("错误原因: {}", e.getCause().getMessage());
-            }
             throw new RuntimeException("生成支付宝支付表单失败", e);
-        }
-    }
-
-    @Override
-    @Transactional
-    public String handleAlipayNotify(Map<String, String> params) {
-        try {
-            // 1. 验证签名 - 只有在非测试模式下才验证
-            boolean signVerified = true;
-            if (verifyAlipayNotify) {
-                signVerified = AlipaySignature.rsaCheckV1(
-                    params,
-                    alipayConfig.getAlipayPublicKey(),
-                    "UTF-8",
-                    alipayConfig.getSignType()
-                );
-            }
-
-            if (!signVerified) {
-                log.error("支付宝异步通知验签失败");
-                return "failure";
-            }
-
-            // 2. 获取通知参数
-            String outTradeNo = params.get("out_trade_no"); // 商户订单号
-            String tradeNo = params.get("trade_no"); // 支付宝交易号
-            String tradeStatus = params.get("trade_status"); // 交易状态
-
-            // 打印所有回调参数便于调试
-            log.info("支付宝回调参数: {}", params);
-
-            // 3. 查询订单信息
-            PaymentOrder order = getOrderByOrderNo(outTradeNo);
-            if (order == null) {
-                log.error("订单不存在: {}", outTradeNo);
-                return "failure";
-            }
-
-            // 4. 更新订单状态
-            if ("TRADE_SUCCESS".equals(tradeStatus) || "TRADE_FINISHED".equals(tradeStatus)) {
-                // 交易成功
-                if (order.getStatus() == 0) { // 避免重复处理
-                    order.setStatus(1); // 支付成功
-                    order.setTradeNo(tradeNo);
-                    updateById(order);
-
-                    // 5. 更新用户为VIP
-                    User user = userMapper.selectById(order.getUserId());
-                    if (user != null) {
-                        user.setUserType(1); // 设置为VIP用户
-                        userMapper.updateById(user);
-                    }
-                }
-                return "success";
-            } else {
-                log.info("订单{}的支付状态为{}", outTradeNo, tradeStatus);
-                return "success"; // 收到通知即返回成功
-            }
-        } catch (Exception e) {
-            log.error("处理支付宝异步通知失败", e);
-            return "failure";
         }
     }
 
@@ -196,5 +144,10 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         String random = String.valueOf((int) (Math.random() * 9000) + 1000);
         return timestamp + random;
+    }
+    
+    @Override
+    public boolean updateById(PaymentOrder order) {
+        return super.updateById(order);
     }
 }

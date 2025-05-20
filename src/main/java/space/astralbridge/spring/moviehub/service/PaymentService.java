@@ -16,13 +16,6 @@ public interface PaymentService {
     String createAlipayForm(Long userId, PaymentRequest request);
     
     /**
-     * 处理支付宝异步通知
-     * @param params 支付宝通知参数
-     * @return 处理结果，成功返回"success"，失败返回"failure"
-     */
-    String handleAlipayNotify(Map<String, String> params);
-    
-    /**
      * 根据订单号查询订单
      * @param orderNo 订单号
      * @return 订单信息
@@ -35,4 +28,11 @@ public interface PaymentService {
      * @return 订单列表
      */
     List<PaymentOrder> getOrdersByUserId(Long userId);
+    
+    /**
+     * 更新订单信息
+     * @param order 订单对象
+     * @return 是否更新成功
+     */
+    boolean updateById(PaymentOrder order);
 } 

@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/guest/**").permitAll()
                         .requestMatchers("/api/payment/notify").permitAll() // 支付宝异步通知接口需要公开访问
                         .requestMatchers("/api/payment/return").permitAll() // 支付宝同步回调接口需要公开访问
+                        .requestMatchers("/api/payment/vip/status").permitAll() // 添加VIP状态查询接口公开访问
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
@@ -40,7 +41,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> headers.frameOptions(options -> options.sameOrigin()));
 
-        return http.build();
+        return http.build(); 
     }
 
     @Bean
