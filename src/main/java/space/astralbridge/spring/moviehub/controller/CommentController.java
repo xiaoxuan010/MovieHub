@@ -22,8 +22,10 @@ import lombok.RequiredArgsConstructor;
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.dto.AddCommentRequest;
 import space.astralbridge.spring.moviehub.entity.Comment;
+import space.astralbridge.spring.moviehub.entity.User; // 导入 User 实体
 import space.astralbridge.spring.moviehub.security.UserDetailsImpl;
 import space.astralbridge.spring.moviehub.service.CommentService;
+import space.astralbridge.spring.moviehub.service.UserService; // 导入 UserService
 
 @RestController
 @RequestMapping("/api/comments")
@@ -32,6 +34,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final UserDetailsService userDetailsService;
+    private final UserService userService; // 注入 UserService
 
     /**
      * 获取某部电影的评论列表（分页）
@@ -39,7 +42,7 @@ public class CommentController {
      * @param movieId 电影ID
      * @param current 当前页码
      * @param size    每页数量
-     * @return 分页的评论列表
+     * @return 分页的评论列表 (包含用户名)
      */
     @GetMapping("/movie/{movieId}")
     public Result<Page<Comment>> getCommentsByMovie(
@@ -51,6 +54,21 @@ public class CommentController {
         queryWrapper.eq("movie_id", movieId);
         queryWrapper.orderByDesc("create_time"); // 按创建时间降序排列
         Page<Comment> commentPage = commentService.page(page, queryWrapper);
+
+        // 遍历评论列表，为每条评论设置用户名
+        if (commentPage != null && commentPage.getRecords() != null) {
+            for (Comment comment : commentPage.getRecords()) {
+                if (comment.getUserId() != null) {
+                    User user = userService.getById(comment.getUserId()); //
+                    if (user != null) {
+                        comment.setUsername(user.getUsername()); //
+                    } else {
+                        comment.setUsername("未知用户");
+                    }
+                }
+            }
+        }
+
         return Result.success(commentPage);
     }
 
@@ -81,7 +99,7 @@ public class CommentController {
         }
         Comment comment = new Comment(userId, request.getMovieId(), request.getContent());
         try {
-            Comment savedComment = commentService.addComment(comment);
+            Comment savedComment = commentService.addComment(comment); //
             return Result.success(savedComment);
         } catch (IllegalArgumentException e) {
             return Result.fail(e.getMessage());
@@ -112,7 +130,7 @@ public class CommentController {
         }
 
         try {
-            boolean deleted = commentService.deleteComment(commentId, userDetails);
+            boolean deleted = commentService.deleteComment(commentId, userDetails); //
             if (deleted) {
                 return Result.success();
             } else {
