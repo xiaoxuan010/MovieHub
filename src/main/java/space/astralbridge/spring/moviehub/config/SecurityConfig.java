@@ -2,6 +2,7 @@ package space.astralbridge.spring.moviehub.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/payment/notify").permitAll() // 支付宝异步通知接口需要公开访问
                         .requestMatchers("/api/payment/return").permitAll() // 支付宝同步回调接口需要公开访问
                         .requestMatchers("/api/payment/vip/status").permitAll() // 添加VIP状态查询接口公开访问
+                        .requestMatchers(HttpMethod.GET, "/api/comments/movie/**").permitAll() // 允许匿名用户查看评论
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session

@@ -1,8 +1,5 @@
 package space.astralbridge.spring.moviehub.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -11,6 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import jakarta.annotation.Resource;
 import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.mapper.UserMapper;
 import space.astralbridge.spring.moviehub.security.JwtUtils;
@@ -104,6 +106,11 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     public boolean isVip(Long userId) {
         User user = userMapper.selectById(userId);
         return user != null && user.getUserType() != null && user.getUserType() == 1;
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userMapper.updateById(user);
     }
 
 }

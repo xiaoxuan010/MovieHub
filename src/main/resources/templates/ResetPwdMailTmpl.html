@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>重置密码</title>
+    <style>
+        body {
+            font-family: "PingFang SC", "HarmonyOS_Medium", "Helvetica Neue", "Microsoft YaHei", "sans-serif";
+            background-color: #f7f8fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .moviehub-mail-wrap {
+            word-break: break-word;
+            box-sizing: border-box;
+            text-align: center;
+            min-width: 320px;
+            max-width: 660px;
+            border: 1px solid #f6f6f6;
+            background-color: #f7f8fa;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .moviehub-mail-inner {
+            background-color: #fff;
+            padding: 23px 20px;
+            box-shadow: 0 1px 1px 0 rgba(122, 55, 55, 0.2);
+            text-align: left;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            word-break: break-word;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 36px;
+            margin: 0 0 22px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #333;
+            line-height: 24px;
+            margin: 0;
+        }
+
+        .divider {
+            height: 2px;
+            background-color: #7cda80;
+            border: 0;
+            font-size: 0;
+            padding: 0;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .footer {
+            font-size: 12px;
+            line-height: 22px;
+            color: rgb(51, 51, 51);
+            margin-top: 32px;
+        }
+    </style>
+</head>
+<body>
+<div class="moviehub-mail-wrap">
+    <div class="main-content">
+        <p class="divider"></p>
+        <div class="moviehub-mail-inner">
+            <h1>重置您的密码</h1>
+            <p>尊敬的<span th:text="${username}"></span>，您好！</p>
+            <p>您正在请求重置密码，请点击以下链接完成操作：</p>
+            <p style="margin: 16px 0">
+                <a
+                        th:href="@{|${appUrl}/reset-password?token=${token}&username=${username}|}"
+                >点击此处重置密码</a>
+            </p>
+            <p>如果您未请求重置密码，请忽略此邮件。</p>
+            <p class="footer">
+                此致<br/>
+                <strong>MovieHub 团队</strong>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

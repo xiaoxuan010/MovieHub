@@ -18,11 +18,12 @@ CREATE TABLE IF NOT EXISTS movie
     title        VARCHAR(100) NOT NULL,
     description  TEXT,
     release_date VARCHAR(50),
-    duration     VARCHAR(50) COMMENT '电影时长(分钟)',
+    duration     VARCHAR(50),
     cover_image  VARCHAR(255),
+    video_url    VARCHAR(255),
     region       VARCHAR(50),
     is_vip       INT          NOT NULL DEFAULT 0 COMMENT '0-否，1-是',
-    play_count   INT                   DEFAULT 0,
+    play_count   INT          NOT NULL DEFAULT 0,
     score        DOUBLE                DEFAULT 0,
     create_time  TIMESTAMP,
     update_time  TIMESTAMP
@@ -122,3 +123,25 @@ CREATE TABLE IF NOT EXISTS payment_order
     update_time  TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE
 );
+-- 找回密码 Token 表
+CREATE TABLE IF NOT EXISTS password_reset_token
+(
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id     BIGINT NOT NULL,
+    token       VARCHAR(255) NOT NULL UNIQUE,
+    expiration  TIMESTAMP NOT NULL,
+    create_time TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE
+);
+
+-- 评论表
+CREATE TABLE IF NOT EXISTS comment
+(
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id     BIGINT       NOT NULL COMMENT '评论用户ID',
+    movie_id    BIGINT       NOT NULL COMMENT '电影ID',
+    content     TEXT         NOT NULL COMMENT '评论内容',
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '评论时间',
+    FOREIGN KEY (user_id) REFERENCES app_user (id) ON DELETE CASCADE,
+    FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE
+    );

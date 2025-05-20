@@ -1,5 +1,6 @@
 package space.astralbridge.spring.moviehub.controller.admin;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -11,24 +12,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.RequiredArgsConstructor;
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.common.ResultCode;
+import space.astralbridge.spring.moviehub.config.JsonViewConfig;
 import space.astralbridge.spring.moviehub.dto.CreateMovieRequest;
 import space.astralbridge.spring.moviehub.dto.UpdateMovieRequest;
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.entity.MovieActorRelation;
 import space.astralbridge.spring.moviehub.entity.MovieDirectorRelation;
 import space.astralbridge.spring.moviehub.entity.MovieTypeRelation;
+import space.astralbridge.spring.moviehub.service.ExcelImporterService;
 import space.astralbridge.spring.moviehub.service.MovieActorRelationService;
 import space.astralbridge.spring.moviehub.service.MovieDirectorRelationService;
 import space.astralbridge.spring.moviehub.service.MovieService;
 import space.astralbridge.spring.moviehub.service.MovieTypeRelationService;
-
 
 @RestController
 @RequestMapping("/api/admin/movies")
@@ -39,13 +44,16 @@ public class AdminMovieController {
     private final MovieTypeRelationService movieTypeRelationService;
     private final MovieDirectorRelationService movieDirectorRelationService;
     private final MovieActorRelationService movieActorRelationService;
+    private final ExcelImporterService excelImporterService;
 
     @GetMapping
+    @JsonView(JsonViewConfig.AdminView.class)
     public Result<List<Movie>> getAllMovies() {
         return Result.success(movieService.list());
     }
 
     @GetMapping("/{id}")
+    @JsonView(JsonViewConfig.AdminView.class)
     public Result<Movie> getMovieById(@PathVariable Long id) {
         Movie movie = movieService.getById(id);
         if (movie == null) {
@@ -124,5 +132,11 @@ public class AdminMovieController {
             return Result.success(null);
         }
         return Result.fail(ResultCode.VALIDATE_FAILED, "删除电影失败");
+    }
+
+    @PostMapping("/import")
+    public Result<List<Movie>> importMovies(@RequestParam MultipartFile file)
+            throws IllegalStateException, IOException {
+        return Result.success(excelImporterService.importMovies(file.getInputStream()));
     }
 }
