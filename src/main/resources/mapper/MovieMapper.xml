@@ -119,4 +119,23 @@
         WHERE ma.actor_id = #{actorId}
         ORDER BY m.id DESC
     </select>
+
+    <!-- selectMoviesByType --> 
+
+    <select id="selectMoviesByType" resultMap="movieResultMap">
+        SELECT DISTINCT m.*
+        FROM movie m
+        INNER JOIN movie_movie_type mmt ON m.id = mmt.movie_id
+        WHERE mmt.type_id = #{typeId}
+        ORDER BY m.id DESC
+    </select>
+
+    <!-- selectMoviesByVipType --> 
+
+    <select id="selectMoviesByVipType" resultMap="movieResultMap">
+        SELECT DISTINCT m.*
+        FROM movie m
+        WHERE m.is_vip = #{vipType}
+        ORDER BY m.id DESC
+    </select>
 </mapper>
