@@ -399,7 +399,7 @@ public class PaymentController {
             }
         }
         
-        String redirectUrl = "/"; 
+        String redirectUrl = "http://localhost:8080/user"; 
         
         log.info("支付流程完成，订单号: {}, 订单状态: {}, 用户VIP: {}", 
                 order.getOrderNo(), order.getStatus(), isUserVip);

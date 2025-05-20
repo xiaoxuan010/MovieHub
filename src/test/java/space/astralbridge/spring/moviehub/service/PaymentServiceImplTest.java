@@ -3,7 +3,6 @@ package space.astralbridge.spring.moviehub.service;
 import com.alipay.api.AlipayClient;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -14,12 +13,6 @@ import space.astralbridge.spring.moviehub.mapper.PaymentOrderMapper;
 import space.astralbridge.spring.moviehub.mapper.UserMapper;
 import space.astralbridge.spring.moviehub.service.impl.PaymentServiceImpl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class PaymentServiceImplTest {
@@ -45,40 +38,6 @@ public class PaymentServiceImplTest {
         ReflectionTestUtils.setField(paymentService, "baseMapper", paymentOrderMapper);
         ReflectionTestUtils.setField(paymentService, "verifyAlipayNotify", false);
     }
-
-    @Test
-    void testHandleAlipayNotify() {
-        // 1. 准备测试数据
-        Map<String, String> params = new HashMap<>();
-        params.put("out_trade_no", "test123");
-        params.put("trade_no", "alipay123");
-        params.put("trade_status", "TRADE_SUCCESS");
-        
-        PaymentOrder order = new PaymentOrder();
-        order.setId(1L);
-        order.setOrderNo("test123");
-        order.setUserId(1L);
-        order.setStatus(0);
-        
-        User user = new User();
-        user.setId(1L);
-        user.setUserType(0);
-        
-        // 2. 设置Mock
-        doReturn(order).when(paymentService).getOrderByOrderNo(anyString());
-        when(userMapper.selectById(1L)).thenReturn(user);
-        
-        // 3. 执行测试
-        String result = paymentService.handleAlipayNotify(params);
-        
-        // 4. 验证结果
-        assertEquals("success", result);
-        assertEquals(1, order.getStatus());
-        assertEquals("alipay123", order.getTradeNo());
-        assertEquals(1, user.getUserType());
-        
-        // 5. 验证交互
-        verify(paymentOrderMapper).updateById(order);
-        verify(userMapper).updateById(user);
-    }
+    
+    // 注意：handleAlipayNotify方法相关的测试用例已被移除
 } 

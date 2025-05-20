@@ -89,8 +89,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
         try {
             AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
             alipayRequest.setReturnUrl(alipayConfig.getReturnUrl());
-            alipayRequest.setNotifyUrl(alipayConfig.getNotifyUrl());
-
+            
             // 组装支付请求参数
             String subject = "MovieHub VIP会员-" + ("yearly".equals(request.getDuration()) ? "年度" : "月度");
 

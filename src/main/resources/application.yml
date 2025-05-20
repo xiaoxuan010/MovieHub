@@ -63,7 +63,6 @@ alipay:
   alipay_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAj9RV5nHgMwVlOtuwMQ8s0mzHI9iTsyxdDdGhS5RXwDJLxtVNHxmUnurJ0pFuo9tP30J6xIyG2ifMKNEyLjlKIvVebw+palrR43egPJXraN5pRV1Gj+PSENqzsLdXEVqC9BWyUKRfXY0ejqyTOURAfCTtbpd+dgQ3ncBLirO5obrq5umdSed8rdNWlYl6Ng3DlfP874JMkPWSHEo1KLd5Bbk31osIrJSM3X6loN5ha3ygBncmXvPNpN+qUdQ2xWu18tE9/xwTnfuUH4XwZ00b336ZJSTFNOZy2fkoRvq8kQ3AfXPtlYhVBX8hTb9fVqeYQrrKcX0TXcdrygUScTq8VwIDAQAB
   gateway_url: https://openapi-sandbox.dl.alipaydev.com/gateway.do
   return_url: http://localhost:8080/api/payment/return
-  notify_url: http://localhost:8080/api/payment/notify
   sign_type: RSA2
   vip_prices:
     monthly: 30.00

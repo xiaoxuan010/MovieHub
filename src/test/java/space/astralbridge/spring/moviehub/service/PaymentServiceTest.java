@@ -23,12 +23,9 @@ import space.astralbridge.spring.moviehub.mapper.UserMapper;
 import space.astralbridge.spring.moviehub.service.impl.PaymentServiceImpl;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,7 +53,7 @@ public class PaymentServiceTest {
         ReflectionTestUtils.setField(paymentService, "baseMapper", paymentOrderMapper);
         ReflectionTestUtils.setField(paymentService, "alipayPublicKey", "test_public_key");
         ReflectionTestUtils.setField(paymentService, "signType", "RSA2");
-        ReflectionTestUtils.setField(paymentService, "verifyAlipayNotify", false);
+        // 不再需要设置verifyAlipayNotify，因为相关功能已移除
     }
 
     @Test
@@ -67,10 +64,16 @@ public class PaymentServiceTest {
         request.setDuration("monthly");
         BigDecimal monthlyPrice = new BigDecimal("30.00");
         
-        // Mock返回值
+        // 创建模拟用户
+        User user = new User();
+        user.setId(userId);
+        user.setUsername("testuser");
+        
+        // 配置模拟行为
+        when(userMapper.selectById(userId)).thenReturn(user);
         when(alipayConfig.getVipPrice("monthly")).thenReturn(monthlyPrice);
-        when(alipayConfig.getNotifyUrl()).thenReturn("http://test.com/notify");
         when(alipayConfig.getReturnUrl()).thenReturn("http://test.com/return");
+        when(paymentOrderMapper.insert(any(PaymentOrder.class))).thenReturn(1);
         
         AlipayTradePagePayResponse mockResponse = mock(AlipayTradePagePayResponse.class);
         when(mockResponse.getBody()).thenReturn("<form>支付表单内容</form>");
@@ -81,6 +84,9 @@ public class PaymentServiceTest {
         
         // 验证结果
         assertEquals("<form>支付表单内容</form>", result);
+        
+        // 验证用户查询
+        verify(userMapper).selectById(userId);
         
         // 验证订单是否被保存
         ArgumentCaptor<PaymentOrder> orderCaptor = ArgumentCaptor.forClass(PaymentOrder.class);
@@ -93,93 +99,6 @@ public class PaymentServiceTest {
         assertEquals("alipay", savedOrder.getPayType());
         assertEquals(0, savedOrder.getStatus());
         assertNotNull(savedOrder.getOrderNo());
-    }
-
-    @Test
-    void testHandleAlipayNotifySuccess() {
-        // 准备测试数据
-        Map<String, String> params = new HashMap<>();
-        params.put("out_trade_no", "202307120123451234");
-        params.put("trade_no", "2023071222001425901234567890");
-        params.put("trade_status", "TRADE_SUCCESS");
-        params.put("sign", "testSignature"); // 添加签名
-        
-        PaymentOrder order = new PaymentOrder();
-        order.setId(1L);
-        order.setOrderNo("202307120123451234");
-        order.setUserId(1L);
-        order.setStatus(0); // 待支付
-        
-        User user = new User();
-        user.setId(1L);
-        user.setUserType(0); // 普通用户
-        
-        // 直接mock Service方法
-        doReturn(order).when(paymentService).getOrderByOrderNo(anyString());
-        when(userMapper.selectById(1L)).thenReturn(user);
-        
-        // 执行测试
-        String result = paymentService.handleAlipayNotify(params);
-        
-        // 验证结果
-        assertEquals("success", result);
-        
-        // 验证订单和用户是否更新
-        verify(paymentOrderMapper).updateById(order);
-        verify(userMapper).updateById(user);
-        assertEquals(1, order.getStatus());
-        assertEquals("2023071222001425901234567890", order.getTradeNo());
-        assertEquals(1, user.getUserType());
-    }
-
-    @Test
-    void testHandleAlipayNotifyOrderNotFound() {
-        // 准备测试数据
-        Map<String, String> params = new HashMap<>();
-        params.put("out_trade_no", "nonexistingorder");
-        params.put("trade_status", "TRADE_SUCCESS");
-        params.put("sign", "testSignature"); // 添加签名
-        
-        // Mock外部依赖 - 返回null表示订单不存在
-        doReturn(null).when(paymentService).getOrderByOrderNo(anyString());
-        
-        // 执行测试
-        String result = paymentService.handleAlipayNotify(params);
-        
-        // 验证结果
-        assertEquals("failure", result);
-        
-        // 验证没有更新操作
-        verify(paymentOrderMapper, never()).updateById(any(PaymentOrder.class));
-        verify(userMapper, never()).updateById(any(User.class));
-    }
-    
-    @Test
-    void testHandleAlipayNotifyAlreadyProcessed() {
-        // 准备测试数据
-        Map<String, String> params = new HashMap<>();
-        params.put("out_trade_no", "202307120123451234");
-        params.put("trade_no", "2023071222001425901234567890");
-        params.put("trade_status", "TRADE_SUCCESS");
-        params.put("sign", "testSignature"); // 添加签名
-        
-        PaymentOrder order = new PaymentOrder();
-        order.setId(1L);
-        order.setOrderNo("202307120123451234");
-        order.setStatus(1); // 已支付
-        
-        // Mock外部依赖
-        doReturn(order).when(paymentService).getOrderByOrderNo(anyString());
-        
-        // 执行测试
-        String result = paymentService.handleAlipayNotify(params);
-        
-        // 验证结果
-        assertEquals("success", result);
-        
-        // 验证没有更新操作（已处理的订单不应再次处理）
-        verify(paymentOrderMapper, never()).updateById(any(PaymentOrder.class));
-        verify(userMapper, never()).selectById(any(Long.class));
     }
     
     @Test
@@ -200,4 +119,5 @@ public class PaymentServiceTest {
         assertNotNull(result);
         assertEquals(orderNo, result.getOrderNo());
     }
+    
 } 

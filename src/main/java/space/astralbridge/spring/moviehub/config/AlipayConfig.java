@@ -32,10 +32,6 @@ public class AlipayConfig {
     private String signType;
     
     @Getter
-    @Value("${alipay.notify_url}")
-    private String notifyUrl;
-    
-    @Getter
     @Value("${alipay.return_url}")
     private String returnUrl;
     
