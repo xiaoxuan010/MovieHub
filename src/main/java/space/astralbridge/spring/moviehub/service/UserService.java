@@ -93,6 +93,10 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return super.getById(id);
     }
 
+    public User getByIdWithPassword(Serializable id) {
+        return super.getById(id);
+    }
+
     /**
      * 获取所有用户列表，添加缓存
      */

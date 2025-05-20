@@ -36,7 +36,7 @@ public class UserMyController {
     public Result<User> changePassword(Authentication authentication,
             @RequestBody ChangePasswordRequest changePasswordRequest) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userService.getById(userDetails.getId());
+        User user = userService.getByIdWithPassword(userDetails.getId());
         if (user == null) {
             return Result.fail(ResultCode.VALIDATE_FAILED, "用户不存在");
         }
