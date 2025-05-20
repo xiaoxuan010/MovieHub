@@ -30,6 +30,9 @@ public class Comment {
     @TableField(value = "create_time", fill = FieldFill.INSERT) // value 指定数据库列名
     private LocalDateTime createTime;
 
+    @TableField(exist = false) // 表明此字段不对应数据库表中的列
+    private String username; // 新增用户名字段
+
     public Comment(Long userId, Long movieId, String content) {
         this.userId = userId;
         this.movieId = movieId;
