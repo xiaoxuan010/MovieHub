@@ -20,7 +20,7 @@ import space.astralbridge.spring.moviehub.entity.Actor;
 import space.astralbridge.spring.moviehub.service.ActorService;
 
 @RestController
-@RequestMapping("/admin/actor")
+@RequestMapping("/api/admin/actor")
 @RequiredArgsConstructor
 public class AdminActorController {
 

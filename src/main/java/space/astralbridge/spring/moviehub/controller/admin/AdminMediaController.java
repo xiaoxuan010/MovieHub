@@ -14,7 +14,7 @@ import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.common.ResultCode;
 
 @RestController
-@RequestMapping("/admin/media")
+@RequestMapping("/api/admin/media")
 public class AdminMediaController {
     @Value("${file.upload-dir}")
     private String uploadDir;

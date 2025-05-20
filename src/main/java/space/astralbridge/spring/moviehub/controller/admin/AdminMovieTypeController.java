@@ -17,7 +17,7 @@ import space.astralbridge.spring.moviehub.entity.MovieType;
 import space.astralbridge.spring.moviehub.service.MovieTypeService;
 
 @RestController
-@RequestMapping("/admin/movie-type")
+@RequestMapping("/api/admin/movie-type")
 @RequiredArgsConstructor
 public class AdminMovieTypeController {
     private final MovieTypeService movieTypeService;

@@ -15,7 +15,7 @@ import space.astralbridge.spring.moviehub.common.Result;
 @RestController
 public class AdminServerStatusController {
 
-    @GetMapping("/admin/server/status")
+    @GetMapping("/api/admin/server/status")
     public Result<Map<String, Object>> getServerStatus() {
         Map<String, Object> status = new HashMap<>();
 

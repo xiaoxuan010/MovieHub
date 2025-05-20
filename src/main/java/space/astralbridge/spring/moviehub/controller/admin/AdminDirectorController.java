@@ -18,7 +18,7 @@ import space.astralbridge.spring.moviehub.entity.Director;
 import space.astralbridge.spring.moviehub.service.DirectorService;
 
 @RestController
-@RequestMapping("/admin/director")
+@RequestMapping("/api/admin/director")
 @RequiredArgsConstructor
 public class AdminDirectorController {
     private final DirectorService directorService;
