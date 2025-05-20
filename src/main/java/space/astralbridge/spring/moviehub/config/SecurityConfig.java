@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/payment/return").permitAll() // 支付宝同步回调接口需要公开访问
                         .requestMatchers(HttpMethod.GET, "/api/comments/movie/**").permitAll() // 允许匿名用户查看评论
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
