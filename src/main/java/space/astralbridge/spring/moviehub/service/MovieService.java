@@ -46,6 +46,16 @@ public class MovieService extends ServiceImpl<MovieMapper, Movie> {
         return this.baseMapper.selectMoviesByActor(page, actorId);
     }
 
+    @Cacheable(value = "movies:type", key = "#typeId + ':' + #page.current + ':' + #page.size")
+    public Page<Movie> getMoviesByType(Long typeId, Page<Movie> page) {
+        return this.baseMapper.selectMoviesByType(page, typeId);
+    }
+
+    @Cacheable(value = "movies:vip", key = "#vipType + ':' + #page.current + ':' + #page.size")
+    public Page<Movie> getMoviesByVipType(Long vipType, Page<Movie> page) {
+        return this.baseMapper.selectMoviesByVipType(page, vipType);
+    }
+
     /**
      * 根据ID获取电影，添加缓存
      */

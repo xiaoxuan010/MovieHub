@@ -62,4 +62,23 @@ public interface MovieMapper extends BaseMapper<Movie> {
      * @return 分页后的电影列表
      */
     Page<Movie> selectMoviesByActor(Page<Movie> page, @Param("actorId") Long actorId);
+
+    /**
+     * 根据类型ID筛选电影并进行分页。
+     * 
+     * @param moviePage 分页对象，MybatisPlus会自动处理分页逻辑
+     * @param typeId    类型ID
+     * @return 分页后的电影列表
+     */
+    Page<Movie> selectMoviesByType(Page<Movie> moviePage, @Param("typeId") Long typeId);
+
+    /**
+     * 根据VIP类型筛选电影并进行分页。
+     * 
+     * @param moviePage 分页对象，MybatisPlus会自动处理分页逻辑
+     * @param region    地区
+     * @return 分页后的电影列表
+     */
+    Page<Movie> selectMoviesByVipType(Page<Movie> moviePage, Long vipType);
+
 }
