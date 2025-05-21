@@ -25,8 +25,7 @@ public class PaymentServiceImplTest {
         try (MockedStatic<AlipaySignature> mockedStatic = mockStatic(AlipaySignature.class)) {
             // 模拟支付宝签名验证
             mockedStatic.when(() -> AlipaySignature.rsaCheckV1(
-                    anyMap(), anyString(), anyString(), anyString()
-            )).thenReturn(true);
+                    anyMap(), anyString(), anyString(), anyString())).thenReturn(true);
 
             // 创建测试参数
             Map<String, String> params = new HashMap<>();
@@ -40,12 +39,11 @@ public class PaymentServiceImplTest {
 
             // 修改返回值为false
             mockedStatic.when(() -> AlipaySignature.rsaCheckV1(
-                    anyMap(), anyString(), anyString(), anyString()
-            )).thenReturn(false);
+                    anyMap(), anyString(), anyString(), anyString())).thenReturn(false);
 
             // 验证签名验证返回false
             result = AlipaySignature.rsaCheckV1(params, "test_key", "UTF-8", "RSA2");
             assertFalse(result);
         }
     }
-} 
+}

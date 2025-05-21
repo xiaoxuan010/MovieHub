@@ -32,8 +32,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/guest/**").permitAll()
-                        .requestMatchers("/api/payment/notify").permitAll() // 支付宝异步通知接口需要公开访问
                         .requestMatchers("/api/payment/return").permitAll() // 支付宝同步回调接口需要公开访问
+                        .requestMatchers("/api/payment/vip/status").permitAll() // 添加VIP状态查询接口公开访问
                         .requestMatchers(HttpMethod.GET, "/api/comments/movie/**").permitAll() // 允许匿名用户查看评论
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").authenticated()
@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> headers.frameOptions(options -> options.sameOrigin()));
 
-        return http.build();
+        return http.build(); 
     }
 
     @Bean

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,16 +31,17 @@ import space.astralbridge.spring.moviehub.service.ReportService;
 public class AdminReportController {
 
     private final ReportService reportService;
-    
+
     /**
      * 默认构造函数，使用Spring自动注入
      * 
      * @param reportService 报表服务
      */
+    @Autowired
     public AdminReportController(ReportService reportService) {
         this.reportService = reportService;
     }
-    
+
     /**
      * 导出电影数据Excel报表
      * 
@@ -52,28 +54,29 @@ public class AdminReportController {
     public ResponseEntity<byte[]> exportMoviesExcel(
             @RequestParam(required = false) String region,
             @RequestParam(required = false) Long typeId) throws IOException {
-        
+
         // 1. 生成Excel工作簿
         Workbook workbook = reportService.exportMoviesToExcel(region, typeId);
-        
+
         // 2. 设置文件名（包含时间戳）
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String filename = "movies_export_" + dateFormat.format(new Date()) + ".xlsx";
-        
+
         // 3. 将工作簿转换为字节数组
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         workbook.write(outputStream);
         workbook.close();
-        
+
         // 4. 设置HTTP响应头
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentType(
+                MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         headers.setContentDispositionFormData("attachment", filename);
-        
+
         // 5. 返回响应实体
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     }
-    
+
     /**
      * 获取播放量 Top N 榜单数据
      * 
@@ -90,4 +93,4 @@ public class AdminReportController {
             return Result.fail("获取播放量排行榜数据失败: " + e.getMessage());
         }
     }
-} 
+}

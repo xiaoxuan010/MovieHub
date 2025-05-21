@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -68,15 +69,48 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return jwtUtils.generateToken(userDetails);
     }
 
+    /**
+     * 根据用户名查询用户
+     * @param username 用户名
+     * @return 查询到的用户，如果不存在则返回null
+     */
+    public User getByUsername(String username) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        return userMapper.selectOne(queryWrapper);
+    }
+
+    /**
+     * 将用户升级为VIP
+     * @param userId 用户ID
+     * @return 是否升级成功
+     */
+    @Transactional
     public boolean upgradeToVip(Long userId) {
         User user = userMapper.selectById(userId);
         if (user == null) {
             return false;
         }
 
+        // 检查用户当前状态
+        if (user.getUserType() != null && user.getUserType() == 1) {
+            // 用户已经是VIP，无需升级
+            return true;
+        }
+
         user.setUserType(1); // 升级为VIP
-        userMapper.updateById(user);
-        return true;
+        int result = userMapper.updateById(user);
+        return result > 0;
+    }
+
+    /**
+     * 检查用户是否是VIP
+     * @param userId 用户ID
+     * @return 是否是VIP
+     */
+    public boolean isVip(Long userId) {
+        User user = userMapper.selectById(userId);
+        return user != null && user.getUserType() != null && user.getUserType() == 1;
     }
 
     public void updatePassword(User user, String newPassword) {
