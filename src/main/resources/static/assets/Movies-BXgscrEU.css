@@ -1,0 +1,97 @@
+
+body {
+    font-family: Noto-Serif-SC-Medium, Georgia, serif;
+    width: 100%; /* 设置宽度为视口宽度 */
+    height: 100vh; /* 确保父元素占满视口高度 */
+    padding: 0;
+    margin: 0; /* 去除默认边距 */
+    background-color: #1a1c29;
+}
+.el-pagination {
+    background-color: #1a1c29 !important;
+    padding: 12px 0;
+    border-radius: 8px;
+}
+.el-pagination .el-pager li,
+.el-pagination button {
+    background-color: #1a1c29 !important;
+    color: #fff !important;
+    border: none;
+}
+.el-pagination .el-pager li.active {
+    background-color: #23243a !important;
+    color: #fff !important;
+}
+.moviecontent {
+    position: absolute; /* 绝对定位 */
+    top: 0; /* 顶部对齐 */
+    left: 0; /* 左侧对齐 */
+    width: 100vw; /* 设置宽度为视口宽度 */
+    height: 100vh; /* 确保父元素占满视口高度 */
+    background-color: #1a1c29;
+}
+.movies-navitem a {
+    text-decoration: none; /* 去除下划线 */
+    color: #9d9d9d;
+    cursor: pointer;
+    font-size: 14px; /* 设置字体大小 */
+    padding-right: 15px;
+}
+.movies-navitem a:hover {
+    background-color: #1a1c29;
+}
+.movies-navitem a.active {
+    color: #fff;
+}
+.movies-nav {
+    margin-top: 11.5vh;
+    margin-left: 15vw;
+}
+.movies-navitem {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 3px;
+}
+.movies-row {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0 24px 15vw;
+}
+.movies-card {
+    width: 7.1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+.movies-cover {
+    width: 120px;
+    height: 170px;
+    border-radius: 10px;
+    display: block;
+    object-fit: cover; /* 保证图片不变形，裁剪多余部分 */
+}
+.movies-title {
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    margin-top: 8px;
+    word-break: break-all;
+}
+.movies-text {
+    font-size: 14px;
+    color: #9d9d9d;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.movies-pagination {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

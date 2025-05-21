@@ -1,0 +1,59 @@
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Georgia, serif;
+    color: #484848;
+    width: 100%; /* 设置宽度为视口宽度 */
+    height: 100%; /* 确保父元素占满视口高度 */
+    z-index: 0;
+    background-color: #1a1c29;
+}
+.loginmaindemo {
+    height: 100vh; /* 设置高度为视口高度 */
+    width: 100%; /* 设置宽度为视口宽度 */
+    position: absolute; /* 绝对定位 */
+    top: 0; /* 顶部对齐 */
+    left: 0; /* 左侧对齐 */
+    background-color: #1a1c29;
+}
+.logincontent {
+    position: absolute;
+    text-align: center;
+    padding: 50px 60px 0 40px;
+    border-radius: 10px;
+    width: 26%;
+    height: 36%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    min-width: 320px;
+}
+.loginmaintext {
+    font-size: clamp(16px, 5vw, 32px);
+    margin-left: 20px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+.loginform {
+    position: relative;
+    text-align: center;
+    font-size: 20px;
+    z-index: 2; /* 确保内容在覆盖层上方 */
+}
+.loginform .el-button {
+    float: left;
+    white-space: nowrap;
+}
+.captcha-btn {
+    font-size: 12px;
+    color: #409eff; /* Element Plus 默认链接色 */
+    padding: 0;
+    background: none;
+    border: none;
+    transition: color 0.2s;
+}
+.captcha-btn:hover {
+    color: #66b1ff;
+    background: none;
+}
