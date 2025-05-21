@@ -99,8 +99,8 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         }
 
         user.setUserType(1); // 升级为VIP
-        int result = userMapper.updateById(user);
-        return result > 0;
+        // int result = userMapper.updateById(user);
+        return this.updateById(user);
     }
 
     /**
@@ -143,7 +143,10 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     @Override
     public boolean updateById(User entity) {
         redisTemplateUtils.evictCacheByPrefix("users:");
-        redisTemplate.delete("users:id::" + entity.getId());
+        redisTemplate.delete("user:id::" + entity.getId());
+
+        System.out.println("----------------------------------------------------------------------------");
+        System.out.println("Updating user with ID: " + entity.getId());
 
         return super.updateById(entity);
     }
