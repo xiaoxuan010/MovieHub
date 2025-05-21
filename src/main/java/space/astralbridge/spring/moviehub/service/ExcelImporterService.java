@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 import lombok.RequiredArgsConstructor;
+import space.astralbridge.spring.moviehub.common.utils.RedisTemplateUtils;
 import space.astralbridge.spring.moviehub.dto.MovieExcelData;
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.entity.MovieActorRelation;
@@ -30,6 +31,8 @@ import space.astralbridge.spring.moviehub.mapper.MovieTypeRelationMapper;
 @Service
 @RequiredArgsConstructor
 public class ExcelImporterService {
+
+    private final RedisTemplateUtils redisTemplateUtils;
     private final ModelMapper modelMapper;
     private final MovieMapper movieMapper;
     private final MovieTypeRelationMapper movieTypeRelationMapper;
@@ -122,6 +125,8 @@ public class ExcelImporterService {
     }
 
     public List<Movie> importMovies(InputStream is) throws IOException {
+        redisTemplateUtils.evictCacheByPrefix("movies:");
+
         return importMovies(new XSSFWorkbook(is));
     }
 }

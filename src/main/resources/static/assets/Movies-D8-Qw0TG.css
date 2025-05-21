@@ -1,0 +1,16 @@
+
+body {
+    font-family: Georgia, serif;
+    width: 100%; /* 设置宽度为视口宽度 */
+    height: 100vh; /* 确保父元素占满视口高度 */
+    padding: 0;
+    margin: 0; /* 去除默认边距 */
+}
+.moviecontent {
+    position: absolute; /* 绝对定位 */
+    top: 0; /* 顶部对齐 */
+    left: 0; /* 左侧对齐 */
+    width: 100vw; /* 设置宽度为视口宽度 */
+    height: 100vh; /* 确保父元素占满视口高度 */
+    background-color: #1a1c29;
+}

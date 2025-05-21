@@ -1,6 +1,10 @@
 package space.astralbridge.spring.moviehub.common;
 
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 全局异常处理器
@@ -89,6 +90,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Result<?>> handleException(Exception e) {
         log.error("Internal Server Error: [{}]{}", e.getClass(), e.getMessage());
+        log.error("Stack Trace:", e);
         Result<?> result = Result.fail("服务器内部错误: " + e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
     }

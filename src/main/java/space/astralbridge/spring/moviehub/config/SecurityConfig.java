@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/payment/vip/status").permitAll() // 添加VIP状态查询接口公开访问
                         .requestMatchers(HttpMethod.GET, "/api/comments/movie/**").permitAll() // 允许匿名用户查看评论
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

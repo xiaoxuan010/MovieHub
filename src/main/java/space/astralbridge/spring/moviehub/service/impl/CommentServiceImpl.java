@@ -1,26 +1,38 @@
 package space.astralbridge.spring.moviehub.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import lombok.RequiredArgsConstructor;
+import java.io.Serializable;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import lombok.RequiredArgsConstructor;
+import space.astralbridge.spring.moviehub.common.utils.RedisTemplateUtils;
 import space.astralbridge.spring.moviehub.entity.Comment;
 import space.astralbridge.spring.moviehub.mapper.CommentMapper;
 import space.astralbridge.spring.moviehub.security.UserDetailsImpl;
 import space.astralbridge.spring.moviehub.service.CommentService;
-import space.astralbridge.spring.moviehub.service.MovieService;
-import space.astralbridge.spring.moviehub.service.UserService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
+    private final RedisTemplateUtils redisTemplateUtils;
     private static final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
-    private final MovieService movieService;
-    private final UserService userService;
+
+    @Override
+    public boolean save(Comment entity) {
+        redisTemplateUtils.evictCacheByPrefix("comments:all");
+        redisTemplateUtils.evictCacheByPrefix("comments:movie:" + entity.getMovieId());
+        redisTemplateUtils.evictCacheByPrefix("comments:user:" + entity.getUserId());
+        return super.save(entity);
+    }
 
     @Override
     public Comment addComment(Comment comment) {
@@ -41,12 +53,26 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
+    public boolean updateById(Comment entity) {
+        redisTemplateUtils.evictCacheByPrefix("comments:all");
+        redisTemplateUtils.evictCacheByPrefix("comments:movie:" + entity.getMovieId());
+        redisTemplateUtils.evictCacheByPrefix("comments:user:" + entity.getUserId());
+        redisTemplateUtils.evictCacheByPrefix("comments:id:" + entity.getId());
+        return super.updateById(entity);
+    }
+
+    @Override
     public boolean deleteComment(Long commentId, UserDetailsImpl currentUser) {
         Comment comment = this.getById(commentId);
         if (comment == null) {
             log.warn("尝试删除不存在的评论: id={}", commentId);
             return true;
         }
+
+        redisTemplateUtils.evictCacheByPrefix("comments:all");
+        redisTemplateUtils.evictCacheByPrefix("comments:movie:" + comment.getMovieId());
+        redisTemplateUtils.evictCacheByPrefix("comments:user:" + comment.getUserId());
+        redisTemplateUtils.evictCacheByPrefix("comments:id:" + commentId);
 
         log.info("用户 {} (ID: {}) 尝试删除评论: id={}", currentUser.getUsername(), currentUser.getId(), commentId);
         boolean isAdmin = currentUser.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
@@ -66,5 +92,35 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     currentUser.getUsername(), currentUser.getId(), commentId, comment.getUserId());
             throw new AccessDeniedException("无权删除此评论");
         }
+    }
+
+    @Override
+    @Cacheable(value = "comments:movie", key = "#movieId")
+    public List<Comment> getCommentsByMovieId(Long movieId) {
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("movie_id", movieId);
+        queryWrapper.orderByDesc("create_time");
+        return this.list(queryWrapper);
+    }
+
+    @Override
+    @Cacheable(value = "comments:user", key = "#userId")
+    public List<Comment> getCommentsByUserId(Long userId) {
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        queryWrapper.orderByDesc("create_time");
+        return this.list(queryWrapper);
+    }
+
+    @Override
+    @Cacheable(value = "comments:id", key = "#id")
+    public Comment getById(Serializable id) {
+        return super.getById(id);
+    }
+
+    @Override
+    @Cacheable(value = "comments:all")
+    public List<Comment> list() {
+        return super.list();
     }
 }

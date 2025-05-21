@@ -1,5 +1,17 @@
 package space.astralbridge.spring.moviehub.controller.admin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -19,16 +31,6 @@ import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.mapper.MovieMapper;
 import space.astralbridge.spring.moviehub.service.ReportService;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * 电影数据报表功能测试类
  */
@@ -47,7 +49,7 @@ public class AdminReportControllerTest {
      * 集成测试：测试导出所有电影Excel功能
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("导出所有电影Excel")
     public void shouldExportAllMoviesExcel() throws IOException {
         // 调用控制器方法（不带筛选条件，导出所有电影）
@@ -74,7 +76,7 @@ public class AdminReportControllerTest {
 
         // 验证Excel文件内容
         try (ByteArrayInputStream bis = new ByteArrayInputStream(response.getBody());
-             Workbook workbook = new XSSFWorkbook(bis)) {
+                Workbook workbook = new XSSFWorkbook(bis)) {
 
             Sheet sheet = workbook.getSheetAt(0);
             int rowCount = sheet.getPhysicalNumberOfRows();
@@ -88,12 +90,12 @@ public class AdminReportControllerTest {
             assertEquals("电影名称", headerRow.getCell(1).getStringCellValue(), "第二列标题应为电影名称");
         }
     }
-    
+
     /**
      * 集成测试：测试按地区筛选导出电影数据功能
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("按地区筛选导出电影Excel")
     public void shouldExportMoviesByRegion() throws IOException {
         // 目标地区
@@ -108,7 +110,7 @@ public class AdminReportControllerTest {
 
         // 验证Excel内容
         try (ByteArrayInputStream bis = new ByteArrayInputStream(response.getBody());
-             Workbook workbook = new XSSFWorkbook(bis)) {
+                Workbook workbook = new XSSFWorkbook(bis)) {
 
             Sheet sheet = workbook.getSheetAt(0);
             int rowCount = sheet.getPhysicalNumberOfRows();
@@ -137,7 +139,7 @@ public class AdminReportControllerTest {
      * 集成测试：测试按类型ID筛选导出电影Excel功能
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("按电影类型筛选导出电影Excel")
     public void shouldExportMoviesByTypeId() throws IOException {
         // 选择一个存在的类型ID（假设类型ID为1存在）
@@ -155,7 +157,7 @@ public class AdminReportControllerTest {
 
         // 验证Excel内容
         try (ByteArrayInputStream bis = new ByteArrayInputStream(response.getBody());
-             Workbook workbook = new XSSFWorkbook(bis)) {
+                Workbook workbook = new XSSFWorkbook(bis)) {
 
             Sheet sheet = workbook.getSheetAt(0);
             int rowCount = sheet.getPhysicalNumberOfRows();
@@ -169,7 +171,7 @@ public class AdminReportControllerTest {
      * 集成测试：测试同时按地区和类型ID筛选导出电影Excel功能
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("按地区和电影类型筛选导出电影Excel")
     public void shouldExportMoviesByRegionAndTypeId() throws IOException {
         // 选择一个存在的地区和类型ID
@@ -188,7 +190,7 @@ public class AdminReportControllerTest {
 
         // 验证Excel内容
         try (ByteArrayInputStream bis = new ByteArrayInputStream(response.getBody());
-             Workbook workbook = new XSSFWorkbook(bis)) {
+                Workbook workbook = new XSSFWorkbook(bis)) {
 
             Sheet sheet = workbook.getSheetAt(0);
             int rowCount = sheet.getPhysicalNumberOfRows();
@@ -198,7 +200,7 @@ public class AdminReportControllerTest {
 
             // 验证所有数据行的地区都匹配
             boolean allMatch = true;
-            
+
             // 从第1行开始（跳过标题行）
             for (int i = 1; i < rowCount; i++) {
                 Row row = sheet.getRow(i);
@@ -212,26 +214,26 @@ public class AdminReportControllerTest {
             assertTrue(allMatch, "所有电影的地区都应该是" + targetRegion);
         }
     }
-    
+
     /**
      * 集成测试：测试获取播放量排行榜功能
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("获取播放量排行榜-默认参数")
     public void shouldGetPlayCountLeaderboardWithDefaultParams() {
         // 使用默认参数调用控制器方法（top=10）
         Result<MovieLeaderboardDTO> result = adminReportController.getPlayCountLeaderboard(null);
-        
+
         // 验证返回结果
         assertEquals(200, result.getCode().intValue(), "响应状态码应为200");
         assertNotNull(result.getData(), "响应数据不应为空");
-        
+
         // 验证排行榜数据
         MovieLeaderboardDTO leaderboard = result.getData();
         assertNotNull(leaderboard.getItems(), "排行榜项不应为空");
         assertTrue(leaderboard.getItems().size() <= 10, "默认返回不超过10个结果");
-        
+
         // 验证排行榜顺序（播放量应该是降序排列的）
         if (leaderboard.getItems().size() >= 2) {
             Integer firstPlayCount = leaderboard.getItems().get(0).getPlayCount();
@@ -239,40 +241,40 @@ public class AdminReportControllerTest {
             assertTrue(firstPlayCount >= secondPlayCount, "播放量排行榜应按播放量降序排列");
         }
     }
-    
+
     /**
      * 测试自定义数量参数
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("获取播放量排行榜-自定义数量")
     public void shouldGetPlayCountLeaderboardWithCustomLimit() {
         // 测试自定义数量参数（top=5）
         int customLimit = 5;
         Result<MovieLeaderboardDTO> result = adminReportController.getPlayCountLeaderboard(customLimit);
-        
+
         // 验证返回结果
         assertEquals(200, result.getCode().intValue(), "响应状态码应为200");
         assertNotNull(result.getData(), "响应数据不应为空");
-        
+
         // 验证返回的电影数量不超过指定值
-        assertTrue(result.getData().getItems().size() <= customLimit, 
-                   "返回的排行榜项数量不应超过指定值" + customLimit);
+        assertTrue(result.getData().getItems().size() <= customLimit,
+                "返回的排行榜项数量不应超过指定值" + customLimit);
     }
 
     /**
      * 单元测试：使用Mock服务测试控制器
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("使用Mock服务测试Excel导出")
     public void shouldExportMoviesExcelWithMockService() throws IOException {
         // 创建模拟的ReportService
         ReportService mockReportService = mock(ReportService.class);
-        
+
         // 创建待测试的控制器并注入模拟服务
         AdminReportController controllerWithMockService = new AdminReportController(mockReportService);
-        
+
         // 准备模拟的Excel工作簿
         Workbook mockWorkbook = new XSSFWorkbook();
         Sheet sheet = mockWorkbook.createSheet("测试数据");
@@ -296,35 +298,35 @@ public class AdminReportControllerTest {
         assertTrue(response.getBody().length > 0, "Excel文件内容不应为空");
 
         // 验证响应头
-        assertTrue(response.getHeaders().getContentDisposition().toString().contains("movies_export_"), 
-                  "文件名应包含'movies_export_'");
+        assertTrue(response.getHeaders().getContentDisposition().toString().contains("movies_export_"),
+                "文件名应包含'movies_export_'");
     }
-    
+
     /**
      * 单元测试：使用Mock服务测试播放量排行榜API
      */
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     @DisplayName("使用Mock服务测试播放量排行榜")
     public void shouldGetPlayCountLeaderboardWithMockService() {
         // 创建模拟的ReportService
         ReportService mockReportService = mock(ReportService.class);
-        
+
         // 创建待测试的控制器并注入模拟服务
         AdminReportController controllerWithMockService = new AdminReportController(mockReportService);
-        
+
         // 准备模拟的排行榜数据
         List<MovieLeaderboardDTO.MovieRankItem> mockItems = new ArrayList<>();
         mockItems.add(new MovieLeaderboardDTO.MovieRankItem(1, 1L, "测试电影1", 1000, 9.0, "中国", "/images/1.jpg"));
         mockItems.add(new MovieLeaderboardDTO.MovieRankItem(2, 2L, "测试电影2", 800, 8.5, "美国", "/images/2.jpg"));
         MovieLeaderboardDTO mockLeaderboard = new MovieLeaderboardDTO(mockItems);
-        
+
         // 设置Mock行为
         when(mockReportService.getPlayCountLeaderboard(any())).thenReturn(mockLeaderboard);
-        
+
         // 调用控制器方法
         Result<MovieLeaderboardDTO> result = controllerWithMockService.getPlayCountLeaderboard(10);
-        
+
         // 验证结果
         assertEquals(200, result.getCode().intValue(), "响应状态码应为200");
         assertNotNull(result.getData(), "响应数据不应为空");

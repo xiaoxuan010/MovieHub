@@ -1,17 +1,23 @@
 package space.astralbridge.spring.moviehub.service.impl;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
-import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import space.astralbridge.spring.moviehub.config.AlipayConfig;
 import space.astralbridge.spring.moviehub.dto.PaymentRequest;
 import space.astralbridge.spring.moviehub.entity.PaymentOrder;
@@ -19,13 +25,6 @@ import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.mapper.PaymentOrderMapper;
 import space.astralbridge.spring.moviehub.mapper.UserMapper;
 import space.astralbridge.spring.moviehub.service.PaymentService;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -56,10 +55,10 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
         if (user == null) {
             throw new RuntimeException("用户不存在");
         }
-        
+
         // 1. 生成唯一订单号
         String orderNo = generateOrderNo();
-        
+
         // 验证订单号是否已存在
         if (getOrderByOrderNo(orderNo) != null) {
             // 如果订单号已存在，重新生成
@@ -77,19 +76,19 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
         order.setStatus(0); // 待支付
         order.setPayType("alipay");
         order.setVipDuration(request.getDuration());
-        
+
         boolean saved = save(order);
         if (!saved) {
             throw new RuntimeException("订单保存失败");
         }
-        
+
         log.info("成功创建订单，订单号: {}, 用户ID: {}, 金额: {}", orderNo, userId, amount);
 
         // 4. 调用支付宝接口生成支付表单
         try {
             AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
             alipayRequest.setReturnUrl(alipayConfig.getReturnUrl());
-            
+
             // 组装支付请求参数
             String subject = "MovieHub VIP会员-" + ("yearly".equals(request.getDuration()) ? "年度" : "月度");
 
@@ -98,12 +97,12 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
 
             // 构建符合支付宝API要求的JSON格式
             String bizContent = "{" +
-                "\"out_trade_no\":\"" + orderNo + "\"," +
-                "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
-                "\"total_amount\":\"" + amountStr + "\"," +
-                "\"subject\":\"" + subject + "\"," +
-                "\"body\":\"" + subject + " 会员购买\"" +
-            "}";
+                    "\"out_trade_no\":\"" + orderNo + "\"," +
+                    "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
+                    "\"total_amount\":\"" + amountStr + "\"," +
+                    "\"subject\":\"" + subject + "\"," +
+                    "\"body\":\"" + subject + " 会员购买\"" +
+                    "}";
 
             // 设置bizContent
             alipayRequest.setBizContent(bizContent);
@@ -126,7 +125,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
         wrapper.eq(PaymentOrder::getOrderNo, orderNo);
         return getOne(wrapper);
     }
-    
+
     @Override
     public List<PaymentOrder> getOrdersByUserId(Long userId) {
         LambdaQueryWrapper<PaymentOrder> wrapper = Wrappers.lambdaQuery();
@@ -144,7 +143,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
         String random = String.valueOf((int) (Math.random() * 9000) + 1000);
         return timestamp + random;
     }
-    
+
     @Override
     public boolean updateById(PaymentOrder order) {
         return super.updateById(order);

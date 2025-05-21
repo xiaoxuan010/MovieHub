@@ -1,23 +1,21 @@
 package space.astralbridge.spring.moviehub.service.impl;
 
-import com.alipay.api.AlipayApiException;
-import com.alipay.api.internal.util.AlipaySignature;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mockStatic;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mockStatic;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
 
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceImplTest {
@@ -27,8 +25,7 @@ public class PaymentServiceImplTest {
         try (MockedStatic<AlipaySignature> mockedStatic = mockStatic(AlipaySignature.class)) {
             // 模拟支付宝签名验证
             mockedStatic.when(() -> AlipaySignature.rsaCheckV1(
-                    any(Map.class), anyString(), anyString(), anyString()
-            )).thenReturn(true);
+                    anyMap(), anyString(), anyString(), anyString())).thenReturn(true);
 
             // 创建测试参数
             Map<String, String> params = new HashMap<>();
@@ -42,12 +39,11 @@ public class PaymentServiceImplTest {
 
             // 修改返回值为false
             mockedStatic.when(() -> AlipaySignature.rsaCheckV1(
-                    any(Map.class), anyString(), anyString(), anyString()
-            )).thenReturn(false);
+                    anyMap(), anyString(), anyString(), anyString())).thenReturn(false);
 
             // 验证签名验证返回false
             result = AlipaySignature.rsaCheckV1(params, "test_key", "UTF-8", "RSA2");
             assertFalse(result);
         }
     }
-} 
+}

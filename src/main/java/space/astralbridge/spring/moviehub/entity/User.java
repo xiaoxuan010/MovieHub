@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
@@ -30,11 +29,11 @@ public class User implements Serializable {
     // 0-普通用户，1-VIP用户
     private Integer userType;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 

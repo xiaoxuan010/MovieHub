@@ -1,11 +1,22 @@
 package space.astralbridge.spring.moviehub.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.dto.PaymentRequest;
 import space.astralbridge.spring.moviehub.dto.PaymentResult;
@@ -14,11 +25,6 @@ import space.astralbridge.spring.moviehub.entity.User;
 import space.astralbridge.spring.moviehub.security.UserDetailsImpl;
 import space.astralbridge.spring.moviehub.service.PaymentService;
 import space.astralbridge.spring.moviehub.service.UserService;
-
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -51,7 +57,7 @@ public class PaymentController {
         User user = userService.getById(userId);
         if (user == null) {
             return Result.fail("用户不存在");
-        }else{
+        } else {
             System.out.println("用户存在" + user.getUsername());
         }
 
@@ -77,7 +83,7 @@ public class PaymentController {
 
         return Result.success("请在浏览器中提交此表单以完成支付", new PaymentResult(formHtml));
     }
-    
+
     /**
      * 查询当前用户的订单列表
      */
@@ -86,7 +92,7 @@ public class PaymentController {
         // 获取当前用户ID
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId;
-        
+
         Object principal = authentication.getPrincipal();
         if (principal instanceof UserDetailsImpl) {
             userId = ((UserDetailsImpl) principal).getId();
@@ -94,7 +100,7 @@ public class PaymentController {
             // 未能获取到用户ID，返回错误
             return Result.fail("用户未登录或会话已过期");
         }
-        
+
         // 查询用户订单
         List<PaymentOrder> orders = paymentService.getOrdersByUserId(userId);
         return Result.success("查询成功", orders);
@@ -117,18 +123,18 @@ public class PaymentController {
      * 用于前端在支付完成后检查用户是否已成功升级为VIP
      */
     @GetMapping("/vip/status")
-    public Result<Map<String, Object>> checkVipStatus(@RequestParam(required = false) Long userId, 
-                                                     @RequestParam(required = false) String username) {
+    public Result<Map<String, Object>> checkVipStatus(@RequestParam(required = false) Long userId,
+            @RequestParam(required = false) String username) {
         User user = null;
-        
+
         // 优先通过userId查询
         if (userId != null) {
             user = userService.getById(userId);
-        } 
+        }
         // 其次通过username查询
         else if (username != null && !username.isEmpty()) {
             user = userService.getByUsername(username);
-        } 
+        }
         // 最后尝试从当前认证信息获取
         else {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -154,22 +160,22 @@ public class PaymentController {
     /**
      * 创建带订单信息和自动重定向的HTML响应页面
      */
-    private String createHtmlResponseWithOrderInfo(String title, String message, boolean success, String redirectUrl, 
-                                                 PaymentOrder order, String tradeNo, User user) {
+    private String createHtmlResponseWithOrderInfo(String title, String message, boolean success, String redirectUrl,
+            PaymentOrder order, String tradeNo, User user) {
         String color = success ? "#4CAF50" : "#FF5722";
         String icon = success ? "✓" : "!";
-        
+
         // 格式化订单金额，保留两位小数
         String amountStr = order.getAmount().setScale(2, java.math.RoundingMode.HALF_UP).toString();
-        
+
         // 格式化日期时间
-        String createTimeStr = order.getCreateTime() != null ? 
-                            order.getCreateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : 
-                            "未知";
-        String updateTimeStr = order.getUpdateTime() != null ? 
-                            order.getUpdateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : 
-                            "未知";
-        
+        String createTimeStr = order.getCreateTime() != null
+                ? order.getCreateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                : "未知";
+        String updateTimeStr = order.getUpdateTime() != null
+                ? order.getUpdateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                : "未知";
+
         // 获取订单状态文本
         String statusText = "";
         if (order.getStatus() == 0) {
@@ -181,10 +187,10 @@ public class PaymentController {
         } else {
             statusText = "未知状态(" + order.getStatus() + ")";
         }
-        
+
         // 获取VIP类型文本
         String vipTypeText = "monthly".equals(order.getVipDuration()) ? "月度VIP会员" : "年度VIP会员";
-        
+
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"zh-CN\">\n" +
                 "<head>\n" +
@@ -273,7 +279,8 @@ public class PaymentController {
                 "        \n" +
                 "        <div class=\"order-info\">\n" +
                 "            <div class=\"order-info-title\">订单详情</div>\n" +
-                "            <p><strong>订单号：</strong> <span class=\"highlight\">" + order.getOrderNo() + "</span></p>\n" +
+                "            <p><strong>订单号：</strong> <span class=\"highlight\">" + order.getOrderNo() + "</span></p>\n"
+                +
                 "            <p><strong>用户名：</strong> " + user.getUsername() + "</p>\n" +
                 "            <p><strong>商品：</strong> " + vipTypeText + "</p>\n" +
                 "            <p><strong>金额：</strong> ¥" + amountStr + "</p>\n" +
@@ -313,36 +320,36 @@ public class PaymentController {
             }
             params.put(name, valueStr);
         }
-        
+
         log.info("支付宝同步回调参数: {}", params);
-        
+
         String outTradeNo = params.get("out_trade_no");
         if (outTradeNo == null) {
             return createHtmlResponse("支付结果查询失败", "未能获取订单号，请联系客服", false);
         }
-        
+
         PaymentOrder order = paymentService.getOrderByOrderNo(outTradeNo);
         if (order == null) {
             log.error("订单不存在: {}", outTradeNo);
             return createHtmlResponse("订单不存在", "未找到对应的订单记录，请联系客服", false);
         }
-        
+
         Long userId = order.getUserId();
         User user = userService.getById(userId);
         if (user == null) {
             log.error("订单关联的用户不存在，订单号: {}, 用户ID: {}", outTradeNo, userId);
             return createHtmlResponse("用户不存在", "订单关联的用户不存在，请联系客服", false);
         }
-        
-        String tradeNo = params.get("trade_no"); 
-        
+
+        String tradeNo = params.get("trade_no");
+
         boolean orderUpdated = false;
         if (order.getStatus() != 1) {
             log.info("将订单 {} 状态更新为支付成功", outTradeNo);
             order.setStatus(1);
             order.setTradeNo(tradeNo != null ? tradeNo : "manual_success");
             orderUpdated = paymentService.updateById(order);
-            
+
             if (!orderUpdated) {
                 log.warn("更新订单 {} 状态失败，尝试再次更新", outTradeNo);
                 try {
@@ -352,7 +359,8 @@ public class PaymentController {
                         refreshOrder.setTradeNo(tradeNo != null ? tradeNo : "manual_success");
                         orderUpdated = paymentService.updateById(refreshOrder);
                         log.info("再次尝试更新订单 {} 状态: {}", outTradeNo, orderUpdated ? "成功" : "失败");
-                        if(orderUpdated) order = refreshOrder; 
+                        if (orderUpdated)
+                            order = refreshOrder;
                     }
                 } catch (Exception e) {
                     log.error("再次更新订单状态时出错: {}", outTradeNo, e);
@@ -363,12 +371,12 @@ public class PaymentController {
         } else {
             log.info("订单 {} 已处于支付成功状态", outTradeNo);
         }
-        
+
         boolean isUserVip = user.getUserType() != null && user.getUserType() == 1;
         if (!isUserVip) {
             log.info("开始为用户 {} 升级VIP", userId);
             boolean vipUpdated = upgradeUserToVip(user, userId, outTradeNo);
-            
+
             if (!vipUpdated) {
                 log.warn("通过userService升级用户 {} VIP失败，尝试直接更新", userId);
                 for (int i = 0; i < 3 && !isUserVip; i++) {
@@ -389,34 +397,37 @@ public class PaymentController {
                         }
                     }
                     if (!isUserVip && i < 2) { // Sleep if not last attempt and not yet VIP
-                        try { Thread.sleep(100); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                     }
                 }
             } else {
-                 isUserVip = true;
-                 User updatedUser = userService.getById(userId);
-                 if(updatedUser != null) user = updatedUser;
+                isUserVip = true;
+                User updatedUser = userService.getById(userId);
+                if (updatedUser != null)
+                    user = updatedUser;
             }
         }
-        
-        String redirectUrl = "http://localhost:8080/user"; 
-        
-        log.info("支付流程完成，订单号: {}, 订单状态: {}, 用户VIP: {}", 
+
+        String redirectUrl = "http://localhost:8080/user";
+
+        log.info("支付流程完成，订单号: {}, 订单状态: {}, 用户VIP: {}",
                 order.getOrderNo(), order.getStatus(), isUserVip);
-        
-        String resultMessage = isUserVip ? 
-                "恭喜您已成功升级为VIP会员！享受全部影片的无限观看权限。" :
-                (order.getStatus() == 1 ? "支付已完成！系统正在处理您的VIP权限，请稍后刷新查看。" : "支付处理中，请稍后查看订单状态或联系客服。");
-        
+
+        String resultMessage = isUserVip ? "恭喜您已成功升级为VIP会员！享受全部影片的无限观看权限。"
+                : (order.getStatus() == 1 ? "支付已完成！系统正在处理您的VIP权限，请稍后刷新查看。" : "支付处理中，请稍后查看订单状态或联系客服。");
+
         return createHtmlResponseWithOrderInfo(
-                "支付成功", 
-                resultMessage, 
-                true, 
-                redirectUrl, 
-                order, 
-                tradeNo != null ? tradeNo : order.getTradeNo(), 
-                user
-        );
+                "支付成功",
+                resultMessage,
+                true,
+                redirectUrl,
+                order,
+                tradeNo != null ? tradeNo : order.getTradeNo(),
+                user);
     }
 
     /**
@@ -425,7 +436,7 @@ public class PaymentController {
     private String createHtmlResponse(String title, String message, boolean success) {
         String color = success ? "#4CAF50" : "#FF5722";
         String icon = success ? "✓" : "!";
-        
+
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"zh-CN\">\n" +
                 "<head>\n" +
@@ -498,8 +509,9 @@ public class PaymentController {
 
     /**
      * 升级用户为VIP
-     * @param user 用户对象
-     * @param userId 用户ID
+     * 
+     * @param user    用户对象
+     * @param userId  用户ID
      * @param orderNo 订单号(用于日志)
      * @return 是否升级成功
      */
@@ -509,33 +521,33 @@ public class PaymentController {
             log.info("用户{}已经是VIP，无需升级", userId);
             return true; // 用户已经是VIP，视为升级成功
         }
-        
+
         log.info("开始执行用户{}升级VIP操作，当前用户类型: {}", userId, user != null ? user.getUserType() : "未知");
-        
+
         // 先刷新一次用户数据，确保拿到最新状态
         User freshUser = userService.getById(userId);
         if (freshUser != null && freshUser.getUserType() != null && freshUser.getUserType() == 1) {
             log.info("刷新用户数据后发现用户{}已经是VIP，无需升级", userId);
             return true;
         }
-        
+
         try {
             // 使用UserService的upgradeToVip方法升级用户
             log.info("调用userService.upgradeToVip升级用户{}为VIP会员，订单号:{}", userId, orderNo);
             boolean success = userService.upgradeToVip(userId);
-            
+
             if (success) {
                 log.info("用户{}已成功升级为VIP会员", userId);
-                
+
                 // 再次检查确认用户确实被升级为VIP
                 User updatedUser = userService.getById(userId);
                 if (updatedUser != null && updatedUser.getUserType() != null && updatedUser.getUserType() == 1) {
                     log.info("已确认用户{}的VIP状态已更新，用户类型: {}", userId, updatedUser.getUserType());
                     return true;
                 } else {
-                    log.warn("用户{}的VIP状态可能未正确更新，当前用户类型: {}, 尝试再次更新", 
-                           userId, updatedUser != null ? updatedUser.getUserType() : "null");
-                    
+                    log.warn("用户{}的VIP状态可能未正确更新，当前用户类型: {}, 尝试再次更新",
+                            userId, updatedUser != null ? updatedUser.getUserType() : "null");
+
                     // 再次尝试直接更新
                     if (updatedUser != null) {
                         updatedUser.setUserType(1);
@@ -543,13 +555,14 @@ public class PaymentController {
                         boolean directUpdate = userService.updateById(updatedUser);
                         if (directUpdate) {
                             log.info("用户{}的VIP状态已通过直接更新成功设置", userId);
-                            
+
                             // 最终再确认一次
                             User finalCheck = userService.getById(userId);
-                            log.info("最终确认: 用户{}的用户类型为: {}", userId, 
-                                   finalCheck != null ? finalCheck.getUserType() : "获取失败");
-                            
-                            return finalCheck != null && finalCheck.getUserType() != null && finalCheck.getUserType() == 1;
+                            log.info("最终确认: 用户{}的用户类型为: {}", userId,
+                                    finalCheck != null ? finalCheck.getUserType() : "获取失败");
+
+                            return finalCheck != null && finalCheck.getUserType() != null
+                                    && finalCheck.getUserType() == 1;
                         } else {
                             log.error("直接更新用户{}的VIP状态失败", userId);
                         }
@@ -560,7 +573,7 @@ public class PaymentController {
                 }
             } else {
                 log.error("升级用户{}为VIP失败, 订单号:{}, 尝试直接更新方式", userId, orderNo);
-                
+
                 // 首选方法失败，尝试直接更新
                 User directUser = userService.getById(userId);
                 if (directUser != null) {
@@ -569,12 +582,12 @@ public class PaymentController {
                     log.info("直接更新用户{}的VIP状态: {}", userId, directUpdate ? "成功" : "失败");
                     return directUpdate;
                 }
-                
+
                 return false;
             }
         } catch (Exception e) {
             log.error("升级用户{}为VIP过程中发生异常: {}", userId, e.getMessage(), e);
-            
+
             // 即使发生异常，也尝试最后一次直接更新
             try {
                 User emergencyUser = userService.getById(userId);
@@ -587,7 +600,7 @@ public class PaymentController {
             } catch (Exception ex) {
                 log.error("异常恢复尝试失败", ex);
             }
-            
+
             return false;
         }
     }

@@ -12,38 +12,61 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.entity.MovieType;
 import space.astralbridge.spring.moviehub.service.MovieTypeService;
 
 @RestController
-@RequestMapping("/admin/movie-type")
+@RequestMapping("/api/admin/movie-type")
 @RequiredArgsConstructor
 public class AdminMovieTypeController {
     private final MovieTypeService movieTypeService;
 
     @GetMapping
-    public List<MovieType> getAllMovieTypes() {
-        return movieTypeService.list();
+    public Result<List<MovieType>> getAllMovieTypes() {
+        List<MovieType> movieTypes = movieTypeService.list();
+        if (movieTypes.isEmpty()) {
+            return Result.fail("No movie types found");
+        } else {
+            return Result.success(movieTypes);
+        }
     }
 
     @GetMapping("/{id}")
-    public MovieType getMovieTypeById(@PathVariable Long id) {
-        return movieTypeService.getById(id);
+    public Result<MovieType> getMovieTypeById(@PathVariable Long id) {
+        MovieType movieType = movieTypeService.getById(id);
+        if (movieType == null) {
+            return Result.fail("Movie type not found");
+        } else {
+            return Result.success(movieType);
+        }
     }
 
     @PostMapping
-    public boolean createMovieType(@RequestBody MovieType movieType) {
-        return movieTypeService.save(movieType);
+    public Result<MovieType> createMovieType(@RequestBody MovieType movieType) {
+        if (movieTypeService.save(movieType)) {
+            return Result.success(movieType);
+        } else {
+            return Result.fail("Failed to create movie type");
+        }
     }
 
     @PutMapping("/{id}")
-    public boolean updateMovieType(@PathVariable Long id, @RequestBody MovieType movieType) {
+    public Result<MovieType> updateMovieType(@PathVariable Long id, @RequestBody MovieType movieType) {
         movieType.setId(id);
-        return movieTypeService.updateById(movieType);
+        if (movieTypeService.updateById(movieType)) {
+            return Result.success(movieType);
+        } else {
+            return Result.fail("Failed to update movie type");
+        }
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteMovieType(@PathVariable Long id) {
-        return movieTypeService.removeById(id);
+    public Result<Void> deleteMovieType(@PathVariable Long id) {
+        if (movieTypeService.removeById(id)) {
+            return Result.success();
+        } else {
+            return Result.fail("Failed to delete movie type");
+        }
     }
 }

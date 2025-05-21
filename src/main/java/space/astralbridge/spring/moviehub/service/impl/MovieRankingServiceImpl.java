@@ -2,6 +2,8 @@ package space.astralbridge.spring.moviehub.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import space.astralbridge.spring.moviehub.entity.Movie;
 // 导入新的 Mapper
@@ -23,6 +25,7 @@ public class MovieRankingServiceImpl implements MovieRankingService {
     private static final Set<String> ALLOWED_ORDER_DIRECTIONS = new HashSet<>(Arrays.asList("asc", "desc"));
 
     @Override
+    @Cacheable(value = "movies:ranked", key = "#sortBy + ':' + #order + ':' + #current + ':' + #size")
     public Page<Movie> getRankedMovies(String sortBy, String order, Integer current, Integer size) {
         String validSortBy = (sortBy != null && ALLOWED_SORT_FIELDS.contains(sortBy.toLowerCase())) ? sortBy.toLowerCase() : "score";
         String validOrder = (order != null && ALLOWED_ORDER_DIRECTIONS.contains(order.toLowerCase())) ? order.toUpperCase() : "DESC";

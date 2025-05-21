@@ -1,10 +1,18 @@
 package space.astralbridge.spring.moviehub.config;
 
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import lombok.RequiredArgsConstructor;
 import space.astralbridge.spring.moviehub.dto.MovieExcelData;
 import space.astralbridge.spring.moviehub.entity.Actor;
 import space.astralbridge.spring.moviehub.entity.Director;
@@ -13,9 +21,6 @@ import space.astralbridge.spring.moviehub.entity.MovieType;
 import space.astralbridge.spring.moviehub.service.ActorService;
 import space.astralbridge.spring.moviehub.service.DirectorService;
 import space.astralbridge.spring.moviehub.service.MovieTypeService;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Configuration
 @RequiredArgsConstructor
@@ -97,6 +102,9 @@ public class ModelMapperConfig {
                 movie.setRegion(movieExcelData.getRegion());
                 movie.setIsVip(movieExcelData.getIsVip());
                 movie.setScore(movieExcelData.getScore());
+
+                // 设置默认的资源路径
+                movie.setVideoUrl("/api/guest/media/" + movie.getTitle() + ".mp4");
 
                 // 设置电影类型、导演和演员
                 if (movieTypeMap != null) {
