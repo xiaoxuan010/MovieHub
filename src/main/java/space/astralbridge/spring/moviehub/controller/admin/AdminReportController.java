@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 import space.astralbridge.spring.moviehub.common.Result;
 import space.astralbridge.spring.moviehub.dto.MovieLeaderboardDTO;
 import space.astralbridge.spring.moviehub.service.ReportService;
@@ -28,19 +28,10 @@ import space.astralbridge.spring.moviehub.service.ReportService;
 @RestController
 @RequestMapping("/api/admin/reports")
 @PreAuthorize("hasRole('ADMIN')")
+@RequiredArgsConstructor
 public class AdminReportController {
 
     private final ReportService reportService;
-
-    /**
-     * 默认构造函数，使用Spring自动注入
-     * 
-     * @param reportService 报表服务
-     */
-    @Autowired
-    public AdminReportController(ReportService reportService) {
-        this.reportService = reportService;
-    }
 
     /**
      * 导出电影数据Excel报表

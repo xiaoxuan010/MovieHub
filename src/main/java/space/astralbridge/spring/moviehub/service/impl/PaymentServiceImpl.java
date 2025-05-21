@@ -44,9 +44,6 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentOrderMapper, PaymentO
     @Value("${alipay.app_id}")
     private String appId;
 
-    // 禁用支付宝签名验证，适用于内网测试环境
-    private boolean verifyAlipayNotify = false;
-
     @Override
     @Transactional
     public String createAlipayForm(Long userId, PaymentRequest request) {
