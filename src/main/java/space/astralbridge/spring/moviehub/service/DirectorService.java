@@ -26,7 +26,7 @@ public class DirectorService extends ServiceImpl<DirectorMapper, Director> {
 
     private final RedisTemplateUtils redisTemplateUtils;
 
-    @Cacheable(value = "directors:name", key = "#directorName")
+    @Cacheable(value = "director:name", key = "#directorName")
     public Director getOrCreateByName(String directorName) {
         Director director = this.getOne(new QueryWrapper<Director>().eq("name", directorName));
         if (director == null) {
@@ -37,7 +37,6 @@ public class DirectorService extends ServiceImpl<DirectorMapper, Director> {
         return director;
     }
 
-    @Cacheable(value = "directors:names", key = "#directorNames.toString()")
     public Map<String, Director> getOrCreateByNames(Set<String> directorNames) {
         // 1. Batch query existing Directors and convert to Map
         Map<String, Director> existingDirectorMap = this.list(new QueryWrapper<Director>().in("name", directorNames))
@@ -68,7 +67,7 @@ public class DirectorService extends ServiceImpl<DirectorMapper, Director> {
      * 根据ID获取导演，添加缓存
      */
     @Override
-    @Cacheable(value = "directors:id", key = "#id")
+    @Cacheable(value = "director:id", key = "#id")
     public Director getById(Serializable id) {
         return super.getById(id);
     }
@@ -85,7 +84,8 @@ public class DirectorService extends ServiceImpl<DirectorMapper, Director> {
     @Override
     public boolean updateById(Director entity) {
         redisTemplateUtils.evictCacheByPrefix("directors:");
-        redisTemplate.delete("directors:id::" + entity.getId());
+        redisTemplate.delete("director:id::" + entity.getId());
+        redisTemplate.delete("director:name::" + entity.getName());
 
         return super.updateById(entity);
     }
@@ -96,4 +96,14 @@ public class DirectorService extends ServiceImpl<DirectorMapper, Director> {
 
         return super.save(entity);
     }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        redisTemplateUtils.evictCacheByPrefix("directors:");
+        redisTemplate.delete("director:id::" + id);
+        redisTemplate.delete("director:name::" + id);
+
+        return super.removeById(id);
+    }
+
 }

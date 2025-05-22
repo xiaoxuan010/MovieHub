@@ -36,7 +36,6 @@ public class ActorService extends ServiceImpl<ActorMapper, Actor> {
         return actor;
     }
 
-    @Cacheable(value = "actors:names", key = "#actorNames.toString()")
     public Map<String, Actor> getOrCreateByNames(Set<String> actorNames) {
         // 1. 批量查询已存在的 Actor，并转换为 Map
         Map<String, Actor> existingActorMap = this.list(new QueryWrapper<Actor>().in("name", actorNames))
@@ -94,4 +93,14 @@ public class ActorService extends ServiceImpl<ActorMapper, Actor> {
         redisTemplateUtils.evictCacheByPrefix("actors:");
         return super.save(entity);
     }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        redisTemplateUtils.evictCacheByPrefix("actors:");
+        redisTemplate.delete("actor:id::" + id);
+        redisTemplate.delete("actor:name::" + id);
+
+        return super.removeById(id);
+    }
+
 }

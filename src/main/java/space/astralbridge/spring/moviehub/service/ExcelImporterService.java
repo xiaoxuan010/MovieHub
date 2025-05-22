@@ -11,17 +11,19 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 import lombok.RequiredArgsConstructor;
+import space.astralbridge.spring.moviehub.common.utils.MovieExcelDataConverter;
 import space.astralbridge.spring.moviehub.common.utils.RedisTemplateUtils;
 import space.astralbridge.spring.moviehub.dto.MovieExcelData;
+import space.astralbridge.spring.moviehub.entity.Actor;
+import space.astralbridge.spring.moviehub.entity.Director;
 import space.astralbridge.spring.moviehub.entity.Movie;
 import space.astralbridge.spring.moviehub.entity.MovieActorRelation;
 import space.astralbridge.spring.moviehub.entity.MovieDirectorRelation;
+import space.astralbridge.spring.moviehub.entity.MovieType;
 import space.astralbridge.spring.moviehub.entity.MovieTypeRelation;
 import space.astralbridge.spring.moviehub.mapper.MovieActorRelationMapper;
 import space.astralbridge.spring.moviehub.mapper.MovieDirectorRelationMapper;
@@ -32,8 +34,8 @@ import space.astralbridge.spring.moviehub.mapper.MovieTypeRelationMapper;
 @RequiredArgsConstructor
 public class ExcelImporterService {
 
+    private final MovieExcelDataConverter movieExcelDataConverter;
     private final RedisTemplateUtils redisTemplateUtils;
-    private final ModelMapper modelMapper;
     private final MovieMapper movieMapper;
     private final MovieTypeRelationMapper movieTypeRelationMapper;
     private final MovieDirectorRelationMapper movieDirectorRelationMapper;
@@ -80,9 +82,7 @@ public class ExcelImporterService {
             stopWatch.stop();
 
             stopWatch.start("电影数据转换");
-            // 将 Excel 数据转换为 Movie 实体
-            movies = modelMapper.map(excelMovies, new TypeToken<List<Movie>>() {
-            }.getType());
+            movies = movieExcelDataConverter.convert(excelMovies);
             stopWatch.stop();
 
             stopWatch.start("电影数据插入");
@@ -95,20 +95,23 @@ public class ExcelImporterService {
             stopWatch.start("关系数据生成");
             movies.forEach(movie -> {
                 // 处理电影类型
-                if (movie.getMovieTypes() != null) {
-                    movie.getMovieTypes().forEach(movieType -> movieTypeRelations
+                List<MovieType> movieTypes = movie.getMovieTypes();
+                if (movieTypes != null && !movieTypes.isEmpty()) {
+                    movieTypes.forEach(movieType -> movieTypeRelations
                             .add(new MovieTypeRelation(movie.getId(), movieType.getId())));
                 }
 
                 // 处理导演关系
-                if (movie.getDirectors() != null) {
-                    movie.getDirectors().forEach(director -> movieDirectorRelations
+                List<Director> directors = movie.getDirectors();
+                if (directors != null && !directors.isEmpty()) {
+                    directors.forEach(director -> movieDirectorRelations
                             .add(new MovieDirectorRelation(movie.getId(), director.getId())));
                 }
 
                 // 处理演员关系
-                if (movie.getActors() != null) {
-                    movie.getActors().forEach(
+                List<Actor> actors = movie.getActors();
+                if (actors != null && !actors.isEmpty()) {
+                    actors.forEach(
                             actor -> movieActorRelations.add(new MovieActorRelation(movie.getId(), actor.getId())));
                 }
             });
@@ -121,6 +124,12 @@ public class ExcelImporterService {
         }
 
         System.out.println(stopWatch.prettyPrint());
+
+        redisTemplateUtils.evictCacheByPrefix("directors:");
+        redisTemplateUtils.evictCacheByPrefix("actors:");
+        redisTemplateUtils.evictCacheByPrefix("movies:");
+        redisTemplateUtils.evictCacheByPrefix("movieTypes:");
+
         return movies;
     }
 
