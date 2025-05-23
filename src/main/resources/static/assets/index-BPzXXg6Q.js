@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/Login-BUFnymFI.js","assets/Login-BojwRhMo.css","assets/Register-BxXE8kEH.js","assets/Register-TB746ekR.css","assets/Movies-DAqf9Zvl.js","assets/Movies-BXgscrEU.css","assets/User-BiL9YCAz.js","assets/User-DJ3hdkc_.css","assets/About-BNRbwSap.js","assets/About-C8pks6yz.css","assets/Resetpassword-BSLlDLup.js","assets/Resetpassword-C_vyb116.css","assets/Moviedetail-DMU5Ffd7.js","assets/Moviedetail-C7ctWnYB.css","assets/Adlogin-DcOLVeqC.js","assets/Adlogin-DnQNFkYa.css","assets/Admin-WYA2SkTy.js","assets/Admin-DhuJhRxf.css","assets/Adhome-CqYvVfIr.js","assets/Adhome-DRlUngjG.css","assets/adbase-BM_y30CY.css","assets/Admoviecontroller-xTbLH2Gl.js","assets/Adusercontroller-Bu9VRlfh.js","assets/Adactor-DH-mnXBF.js","assets/Addirector-Cr0nxZxx.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/Login-CWEtIy5t.js","assets/Login-BojwRhMo.css","assets/Register-D5dGsQfG.js","assets/Register-TB746ekR.css","assets/Movies-D6csgi4h.js","assets/Movies-BXgscrEU.css","assets/User-BPHxSqUu.js","assets/User-DJ3hdkc_.css","assets/About-SjEJdQIc.js","assets/About-C8pks6yz.css","assets/Resetpassword-Dzvf942Y.js","assets/Resetpassword-C_vyb116.css","assets/Moviedetail-DOaQJtqu.js","assets/Moviedetail-C7ctWnYB.css","assets/Adlogin-DnYXZgqj.js","assets/Adlogin-DnQNFkYa.css","assets/Admin-h3De02Ll.js","assets/Admin-DhuJhRxf.css","assets/Adhome-D0nAh8VL.js","assets/Adhome-DRlUngjG.css","assets/adbase-BM_y30CY.css","assets/Admoviecontroller-q9EsAWpq.js","assets/Adusercontroller-BQ9fKpqh.js","assets/Adactor-ak1-yBDF.js","assets/Addirector-DaOp83n3.js"])))=>i.map(i=>d[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -12266,7 +12266,7 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       createBaseVNode("li", null, [
         createVNode(_component_router_link, {
-          to: "/about",
+          to: "/admin",
           "exact-active-class": "active-link"
         }, {
           default: withCtx(() => _cache[4] || (_cache[4] = [
@@ -73753,55 +73753,55 @@ const router = createRouter({
       path: "/login",
       // 登录
       name: "login",
-      component: () => __vitePreload(() => import("./Login-BUFnymFI.js"), true ? __vite__mapDeps([0,1]) : void 0)
+      component: () => __vitePreload(() => import("./Login-CWEtIy5t.js"), true ? __vite__mapDeps([0,1]) : void 0)
     },
     {
       path: "/register",
       // 注册
       name: "register",
-      component: () => __vitePreload(() => import("./Register-BxXE8kEH.js"), true ? __vite__mapDeps([2,3]) : void 0)
+      component: () => __vitePreload(() => import("./Register-D5dGsQfG.js"), true ? __vite__mapDeps([2,3]) : void 0)
     },
     {
       path: "/movies",
       // 电影列表
       name: "movies",
-      component: () => __vitePreload(() => import("./Movies-DAqf9Zvl.js"), true ? __vite__mapDeps([4,5]) : void 0)
+      component: () => __vitePreload(() => import("./Movies-D6csgi4h.js"), true ? __vite__mapDeps([4,5]) : void 0)
     },
     {
       path: "/user",
       // 用户中心
       name: "user",
-      component: () => __vitePreload(() => import("./User-BiL9YCAz.js"), true ? __vite__mapDeps([6,7]) : void 0)
+      component: () => __vitePreload(() => import("./User-BPHxSqUu.js"), true ? __vite__mapDeps([6,7]) : void 0)
     },
     {
       path: "/about",
       // 关于我们
       name: "about",
-      component: () => __vitePreload(() => import("./About-BNRbwSap.js"), true ? __vite__mapDeps([8,9]) : void 0)
+      component: () => __vitePreload(() => import("./About-SjEJdQIc.js"), true ? __vite__mapDeps([8,9]) : void 0)
     },
     {
       path: "/reset-password",
       // 重置密码
       name: "reset-password",
-      component: () => __vitePreload(() => import("./Resetpassword-BSLlDLup.js"), true ? __vite__mapDeps([10,11]) : void 0)
+      component: () => __vitePreload(() => import("./Resetpassword-Dzvf942Y.js"), true ? __vite__mapDeps([10,11]) : void 0)
     },
     {
       path: "/movieDetail",
       // 电影详情
       name: "movieDetail",
-      component: () => __vitePreload(() => import("./Moviedetail-DMU5Ffd7.js"), true ? __vite__mapDeps([12,13]) : void 0)
+      component: () => __vitePreload(() => import("./Moviedetail-DOaQJtqu.js"), true ? __vite__mapDeps([12,13]) : void 0)
     },
     // 后端管理页面
     {
       path: "/Adlogin",
       // 后端登录
       name: "Adlogin",
-      component: () => __vitePreload(() => import("./Adlogin-DcOLVeqC.js"), true ? __vite__mapDeps([14,15]) : void 0)
+      component: () => __vitePreload(() => import("./Adlogin-DnYXZgqj.js"), true ? __vite__mapDeps([14,15]) : void 0)
     },
     {
       path: "/admin",
       name: "admin",
-      component: () => __vitePreload(() => import("./Admin-WYA2SkTy.js"), true ? __vite__mapDeps([16,17]) : void 0),
+      component: () => __vitePreload(() => import("./Admin-h3De02Ll.js"), true ? __vite__mapDeps([16,17]) : void 0),
       children: [
         {
           path: "",
@@ -73811,27 +73811,27 @@ const router = createRouter({
         {
           path: "Adhome",
           name: "AdminHome",
-          component: () => __vitePreload(() => import("./Adhome-CqYvVfIr.js"), true ? __vite__mapDeps([18,19,20]) : void 0)
+          component: () => __vitePreload(() => import("./Adhome-D0nAh8VL.js"), true ? __vite__mapDeps([18,19,20]) : void 0)
         },
         {
           path: "Admoviecontroller",
           name: "Admoviecontroller",
-          component: () => __vitePreload(() => import("./Admoviecontroller-xTbLH2Gl.js"), true ? __vite__mapDeps([21,20]) : void 0)
+          component: () => __vitePreload(() => import("./Admoviecontroller-q9EsAWpq.js"), true ? __vite__mapDeps([21,20]) : void 0)
         },
         {
           path: "Adusercontroller",
           name: "Adusercontroller",
-          component: () => __vitePreload(() => import("./Adusercontroller-Bu9VRlfh.js"), true ? __vite__mapDeps([22,20]) : void 0)
+          component: () => __vitePreload(() => import("./Adusercontroller-BQ9fKpqh.js"), true ? __vite__mapDeps([22,20]) : void 0)
         },
         {
           path: "Adactor",
           name: "Adactor",
-          component: () => __vitePreload(() => import("./Adactor-DH-mnXBF.js"), true ? __vite__mapDeps([23,20]) : void 0)
+          component: () => __vitePreload(() => import("./Adactor-ak1-yBDF.js"), true ? __vite__mapDeps([23,20]) : void 0)
         },
         {
           path: "Addirector",
           name: "Addirector",
-          component: () => __vitePreload(() => import("./Addirector-Cr0nxZxx.js"), true ? __vite__mapDeps([24,20]) : void 0)
+          component: () => __vitePreload(() => import("./Addirector-DaOp83n3.js"), true ? __vite__mapDeps([24,20]) : void 0)
         }
       ]
     }
@@ -162168,11 +162168,202 @@ const Antd = {
   version,
   install
 };
+/*! Element Plus v2.9.8 */
+var zhCn = {
+  name: "zh-cn",
+  el: {
+    breadcrumb: {
+      label: "面包屑"
+    },
+    colorpicker: {
+      confirm: "确定",
+      clear: "清空",
+      defaultLabel: "颜色选择器",
+      description: "当前颜色 {color}，按 Enter 键选择新颜色",
+      alphaLabel: "选择透明度的值"
+    },
+    datepicker: {
+      now: "此刻",
+      today: "今天",
+      cancel: "取消",
+      clear: "清空",
+      confirm: "确定",
+      dateTablePrompt: "使用方向键与 Enter 键可选择日期",
+      monthTablePrompt: "使用方向键与 Enter 键可选择月份",
+      yearTablePrompt: "使用方向键与 Enter 键可选择年份",
+      selectedDate: "已选日期",
+      selectDate: "选择日期",
+      selectTime: "选择时间",
+      startDate: "开始日期",
+      startTime: "开始时间",
+      endDate: "结束日期",
+      endTime: "结束时间",
+      prevYear: "前一年",
+      nextYear: "后一年",
+      prevMonth: "上个月",
+      nextMonth: "下个月",
+      year: "年",
+      month1: "1 月",
+      month2: "2 月",
+      month3: "3 月",
+      month4: "4 月",
+      month5: "5 月",
+      month6: "6 月",
+      month7: "7 月",
+      month8: "8 月",
+      month9: "9 月",
+      month10: "10 月",
+      month11: "11 月",
+      month12: "12 月",
+      weeks: {
+        sun: "日",
+        mon: "一",
+        tue: "二",
+        wed: "三",
+        thu: "四",
+        fri: "五",
+        sat: "六"
+      },
+      weeksFull: {
+        sun: "星期日",
+        mon: "星期一",
+        tue: "星期二",
+        wed: "星期三",
+        thu: "星期四",
+        fri: "星期五",
+        sat: "星期六"
+      },
+      months: {
+        jan: "一月",
+        feb: "二月",
+        mar: "三月",
+        apr: "四月",
+        may: "五月",
+        jun: "六月",
+        jul: "七月",
+        aug: "八月",
+        sep: "九月",
+        oct: "十月",
+        nov: "十一月",
+        dec: "十二月"
+      }
+    },
+    inputNumber: {
+      decrease: "减少数值",
+      increase: "增加数值"
+    },
+    select: {
+      loading: "加载中",
+      noMatch: "无匹配数据",
+      noData: "无数据",
+      placeholder: "请选择"
+    },
+    dropdown: {
+      toggleDropdown: "切换下拉选项"
+    },
+    mention: {
+      loading: "加载中"
+    },
+    cascader: {
+      noMatch: "无匹配数据",
+      loading: "加载中",
+      placeholder: "请选择",
+      noData: "暂无数据"
+    },
+    pagination: {
+      goto: "前往",
+      pagesize: "条/页",
+      total: "共 {total} 条",
+      pageClassifier: "页",
+      page: "页",
+      prev: "上一页",
+      next: "下一页",
+      currentPage: "第 {pager} 页",
+      prevPages: "向前 {pager} 页",
+      nextPages: "向后 {pager} 页",
+      deprecationWarning: "你使用了一些已被废弃的用法，请参考 el-pagination 的官方文档"
+    },
+    dialog: {
+      close: "关闭此对话框"
+    },
+    drawer: {
+      close: "关闭此对话框"
+    },
+    messagebox: {
+      title: "提示",
+      confirm: "确定",
+      cancel: "取消",
+      error: "输入的数据不合法!",
+      close: "关闭此对话框"
+    },
+    upload: {
+      deleteTip: "按 Delete 键可删除",
+      delete: "删除",
+      preview: "查看图片",
+      continue: "继续上传"
+    },
+    slider: {
+      defaultLabel: "滑块介于 {min} 至 {max}",
+      defaultRangeStartLabel: "选择起始值",
+      defaultRangeEndLabel: "选择结束值"
+    },
+    table: {
+      emptyText: "暂无数据",
+      confirmFilter: "筛选",
+      resetFilter: "重置",
+      clearFilter: "全部",
+      sumText: "合计"
+    },
+    tour: {
+      next: "下一步",
+      previous: "上一步",
+      finish: "结束导览"
+    },
+    tree: {
+      emptyText: "暂无数据"
+    },
+    transfer: {
+      noMatch: "无匹配数据",
+      noData: "无数据",
+      titles: ["列表 1", "列表 2"],
+      filterPlaceholder: "请输入搜索内容",
+      noCheckedFormat: "共 {total} 项",
+      hasCheckedFormat: "已选 {checked}/{total} 项"
+    },
+    image: {
+      error: "加载失败"
+    },
+    pageHeader: {
+      title: "返回"
+    },
+    popconfirm: {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消"
+    },
+    carousel: {
+      leftArrow: "上一张幻灯片",
+      rightArrow: "下一张幻灯片",
+      indicator: "幻灯片切换至索引 {index}"
+    }
+  }
+};
 const app = createApp(App$1);
 for (const [key2, component2] of Object.entries(ElementPlusIconsVue)) {
   app.component(key2, component2);
 }
-app.use(installer);
+app.use(installer, {
+  locale: {
+    ...zhCn,
+    el: {
+      ...zhCn.el,
+      pagination: {
+        ...zhCn.el.pagination,
+        goto: "前往"
+        // 修改“Go to”为“前往”
+      }
+    }
+  }
+});
 app.use(router);
 app.use(Antd);
 app.config.globalProperties.$axios = axios;

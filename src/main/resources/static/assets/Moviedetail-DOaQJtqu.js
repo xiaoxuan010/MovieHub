@@ -1,4 +1,4 @@
-import { _ as _export_sfc, k as delete_default, N as Navbar, c as createElementBlock, a as createVNode, b as createBaseVNode, r as resolveComponent, w as withCtx, i as ElMessageBox, e as axios, f as api, E as ElMessage, A as API_PREFIX, o as openBlock, t as toDisplayString, l as createBlock, F as Fragment, h as renderList, m as createCommentVNode, d as withKeys, g as createTextVNode } from "./index-BHtkpZle.js";
+import { _ as _export_sfc, k as delete_default, N as Navbar, c as createElementBlock, a as createVNode, b as createBaseVNode, r as resolveComponent, w as withCtx, i as ElMessageBox, e as axios, f as api, E as ElMessage, A as API_PREFIX, o as openBlock, t as toDisplayString, l as createBlock, F as Fragment, h as renderList, m as createCommentVNode, d as withKeys, g as createTextVNode } from "./index-BPzXXg6Q.js";
 const _sfc_main = {
   name: "Moviedetail",
   components: {

@@ -1,5 +1,5 @@
 /* empty css                */
-import { _ as _export_sfc, s as document_copy_default, c as createElementBlock, b as createBaseVNode, v as withDirectives, a as createVNode, w as withCtx, r as resolveComponent, x as resolveDirective, q as normalizeStyle, e as axios, f as api, E as ElMessage, i as ElMessageBox, o as openBlock, g as createTextVNode } from "./index-BHtkpZle.js";
+import { _ as _export_sfc, s as document_copy_default, c as createElementBlock, b as createBaseVNode, v as withDirectives, a as createVNode, w as withCtx, r as resolveComponent, x as resolveDirective, q as normalizeStyle, e as axios, f as api, E as ElMessage, i as ElMessageBox, o as openBlock, g as createTextVNode } from "./index-BPzXXg6Q.js";
 const _sfc_main = {
   name: "Admoviecontroller",
   data() {
@@ -200,7 +200,7 @@ const _sfc_main = {
         title: this.editForm.title,
         description: this.editForm.description,
         directorIds: this.editForm.directors,
-        actorId: this.editForm.actors,
+        actorIds: this.editForm.actors,
         score: this.editForm.score,
         movieTypeIds: this.editForm.movieTypes,
         isVip: this.editForm.isVip
@@ -212,10 +212,10 @@ const _sfc_main = {
           );
         }
       }
-      for (let i = 0; i < updataform.actorId.length; i++) {
-        if (typeof updataform.actorId[i] === "string") {
-          updataform.actorId[i] = await this.createActor(
-            updataform.actorId[i]
+      for (let i = 0; i < updataform.actorIds.length; i++) {
+        if (typeof updataform.actorIds[i] === "string") {
+          updataform.actorIds[i] = await this.createActor(
+            updataform.actorIds[i]
           );
         }
       }
@@ -376,6 +376,8 @@ const _sfc_main = {
         }
         this.addDialogVisible = false;
       });
+    },
+    onActorsChange(val) {
     }
   }
 };
@@ -629,7 +631,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                           filterable: "",
                           "allow-create": "",
                           options: $data.directorsData,
-                          props: { label: "name", value: "id" }
+                          props: { label: "name", value: "id" },
+                          "reserve-keyword": false
                         }, null, 8, ["modelValue", "options"])
                       ]),
                       _: 1
@@ -645,7 +648,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                           filterable: "",
                           "allow-create": "",
                           options: $data.actorsData,
-                          props: { label: "name", value: "id" }
+                          props: { label: "name", value: "id" },
+                          "reserve-keyword": false
                         }, null, 8, ["modelValue", "options"])
                       ]),
                       _: 1
@@ -661,7 +665,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                           filterable: "",
                           "allow-create": "",
                           options: $data.movieTypes,
-                          props: { label: "name", value: "id" }
+                          props: { label: "name", value: "id" },
+                          "reserve-keyword": false
                         }, null, 8, ["modelValue", "options"])
                       ]),
                       _: 1
@@ -776,7 +781,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                           filterable: "",
                           "allow-create": "",
                           options: $data.directorsData,
-                          props: { label: "name", value: "id" }
+                          props: { label: "name", value: "id" },
+                          "reserve-keyword": false
                         }, null, 8, ["modelValue", "options"])
                       ]),
                       _: 1
@@ -792,7 +798,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                           filterable: "",
                           "allow-create": "",
                           options: $data.actorsData,
-                          props: { label: "name", value: "id" }
+                          props: { label: "name", value: "id" },
+                          "reserve-keyword": false
                         }, null, 8, ["modelValue", "options"])
                       ]),
                       _: 1
@@ -808,7 +815,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                           filterable: "",
                           "allow-create": "",
                           options: $data.movieTypes,
-                          props: { label: "name", value: "id" }
+                          props: { label: "name", value: "id" },
+                          "reserve-keyword": false
                         }, null, 8, ["modelValue", "options"])
                       ]),
                       _: 1

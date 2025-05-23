@@ -1,4 +1,4 @@
-import { a as createVNode, I as Icon, _ as _export_sfc, l as createBlock, w as withCtx, r as resolveComponent, o as openBlock, b as createBaseVNode, p as defineComponent, c as createElementBlock, q as normalizeStyle } from "./index-BHtkpZle.js";
+import { a as createVNode, I as Icon, _ as _export_sfc, l as createBlock, w as withCtx, r as resolveComponent, o as openBlock, b as createBaseVNode, p as defineComponent, c as createElementBlock, q as normalizeStyle } from "./index-BPzXXg6Q.js";
 var CodeSandboxOutlined$1 = { "icon": { "tag": "svg", "attrs": { "viewBox": "64 64 896 896", "focusable": "false" }, "children": [{ "tag": "path", "attrs": { "d": "M709.6 210l.4-.2h.2L512 96 313.9 209.8h-.2l.7.3L151.5 304v416L512 928l360.5-208V304l-162.9-94zM482.7 843.6L339.6 761V621.4L210 547.8V372.9l272.7 157.3v313.4zM238.2 321.5l134.7-77.8 138.9 79.7 139.1-79.9 135.2 78-273.9 158-274-158zM814 548.3l-128.8 73.1v139.1l-143.9 83V530.4L814 373.1v175.2z" } }] }, "name": "code-sandbox", "theme": "outlined" };
 function _objectSpread$6(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -281,12 +281,15 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     collapsible: ""
   }, {
     default: withCtx(() => [
-      _cache[11] || (_cache[11] = createBaseVNode("div", { class: "Adname" }, [
-        createBaseVNode("p", null, "电影时刻")
-      ], -1)),
+      createBaseVNode("div", {
+        class: "Adname",
+        onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$router.push({ path: "/" }))
+      }, _cache[7] || (_cache[7] = [
+        createBaseVNode("p", { style: { "cursor": "pointer" } }, "电影时刻", -1)
+      ])),
       createVNode(_component_a_menu, {
         selectedKeys: $data.selectedKeys,
-        "onUpdate:selectedKeys": _cache[5] || (_cache[5] = ($event) => $data.selectedKeys = $event),
+        "onUpdate:selectedKeys": _cache[6] || (_cache[6] = ($event) => $data.selectedKeys = $event),
         theme: "light",
         mode: "inline",
         class: "Asidemenu"
@@ -294,51 +297,51 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
         default: withCtx(() => [
           createVNode(_component_a_menu_item, {
             key: "1",
-            onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$router.push({ path: "/admin/Adhome" }))
+            onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$router.push({ path: "/admin/Adhome" }))
           }, {
             default: withCtx(() => [
               createVNode(_component_CodeSandboxOutlined),
-              _cache[6] || (_cache[6] = createBaseVNode("span", null, "仪表盘", -1))
+              _cache[8] || (_cache[8] = createBaseVNode("span", null, "仪表盘", -1))
             ]),
             _: 1
           }),
           createVNode(_component_a_menu_item, {
             key: "2",
-            onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$router.push({ path: "/admin/Adusercontroller" }))
+            onClick: _cache[2] || (_cache[2] = ($event) => _ctx.$router.push({ path: "/admin/Adusercontroller" }))
           }, {
             default: withCtx(() => [
               createVNode(_component_user_outlined),
-              _cache[7] || (_cache[7] = createBaseVNode("span", null, "用户管理", -1))
+              _cache[9] || (_cache[9] = createBaseVNode("span", null, "用户管理", -1))
             ]),
             _: 1
           }),
           createVNode(_component_a_menu_item, {
             key: "3",
-            onClick: _cache[2] || (_cache[2] = ($event) => _ctx.$router.push({ path: "/admin/Admoviecontroller" }))
+            onClick: _cache[3] || (_cache[3] = ($event) => _ctx.$router.push({ path: "/admin/Admoviecontroller" }))
           }, {
             default: withCtx(() => [
               createVNode(_component_video_camera_outlined),
-              _cache[8] || (_cache[8] = createBaseVNode("span", null, "电影管理", -1))
+              _cache[10] || (_cache[10] = createBaseVNode("span", null, "电影管理", -1))
             ]),
             _: 1
           }),
           createVNode(_component_a_menu_item, {
             key: "4",
-            onClick: _cache[3] || (_cache[3] = ($event) => _ctx.$router.push({ path: "/admin/Addirector" }))
+            onClick: _cache[4] || (_cache[4] = ($event) => _ctx.$router.push({ path: "/admin/Addirector" }))
           }, {
             default: withCtx(() => [
               createVNode(_component_TeamOutlined),
-              _cache[9] || (_cache[9] = createBaseVNode("span", null, "导演管理", -1))
+              _cache[11] || (_cache[11] = createBaseVNode("span", null, "导演管理", -1))
             ]),
             _: 1
           }),
           createVNode(_component_a_menu_item, {
             key: "5",
-            onClick: _cache[4] || (_cache[4] = ($event) => _ctx.$router.push({ path: "/admin/Adactor" }))
+            onClick: _cache[5] || (_cache[5] = ($event) => _ctx.$router.push({ path: "/admin/Adactor" }))
           }, {
             default: withCtx(() => [
               createVNode(_component_TeamOutlined),
-              _cache[10] || (_cache[10] = createBaseVNode("span", null, "演员管理", -1))
+              _cache[12] || (_cache[12] = createBaseVNode("span", null, "演员管理", -1))
             ]),
             _: 1
           })
@@ -379,7 +382,6 @@ const _hoisted_2 = { class: "headerIconDemo" };
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_menu_unfold_outlined = resolveComponent("menu-unfold-outlined");
   const _component_menu_fold_outlined = resolveComponent("menu-fold-outlined");
-  const _component_PoweroffOutlined = resolveComponent("PoweroffOutlined");
   const _component_a_layout_header = resolveComponent("a-layout-header");
   const _component_a_layout = resolveComponent("a-layout");
   return openBlock(), createElementBlock("div", _hoisted_1$1, [
@@ -396,12 +398,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                 key: 1,
                 class: "trigger",
                 onClick: _ctx.toggleCollapsed
-              }, null, 8, ["onClick"])),
-              createVNode(_component_PoweroffOutlined, {
-                class: "trigger",
-                onClick: _ctx.tomovie,
-                style: { marginRight: "40px" }
-              }, null, 8, ["onClick"])
+              }, null, 8, ["onClick"]))
             ])
           ]),
           _: 1

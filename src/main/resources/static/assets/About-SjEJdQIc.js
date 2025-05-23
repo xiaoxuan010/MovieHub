@@ -1,4 +1,4 @@
-import { _ as _export_sfc, N as Navbar, c as createElementBlock, a as createVNode, b as createBaseVNode, r as resolveComponent, w as withCtx, o as openBlock, g as createTextVNode } from "./index-BHtkpZle.js";
+import { _ as _export_sfc, N as Navbar, c as createElementBlock, a as createVNode, b as createBaseVNode, r as resolveComponent, w as withCtx, o as openBlock, g as createTextVNode } from "./index-BPzXXg6Q.js";
 const _sfc_main = {
   name: "About",
   components: {

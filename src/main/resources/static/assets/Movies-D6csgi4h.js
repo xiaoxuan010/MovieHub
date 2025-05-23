@@ -1,4 +1,4 @@
-import { _ as _export_sfc, N as Navbar, c as createElementBlock, a as createVNode, b as createBaseVNode, r as resolveComponent, n as normalizeClass, F as Fragment, h as renderList, w as withCtx, e as axios, f as api, i as ElMessageBox, j as emitter, o as openBlock, t as toDisplayString, g as createTextVNode } from "./index-BHtkpZle.js";
+import { _ as _export_sfc, N as Navbar, c as createElementBlock, a as createVNode, b as createBaseVNode, r as resolveComponent, n as normalizeClass, F as Fragment, h as renderList, w as withCtx, e as axios, f as api, i as ElMessageBox, j as emitter, o as openBlock, t as toDisplayString, g as createTextVNode } from "./index-BPzXXg6Q.js";
 const _sfc_main = {
   name: "Movies",
   components: {
@@ -245,59 +245,71 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[0] === 0 }]),
           onClick: _cache[0] || (_cache[0] = ($event) => ($data.selected[0] = 0, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
-        }, "全部", 2),
+        }, "排序", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[0] === 1 }]),
-          onClick: _cache[1] || (_cache[1] = ($event) => ($data.selected[0] = 1, $data.currentTab = "score", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMoviesByRanking("score")))
-        }, "高分好评", 2),
+          onClick: _cache[1] || (_cache[1] = ($event) => ($data.selected[0] = 1, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
+        }, "默认", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[0] === 2 }]),
-          onClick: _cache[2] || (_cache[2] = ($event) => ($data.selected[0] = 2, $data.currentTab = "play_count", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMoviesByRanking("play_count")))
-        }, "播放热门", 2)
+          onClick: _cache[2] || (_cache[2] = ($event) => ($data.selected[0] = 2, $data.currentTab = "score", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMoviesByRanking("score")))
+        }, "评分", 2),
+        createBaseVNode("a", {
+          class: normalizeClass(["movies-text", { active: $data.selected[0] === 3 }]),
+          onClick: _cache[3] || (_cache[3] = ($event) => ($data.selected[0] = 3, $data.currentTab = "play_count", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMoviesByRanking("play_count")))
+        }, "播放量", 2)
       ]),
       createBaseVNode("div", _hoisted_4, [
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[1] === 0 }]),
-          onClick: _cache[3] || (_cache[3] = ($event) => ($data.selected[1] = 0, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
+          onClick: _cache[4] || (_cache[4] = ($event) => ($data.selected[1] = 0, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
         }, "类型", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[1] === 1 }]),
-          onClick: _cache[4] || (_cache[4] = ($event) => ($data.selected[1] = 1, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[0])))
-        }, "动作", 2),
+          onClick: _cache[5] || (_cache[5] = ($event) => ($data.selected[1] = 1, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
+        }, "全部", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[1] === 2 }]),
-          onClick: _cache[5] || (_cache[5] = ($event) => ($data.selected[1] = 2, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[1])))
-        }, "传记", 2),
+          onClick: _cache[6] || (_cache[6] = ($event) => ($data.selected[1] = 2, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[0])))
+        }, "动作", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[1] === 3 }]),
-          onClick: _cache[6] || (_cache[6] = ($event) => ($data.selected[1] = 3, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[2])))
-        }, "犯罪", 2),
+          onClick: _cache[7] || (_cache[7] = ($event) => ($data.selected[1] = 3, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[1])))
+        }, "传记", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[1] === 4 }]),
-          onClick: _cache[7] || (_cache[7] = ($event) => ($data.selected[1] = 4, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[3])))
-        }, "剧情", 2),
+          onClick: _cache[8] || (_cache[8] = ($event) => ($data.selected[1] = 4, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[2])))
+        }, "犯罪", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[1] === 5 }]),
-          onClick: _cache[8] || (_cache[8] = ($event) => ($data.selected[1] = 5, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[4])))
-        }, "爱情", 2),
+          onClick: _cache[9] || (_cache[9] = ($event) => ($data.selected[1] = 5, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[3])))
+        }, "剧情", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[1] === 6 }]),
-          onClick: _cache[9] || (_cache[9] = ($event) => ($data.selected[1] = 6, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[5])))
+          onClick: _cache[10] || (_cache[10] = ($event) => ($data.selected[1] = 6, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[4])))
+        }, "爱情", 2),
+        createBaseVNode("a", {
+          class: normalizeClass(["movies-text", { active: $data.selected[1] === 7 }]),
+          onClick: _cache[11] || (_cache[11] = ($event) => ($data.selected[1] = 7, $data.currentTab = "type", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesBytype($data.selectmovieType[5])))
         }, "神话", 2)
       ]),
       createBaseVNode("div", _hoisted_5, [
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[2] === 0 }]),
-          onClick: _cache[10] || (_cache[10] = ($event) => ($data.selected[2] = 0, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
-        }, "资费", 2),
+          onClick: _cache[12] || (_cache[12] = ($event) => ($data.selected[2] = 0, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
+        }, "筛选", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[2] === 1 }]),
-          onClick: _cache[11] || (_cache[11] = ($event) => ($data.selected[2] = 1, $data.currentTab = "viptype", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesByViptype(0)))
-        }, "免费", 2),
+          onClick: _cache[13] || (_cache[13] = ($event) => ($data.selected[2] = 1, $data.currentTab = "all", $data.currentPage = 1, $data.isSearchMode = false, $options.getAllMovies()))
+        }, "全部", 2),
         createBaseVNode("a", {
           class: normalizeClass(["movies-text", { active: $data.selected[2] === 2 }]),
-          onClick: _cache[12] || (_cache[12] = ($event) => ($data.selected[2] = 2, $data.currentTab = "viptype", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesByViptype(1)))
-        }, "会员", 2)
+          onClick: _cache[14] || (_cache[14] = ($event) => ($data.selected[2] = 2, $data.currentTab = "viptype", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesByViptype(0)))
+        }, "免费", 2),
+        createBaseVNode("a", {
+          class: normalizeClass(["movies-text", { active: $data.selected[2] === 3 }]),
+          onClick: _cache[15] || (_cache[15] = ($event) => ($data.selected[2] = 3, $data.currentTab = "viptype", $data.currentPage = 1, $data.isSearchMode = false, $options.getMoviesByViptype(1)))
+        }, "会员专享", 2)
       ])
     ]),
     createBaseVNode("div", _hoisted_6, [
@@ -348,9 +360,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       createBaseVNode("div", _hoisted_12, [
         createVNode(_component_el_pagination, {
           "current-page": $data.currentPage,
-          "onUpdate:currentPage": _cache[13] || (_cache[13] = ($event) => $data.currentPage = $event),
+          "onUpdate:currentPage": _cache[16] || (_cache[16] = ($event) => $data.currentPage = $event),
           "page-size": $data.pageSize,
-          "onUpdate:pageSize": _cache[14] || (_cache[14] = ($event) => $data.pageSize = $event),
+          "onUpdate:pageSize": _cache[17] || (_cache[17] = ($event) => $data.pageSize = $event),
           background: "",
           layout: "prev, pager, next, jumper",
           total: $data.total,
@@ -361,7 +373,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       createVNode(_component_el_dialog, {
         title: "选择会员类型",
         modelValue: $data.vipDialogVisible,
-        "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => $data.vipDialogVisible = $event),
+        "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => $data.vipDialogVisible = $event),
         width: "300px",
         "align-center": ""
       }, {
@@ -369,19 +381,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           createBaseVNode("div", _hoisted_13, [
             createVNode(_component_el_button, {
               type: "primary",
-              onClick: _cache[15] || (_cache[15] = ($event) => $options.payVip("monthly"))
+              onClick: _cache[18] || (_cache[18] = ($event) => $options.payVip("monthly"))
             }, {
-              default: withCtx(() => _cache[18] || (_cache[18] = [
+              default: withCtx(() => _cache[21] || (_cache[21] = [
                 createTextVNode("月度会员")
               ])),
               _: 1
             }),
             createVNode(_component_el_button, {
               type: "warning",
-              onClick: _cache[16] || (_cache[16] = ($event) => $options.payVip("yearly")),
+              onClick: _cache[19] || (_cache[19] = ($event) => $options.payVip("yearly")),
               style: { "margin-left": "20px" }
             }, {
-              default: withCtx(() => _cache[19] || (_cache[19] = [
+              default: withCtx(() => _cache[22] || (_cache[22] = [
                 createTextVNode("年度会员")
               ])),
               _: 1

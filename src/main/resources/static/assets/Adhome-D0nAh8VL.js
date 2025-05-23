@@ -1,4 +1,4 @@
-import { _ as _export_sfc, s as document_copy_default, u as plus_default, c as createElementBlock, b as createBaseVNode, a as createVNode$1, w as withCtx, r as resolveComponent, e as axios, f as api, o as openBlock, g as createTextVNode, t as toDisplayString } from "./index-BHtkpZle.js";
+import { _ as _export_sfc, s as document_copy_default, u as plus_default, c as createElementBlock, b as createBaseVNode, a as createVNode$1, w as withCtx, r as resolveComponent, e as axios, f as api, o as openBlock, g as createTextVNode, t as toDisplayString } from "./index-BPzXXg6Q.js";
 /* empty css                */
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -72332,7 +72332,7 @@ const _sfc_main = {
     this.getserverCurrentdata();
     this.timer = setInterval(() => {
       this.getserverCurrentdata();
-    }, 20);
+    }, 1e3);
     this.getstatisticdata();
     this.movietypeChart();
     this.openmovieChart();
@@ -72355,7 +72355,6 @@ const _sfc_main = {
           return;
         }
         this.serverList = res.data.data;
-        this.serverList.uptimeMillis = res.data.data.uptimeMillis / 1e3;
       });
     },
     getserverdata() {
@@ -72498,27 +72497,43 @@ const _sfc_main = {
           count2 -= pom;
           pom += 3;
         }
+        movieCounts.reverse();
+        movieNames.reverse();
         const chartDom = this.$refs.openmovieChart;
+        chartDom.style.height = movieNames.length * 32 + "px";
         const myChart = init$1(chartDom);
         myChart.setOption({
           tooltip: {
             trigger: "axis"
           },
+          grid: {
+            left: 92
+            // 加宽y轴区域，防止名称被截断
+          },
           xAxis: {
-            data: movieNames,
-            axisLabel: {
-              show: false
-              // 隐藏x轴标签
-            }
+            type: "value"
           },
           yAxis: {
-            type: "value"
+            type: "category",
+            data: movieNames,
+            axisLabel: {
+              show: true,
+              // 显示电影名称
+              size: 10
+            }
           },
           series: [
             {
               name: "播放量",
               data: movieCounts,
               type: "bar",
+              label: {
+                show: true,
+                position: "right",
+                // 数据标签显示在柱子右侧
+                formatter: "{c}"
+                // b为名称，c为数值
+              },
               itemStyle: {
                 color: "#5470C6"
               }
@@ -72542,21 +72557,29 @@ const _sfc_main = {
           movieNames.push(res.data.data.records[i].title);
           movieScores.push(res.data.data.records[i].score);
         }
+        movieNames.reverse();
+        movieScores.reverse();
         const chartDom = this.$refs.scoremovieChart;
+        chartDom.style.height = movieNames.length * 32 + "px";
         const myChart = init$1(chartDom);
         myChart.setOption({
           tooltip: {
             trigger: "axis"
           },
+          grid: {
+            left: 92
+            // 加宽y轴区域，防止名称被截断
+          },
           xAxis: {
-            data: movieNames,
-            axisLabel: {
-              show: false
-              // 隐藏x轴标签
-            }
+            type: "value"
           },
           yAxis: {
-            type: "value"
+            type: "category",
+            data: movieNames,
+            axisLabel: {
+              show: true,
+              fontSize: 12
+            }
           },
           series: [
             {
@@ -72565,6 +72588,11 @@ const _sfc_main = {
               type: "bar",
               itemStyle: {
                 color: "#91CC75"
+              },
+              label: {
+                show: true,
+                position: "right",
+                formatter: "{c}"
               }
             }
           ]
@@ -72581,7 +72609,9 @@ const _sfc_main = {
       const storageGauge = init$1(storageGaugeDom);
       memoryGauge.setOption({
         tooltip: {
-          trigger: "item"
+          trigger: "item",
+          formatter: "{b}: {c}MB"
+          // 悬浮时显示名称:数值MB 
         },
         legend: {
           top: "5%",
@@ -72609,13 +72639,19 @@ const _sfc_main = {
                 value: this.serverList.memory.max,
                 name: "最大可用内存"
               }
-            ]
+            ],
+            label: {
+              show: true,
+              formatter: "{b}: {c}MB"
+            }
           }
         ]
       });
       storageGauge.setOption({
         tooltip: {
-          trigger: "item"
+          trigger: "item",
+          formatter: "{b}: {c}MB"
+          // 悬浮时显示名称:数值MB 
         },
         legend: {
           orient: "vertical",
@@ -72629,11 +72665,11 @@ const _sfc_main = {
             data: [
               {
                 value: Number(this.serverList.storage.used),
-                name: "已用内存"
+                name: "已用"
               },
               {
                 value: Number(this.serverList.storage.total) - Number(this.serverList.storage.used),
-                name: "剩余内存"
+                name: "剩余"
               }
             ],
             emphasis: {
@@ -72642,6 +72678,11 @@ const _sfc_main = {
                 shadowOffsetX: 0,
                 shadowColor: "rgba(0, 0, 0, 0.5)"
               }
+            },
+            label: {
+              show: true,
+              formatter: "{b}: {d}%"
+              // b是name，d是百分比
             }
           }
         ]
@@ -72769,7 +72810,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                   ])),
                   default: withCtx(() => [
                     createBaseVNode("div", null, [
-                      createBaseVNode("p", null, " 已运行时间：" + toDisplayString($data.serverList.uptimeMillis) + " s ", 1),
+                      createBaseVNode("p", null, " 已运行时间：" + toDisplayString(Math.floor(
+                        $data.serverList.uptimeMillis / 1e3
+                      )) + " s ", 1),
                       createBaseVNode("p", null, " 可用处理器核心数：" + toDisplayString($data.serverList.availableProcessors), 1),
                       createBaseVNode("p", null, "操作系统版本：" + toDisplayString($data.serverList.osVersion), 1),
                       createBaseVNode("p", null, "操作系统架构：" + toDisplayString($data.serverList.osArch), 1),
@@ -72902,7 +72945,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                       default: withCtx(() => [
                         createVNode$1(_component_el_col, { span: 21 }, {
                           default: withCtx(() => _cache[12] || (_cache[12] = [
-                            createBaseVNode("p", { class: "adcardtitle" }, "播放量Top10", -1)
+                            createBaseVNode("p", { class: "adcardtitle" }, "电影播放量榜", -1)
                           ])),
                           _: 1
                         }),
@@ -73010,7 +73053,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                       default: withCtx(() => [
                         createVNode$1(_component_el_col, { span: 21 }, {
                           default: withCtx(() => _cache[14] || (_cache[14] = [
-                            createBaseVNode("p", { class: "adcardtitle" }, "评分Top10", -1)
+                            createBaseVNode("p", { class: "adcardtitle" }, "电影评分榜", -1)
                           ])),
                           _: 1
                         }),
@@ -73024,7 +73067,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                                 createVNode$1(_component_el_button, {
                                   type: "success",
                                   circle: "",
-                                  onClick: _cache[4] || (_cache[4] = ($event) => $options.printChart("scoremovieChart"))
+                                  onClick: _cache[4] || (_cache[4] = ($event) => $options.printChart(
+                                    "scoremovieChart"
+                                  ))
                                 }, {
                                   default: withCtx(() => [
                                     createVNode$1(_component_el_icon, null, {
